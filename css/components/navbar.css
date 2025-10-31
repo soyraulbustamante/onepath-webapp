@@ -1,0 +1,101 @@
+/* Navbar compartida */
+.header {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--border-light);
+  padding: 8px 0; /* compact header */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.logo-icon {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  margin-left: 0;
+  justify-content: center; /* centra links entre logo y botones */
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav a:hover { color: var(--primary-blue); }
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Asegura que los botones no tengan subrayado */
+.auth-buttons a,
+.btn-login,
+.btn-register { text-decoration: none; }
+.btn-login:hover,
+.btn-register:hover { text-decoration: none; }
+
+.btn-login {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: 1px solid var(--primary-dark);
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.btn-login:hover { background-color: var(--primary-dark); box-shadow: 0 6px 14px rgba(37,99,235,0.25); }
+
+.btn-register {
+  background-color: transparent;
+  color: var(--primary-blue);
+  border: 1.5px solid var(--primary-blue);
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-register:hover { background-color: var(--light-blue); }
+
+@media (max-width: 768px) {
+  .header-content { flex-direction: column; gap: 12px; }
+  .nav { flex-direction: column; gap: 8px; margin-left: 0; width: 100%; }
+}
+

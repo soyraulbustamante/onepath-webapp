@@ -1,0 +1,38 @@
+/* Tipografía y colores globales */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  background-color: var(--white);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  font-weight: 700; /* Bold para títulos principales */
+}
+
+p, li, a, span, small {
+  color: var(--text-dark);
+  font-weight: 400; /* Regular (400) */
+}
+
+.text-muted { color: var(--text-light); }
+
+/* Helpers de color semántico */
+.bg-primary { background-color: var(--primary-blue); }
+.text-primary { color: var(--primary-blue); }
+.bg-success { background-color: var(--success); }
+.bg-error { background-color: var(--error); }
+.bg-warning { background-color: var(--warning); }
+
+/* Contenedor base reutilizable */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+

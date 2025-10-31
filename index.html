@@ -4,42 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnePath - Comparte tu viaje a la universidad</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <script id="navbar-script" src="js/components/navbar.js" data-base-prefix="" defer></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">🔒</div>
-                    <span>OnePath</span>
-                </div>
-                <nav class="nav">
-                    <a href="#inicio">Inicio</a>
-                    <a href="#buscar">Buscar Viaje</a>
-                    <a href="#ofrecer">Ofrecer Viaje</a>
-                    <a href="#perfil">Mi Perfil</a>
-                    <a href="#config">Configuración</a>
-                </nav>
-                <div class="auth-buttons">
-                    <button class="btn-login">Iniciar Sesión</button>
-                    <button class="btn-register">Registrarse</button>
-                </div>
-            </div>
-        </div>
-    </header>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="inicio">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Comparte el camino a la universidad</h1>
                     <p>Conecta con otros estudiantes, ahorra dinero y reduce tu huella de carbono compartiendo viajes hacia la universidad.</p>
                     <div class="hero-buttons">
-                        <button class="btn-primary">Comenzar Ahora</button>
-                        <button class="btn-secondary">Ver Cómo Funciona</button>
+                        <a class="btn-primary" href="pages/auth/login.html">Comenzar Ahora</a>
+                        <a class="btn-secondary" href="#como">Ver Cómo Funciona</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -99,7 +84,7 @@
     </section>
 
     <!-- How It Works Section -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="como">
         <div class="container">
             <h2>Cómo Funciona</h2>
             <p class="subtitle">Simple, rápido y seguro</p>
@@ -139,7 +124,7 @@
     </section>
 
     <!-- Security Section -->
-    <section class="security">
+    <section class="security" id="seguridad">
         <div class="container">
             <div class="security-content">
                 <div class="security-text">
@@ -224,14 +209,14 @@
             <h2>¿Listo para comenzar a ahorrar?</h2>
             <p>Únete a miles de estudiantes que ya están compartiendo viajes hacia la universidad de forma segura.</p>
             <div class="cta-buttons">
-                <button class="btn-primary">Registrarse Gratis</button>
-                <button class="btn-secondary">Descargar App</button>
+                <a class="btn-primary" href="pages/auth/register.html">Registrarse Gratis</a>
+                <a class="btn-secondary" href="#">Descargar App</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" id="contacto">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
