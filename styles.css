@@ -439,7 +439,7 @@
   }
   
   .security-image {
-    flex: 1;
+    flex: 2;
   }
   
   .security-image img {
@@ -465,7 +465,7 @@
   .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    gap: 31px;
     margin-top: 48px;
   }
   
