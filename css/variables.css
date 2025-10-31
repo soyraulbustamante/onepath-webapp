@@ -1,0 +1,31 @@
+:root {
+  /* Primarios */
+  --primary-blue: #3498db;  /* Sky Blue */
+  --primary-dark: #2c3e50;  /* Midnight Blue */
+  --light-blue: #e3f2fd;
+
+  /* Semánticos */
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --soft-gray: #d9d9d9;
+
+  /* Texto */
+  --text-dark: #111827;   /* Gray 900 */
+  --text: #1f2937;        /* Gray 800/700 range */
+  --text-light: #6b7280;  /* Gray 500 */
+  --muted: #6b7280;
+
+  /* Neutros */
+  --white: #ffffff;
+  --gray-50: #f6f8fb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #4b5563;
+  --gray-900: #111827;
+
+  /* Bordes y utilidades */
+  --border-light: #e0e0e0;
+}
+
