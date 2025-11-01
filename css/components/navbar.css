@@ -54,6 +54,11 @@
 
 .nav a:hover { color: var(--primary-blue); }
 
+.nav a.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
 .auth-buttons {
   display: flex;
   gap: 8px;
@@ -65,6 +70,20 @@
 .btn-register { text-decoration: none; }
 .btn-login:hover,
 .btn-register:hover { text-decoration: none; }
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 8px 16px;
+  background-color: var(--gray-50);
+  border-radius: 8px;
+}
 
 .btn-login {
   background-color: var(--primary-blue);
