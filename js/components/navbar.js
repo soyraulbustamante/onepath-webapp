@@ -14,7 +14,30 @@
     return path.indexOf('/pages/') !== -1 ? '../../' : '';
   }
 
+  function getCurrentUser() {
+    try {
+      var userData = localStorage.getItem('currentUser');
+      if (userData) {
+        return JSON.parse(userData);
+      }
+    } catch (e) {
+      console.error('Error reading user data:', e);
+    }
+    return null;
+  }
+
   function buildNavbarHtml(base) {
+    var user = getCurrentUser();
+    var isLoggedIn = user !== null;
+    var userName = user && user.name ? user.name.split(' ')[0] : 'Usuario';
+    
+    var authSection = isLoggedIn
+      ? '<div class="user-info"><span class="user-name">' + userName + '</span></div>'
+      : '<div class="auth-buttons">\n' +
+        '        <a class="btn-login" href="' + base + 'pages/auth/login.html">Iniciar Sesión</a>\n' +
+        '        <a class="btn-register" href="' + base + 'pages/auth/register.html">Registrarse</a>\n' +
+        '      </div>';
+
     return (
       '\n<header class="header">\n' +
       '  <div class="container">\n' +
@@ -30,14 +53,25 @@
       '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
       '        <a href="#">Configuración</a>\n' +
       '      </nav>\n' +
-      '      <div class="auth-buttons">\n' +
-      '        <a class="btn-login" href="' + base + 'pages/auth/login.html">Iniciar Sesión</a>\n' +
-      '        <a class="btn-register" href="' + base + 'pages/auth/register.html">Registrarse</a>\n' +
-      '      </div>\n' +
+      authSection +
       '    </div>\n' +
       '  </div>\n' +
       '</header>\n'
     );
+  }
+
+  function markActiveLink() {
+    var currentPath = window.location.pathname;
+    var navLinks = document.querySelectorAll('.nav a');
+    
+    navLinks.forEach(function(link) {
+      var linkPath = link.getAttribute('href');
+      if (linkPath && currentPath.indexOf(linkPath) !== -1) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 
   function renderNavbar() {
@@ -51,6 +85,9 @@
       temp.innerHTML = html;
       document.body.insertBefore(temp.firstChild, document.body.firstChild);
     }
+    
+    // Mark active link after rendering
+    setTimeout(markActiveLink, 0);
   }
 
   if (document.readyState === 'loading') {

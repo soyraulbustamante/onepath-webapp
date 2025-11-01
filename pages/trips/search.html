@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Viaje - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/filters.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/components/forms.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/pages/trips.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Search Bar Section -->
+    <section class="search-bar-section">
+        <div class="container">
+            <form class="search-form" id="searchForm">
+                <div class="search-inputs">
+                    <div class="search-field">
+                        <label for="from">Desde</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📍</span>
+                            <input type="text" id="from" name="from" placeholder="San Isidro, Lima" value="San Isidro, Lima">
+                        </div>
+                    </div>
+
+                    <button type="button" class="swap-button" id="swapButton" aria-label="Intercambiar origen y destino">
+                        <span class="swap-icon">⇄</span>
+                    </button>
+
+                    <div class="search-field">
+                        <label for="to">Hacia</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🎓</span>
+                            <input type="text" id="to" name="to" placeholder="Universidad San Marcos" value="Universidad San Marcos">
+                        </div>
+                    </div>
+
+                    <div class="search-field">
+                        <label for="date">Fecha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📅</span>
+                            <input type="date" id="date" name="date" value="2025-10-07">
+                        </div>
+                    </div>
+
+                    <div class="search-field">
+                        <label for="seats">Asientos</label>
+                        <div class="input-wrapper">
+                            <select id="seats" name="seats">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-search" id="searchButton">
+                        <span class="search-icon">🔍</span>
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="search-page-main">
+        <div class="container">
+            <div class="search-layout">
+                <!-- Sidebar - Advanced Filters -->
+                <aside class="filters-sidebar">
+                    <div class="filters-header">
+                        <h2>Filtros Avanzados</h2>
+                    </div>
+
+                    <div class="filter-section">
+                        <button class="filter-toggle" data-filter="rating">
+                            <span>Valoración del Conductor</span>
+                            <span class="toggle-icon">▼</span>
+                        </button>
+                        <div class="filter-content" id="filter-rating">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="rating" value="5">
+                                <span class="checkmark"></span>
+                                <span class="rating-stars">★★★★★</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="rating" value="4">
+                                <span class="checkmark"></span>
+                                <span class="rating-stars">★★★★☆ (4+ estrellas)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="rating" value="3">
+                                <span class="checkmark"></span>
+                                <span class="rating-stars">★★★☆☆ (3+ estrellas)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <button class="filter-toggle" data-filter="pickup">
+                            <span>Punto de Recojo</span>
+                            <span class="toggle-icon">▼</span>
+                        </button>
+                        <div class="filter-content" id="filter-pickup">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="pickup" value="metro">
+                                <span class="checkmark"></span>
+                                <span>Cerca de estaciones de metro</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="pickup" value="mall">
+                                <span class="checkmark"></span>
+                                <span>Centros comerciales</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="pickup" value="main-stops">
+                                <span class="checkmark"></span>
+                                <span>Paraderos principales</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="pickup" value="residential">
+                                <span class="checkmark"></span>
+                                <span>Zona residencial</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <button class="filter-toggle" data-filter="destination">
+                            <span>Destino Universitario</span>
+                            <span class="toggle-icon">▼</span>
+                        </button>
+                        <div class="filter-content" id="filter-destination">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="destination" value="main-gate">
+                                <span class="checkmark"></span>
+                                <span>Puerta principal</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="destination" value="library">
+                                <span class="checkmark"></span>
+                                <span>Biblioteca central</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="destination" value="faculties">
+                                <span class="checkmark"></span>
+                                <span>Facultades específicas</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="destination" value="parking">
+                                <span class="checkmark"></span>
+                                <span>Estacionamiento universitario</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <button class="filter-toggle" data-filter="price">
+                            <span>Rango de Precio</span>
+                            <span class="toggle-icon">▼</span>
+                        </button>
+                        <div class="filter-content" id="filter-price">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="price" value="free">
+                                <span class="checkmark"></span>
+                                <span>Gratis</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="price" value="1-5">
+                                <span class="checkmark"></span>
+                                <span>S/1 - S/5</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="price" value="6-10">
+                                <span class="checkmark"></span>
+                                <span>S/6 - S/10</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="price" value="11-20">
+                                <span class="checkmark"></span>
+                                <span>S/11 - S/20</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="price" value="20+">
+                                <span class="checkmark"></span>
+                                <span>Más de S/20</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <button class="filter-toggle" data-filter="vehicle">
+                            <span>Tipo de Vehículo</span>
+                            <span class="toggle-icon">▼</span>
+                        </button>
+                        <div class="filter-content" id="filter-vehicle">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="vehicle" value="compact">
+                                <span class="checkmark"></span>
+                                <span>Compacto</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="vehicle" value="sedan">
+                                <span class="checkmark"></span>
+                                <span>Sedán</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="vehicle" value="suv">
+                                <span class="checkmark"></span>
+                                <span>SUV</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" name="vehicle" value="family">
+                                <span class="checkmark"></span>
+                                <span>Familiar</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="button" class="btn-apply-filters" id="applyFilters">Aplicar Filtros</button>
+                        <button type="button" class="btn-clear-filters" id="clearFilters">Limpiar Filtros</button>
+                    </div>
+                </aside>
+
+                <!-- Main Results Area -->
+                <section class="results-section">
+                    <div class="results-header">
+                        <h1>Viajes a Universidad San Marcos</h1>
+                        <div class="results-controls">
+                            <span class="results-count" id="resultsCount">47 viajes encontrados</span>
+                            <select class="sort-select" id="sortSelect">
+                                <option value="price-asc">Ordenar por precio</option>
+                                <option value="price-desc">Precio: Mayor a menor</option>
+                                <option value="time-asc">Hora: Más temprano</option>
+                                <option value="time-desc">Hora: Más tarde</option>
+                                <option value="rating-desc">Mejor valoración</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="active-filters" id="activeFilters">
+                        <!-- Los tags de filtros activos se generan dinámicamente por JavaScript -->
+                    </div>
+
+                    <div class="trips-list" id="tripsList">
+                        <!-- Trip Card 1 -->
+                        <article class="trip-card">
+                            <div class="trip-card-header">
+                                <div class="driver-info">
+                                    <h3>Carlos M.</h3>
+                                    <span class="driver-major">Ing. Sistemas</span>
+                                </div>
+                                <div class="driver-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-value">4.9</span>
+                                    <span class="rating-count">(23 reseñas)</span>
+                                </div>
+                            </div>
+                            <div class="trip-route">
+                                <div class="route-point departure">
+                                    <span class="route-dot green"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">07:30</span>
+                                        <span class="route-location">Metro San Isidro</span>
+                                    </div>
+                                </div>
+                                <div class="route-line"></div>
+                                <div class="route-point arrival">
+                                    <span class="route-dot red"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">08:15</span>
+                                        <span class="route-location">Puerta Principal UNMSM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="trip-details">
+                                <div class="trip-info">
+                                    <span class="trip-duration">⏱️ 45 min</span>
+                                    <span class="trip-seats">💺 2 asientos disponibles</span>
+                                    <span class="trip-vehicle">🚗 Volkswagen Golf - Gris</span>
+                                </div>
+                                <div class="trip-price">
+                                    <span class="price-amount">S/8</span>
+                                    <span class="price-unit">por persona</span>
+                                </div>
+                            </div>
+                            <div class="trip-actions">
+                                <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
+                            </div>
+                        </article>
+
+                        <!-- Trip Card 2 -->
+                        <article class="trip-card">
+                            <div class="trip-card-header">
+                                <div class="driver-info">
+                                    <h3>Ana L.</h3>
+                                    <span class="driver-major">Medicina</span>
+                                </div>
+                                <div class="driver-rating">
+                                    <span class="rating-stars">★★★★☆</span>
+                                    <span class="rating-value">4.7</span>
+                                    <span class="rating-count">(15 reseñas)</span>
+                                </div>
+                            </div>
+                            <div class="trip-route">
+                                <div class="route-point departure">
+                                    <span class="route-dot green"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">08:00</span>
+                                        <span class="route-location">Jockey Plaza</span>
+                                    </div>
+                                </div>
+                                <div class="route-line"></div>
+                                <div class="route-point arrival">
+                                    <span class="route-dot red"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">08:50</span>
+                                        <span class="route-location">Facultad de Medicina</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="trip-details">
+                                <div class="trip-info">
+                                    <span class="trip-duration">⏱️ 50 min</span>
+                                    <span class="trip-seats">💺 1 asiento disponible</span>
+                                    <span class="trip-vehicle">🚗 Honda Civic - Azul</span>
+                                </div>
+                                <div class="trip-price">
+                                    <span class="price-amount">S/10</span>
+                                    <span class="price-unit">por persona</span>
+                                </div>
+                            </div>
+                            <div class="trip-actions">
+                                <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
+                            </div>
+                        </article>
+
+                        <!-- Trip Card 3 -->
+                        <article class="trip-card">
+                            <div class="trip-card-header">
+                                <div class="driver-info">
+                                    <h3>Miguel R.</h3>
+                                    <span class="driver-major">Derecho</span>
+                                </div>
+                                <div class="driver-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-value">5.0</span>
+                                    <span class="rating-count">(8 reseñas)</span>
+                                </div>
+                            </div>
+                            <div class="trip-route">
+                                <div class="route-point departure">
+                                    <span class="route-dot green"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">06:45</span>
+                                        <span class="route-location">Miraflores Centro</span>
+                                    </div>
+                                </div>
+                                <div class="route-line"></div>
+                                <div class="route-point arrival">
+                                    <span class="route-dot red"></span>
+                                    <div class="route-details">
+                                        <span class="route-time">07:30</span>
+                                        <span class="route-location">Biblioteca Central</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="trip-details">
+                                <div class="trip-info">
+                                    <span class="trip-duration">⏱️ 45 min</span>
+                                    <span class="trip-seats">💺 3 asientos disponibles</span>
+                                    <span class="trip-vehicle">🚗 Toyota Corolla - Blanco</span>
+                                </div>
+                                <div class="trip-price">
+                                    <span class="price-amount">S/6</span>
+                                    <span class="price-unit">por persona</span>
+                                </div>
+                            </div>
+                            <div class="trip-actions">
+                                <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="load-more-section">
+                        <button type="button" class="btn-load-more" id="loadMoreBtn">Cargar más viajes</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios para viajes seguros y económicos</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/trips/search.js" defer></script>
+    <script src="../../js/trips/filter.js" defer></script>
+</body>
+</html>
+
