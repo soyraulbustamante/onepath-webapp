@@ -1,22 +1,23 @@
 /* Footer */
 .footer {
-  background-color: var(--gray-50);
+  background-color: var(--white);
   border-top: 1px solid var(--border-light);
-  padding: 40px 0 20px;
+  padding: 40px 0;
   margin-top: 60px;
 }
 
 .footer-content {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 32px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
 .footer-logo-section {
-  flex: 1;
-  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .footer-logo {
@@ -31,7 +32,7 @@
 
 .footer-logo .logo-icon {
   background-color: var(--primary-blue);
-  color: var(--white);
+  color: #ef4444; /* Color rojo para el icono del carro */
   width: 32px;
   height: 32px;
   border-radius: 6px;
@@ -46,23 +47,27 @@
   color: var(--text-light);
   line-height: 1.6;
   margin: 0;
+  max-width: 600px;
 }
 
 .footer-links {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .footer-links a {
   font-size: 14px;
-  color: var(--text-light);
+  color: var(--primary-blue);
   text-decoration: none;
   transition: color 0.2s;
+  font-weight: 500;
 }
 
 .footer-links a:hover {
-  color: var(--primary-blue);
+  color: var(--primary-dark);
+  text-decoration: underline;
 }
 
 .footer-bottom {
