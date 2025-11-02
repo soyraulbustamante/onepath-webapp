@@ -10,7 +10,7 @@ html:focus-within {
 }
 
 img, picture, video, canvas, svg {
-  display: block;
+  display: inline;
   max-width: 100%;
 }
 
