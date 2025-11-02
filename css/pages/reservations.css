@@ -1,0 +1,85 @@
+/* Layout principal de la página de reserva */
+.page-header { padding: 16px 0; }
+.breadcrumb { color: var(--text-light); font-size: 13px; }
+.breadcrumb a { color: var(--primary-blue); text-decoration: none; }
+.breadcrumb .sep { margin: 0 8px; color: var(--text-light); }
+
+.reserve-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  margin: 12px 0 32px 0;
+}
+
+.left-column { display: flex; flex-direction: column; gap: 20px; }
+.right-column { display: flex; flex-direction: column; gap: 20px; }
+
+/* Tarjetas genéricas */
+.card,
+.sidebar-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.section-title { font-size: 16px; font-weight: 700; margin: 0 0 12px 0; }
+.link-muted { color: var(--primary-blue); text-decoration: none; font-size: 14px; }
+.link-muted:hover { text-decoration: underline; }
+
+/* Driver summary */
+.driver-summary-header { display: grid; grid-template-columns: 56px 1fr auto; gap: 16px; align-items: center; }
+.driver-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--gray-100); display:flex; align-items:center; justify-content:center; font-size:24px; overflow:hidden; }
+.driver-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.driver-meta { display:flex; flex-wrap:wrap; gap: 6px; font-size: 13px; }
+.driver-meta .flex-break { flex-basis: 100%; height: 0; }
+.driver-meta .divider { color: var(--gray-300); }
+.price-box { display:flex; flex-direction:column; align-items:flex-end; }
+.price-box .price-amount { font-size: 22px; color: var(--primary-blue); font-weight: 700; }
+.price-box .price-unit { font-size: 12px; color: var(--text-light); }
+
+/* Stats */
+.stats-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 12px; }
+.stat { display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:12px; border:1px solid var(--gray-100); border-radius:10px; }
+.stat-icon { font-size:20px; line-height:1; }
+.stat-text { text-align:center; }
+.stat-text small { display:block; }
+
+/* Información del conductor */
+.info-columns { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.preferences-grid { list-style:none; padding:0; margin:0; display:grid; grid-template-columns: 1fr; gap:8px; }
+.preferences-grid li { font-size:14px; color: var(--text-dark); }
+
+/* Reseñas */
+.reviews .review-item { border-top: 1px solid var(--gray-100); padding-top: 12px; margin-top: 12px; }
+.review-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.review-user { display:flex; align-items:center; gap:8px; }
+.review-avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; }
+.review-text { margin: 8px 0; }
+.rating-stars { color: #fbbf24; }
+
+/* Similar trips */
+.similar-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.driver-info { display:flex; align-items:center; gap:8px; }
+.avatar-small { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+
+/* Sidebar */
+.trip-summary { border:1px solid var(--gray-100); border-radius:10px; padding:12px; margin-bottom:12px; }
+.summary-row { display:flex; justify-content:space-between; margin-bottom:6px; font-size:14px; }
+.price-breakdown { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.price-breakdown .row { display:flex; justify-content:space-between; }
+.price-breakdown .total { border-top:1px solid var(--gray-100); padding-top:8px; font-weight:700; }
+.security-note { background: var(--gray-50); border:1px solid var(--gray-100); border-radius:10px; padding:12px; margin: 12px 0; }
+.actions { display:flex; flex-direction:column; gap:10px; }
+.btn-secondary { background-color: transparent; color: var(--primary-blue); border:1.5px solid var(--primary-blue); padding:10px 14px; border-radius:8px; font-weight:600; cursor:pointer; }
+.btn-secondary:hover { background-color: var(--light-blue); }
+
+.security-box { background-color: var(--white); border:1px solid var(--border-light); border-radius:12px; padding:20px; }
+
+/* Responsive */
+@media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 768px) {
+  .reserve-layout { grid-template-columns: 1fr; }
+  .info-columns { grid-template-columns: 1fr; }
+  .similar-grid { grid-template-columns: 1fr; }
+}
