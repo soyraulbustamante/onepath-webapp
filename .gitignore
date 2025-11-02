@@ -1,4 +1,5 @@
 # Cursor editor files
 .cursor/
 .cursorrules
+.DS_Store
 
