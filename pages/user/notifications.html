@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="notifications.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="notifications.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Page Title -->
+            <section class="page-header">
+                <div class="header-content">
+                    <div class="header-icon">🔔</div>
+                    <div class="header-text">
+                        <h1>Notificaciones Automáticas</h1>
+                        <p>Mantente informado sobre tus viajes y cambios importantes</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notification Settings -->
+            <section class="notification-settings">
+                <div class="settings-card">
+                    <h2 class="settings-title">
+                        <span class="settings-icon">⚙️</span>
+                        Configuración de Notificaciones
+                    </h2>
+                    
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon">✏️</span>
+                                <div class="setting-details">
+                                    <h3>Cambios en viajes</h3>
+                                    <p>Ediciones de hora o cancelaciones</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon">🕐</span>
+                                <div class="setting-details">
+                                    <h3>Recordatorios de viaje</h3>
+                                    <p>30 minutos antes del viaje</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon">📧</span>
+                                <div class="setting-details">
+                                    <h3>Notificaciones por email</h3>
+                                    <p>Recibir copia en tu correo</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon">📱</span>
+                                <div class="setting-details">
+                                    <h3>Notificaciones push</h3>
+                                    <p>Alertas en tiempo real</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Notifications -->
+            <section class="recent-notifications">
+                <div class="notifications-card">
+                    <h2 class="notifications-title">
+                        <span class="notifications-icon">📋</span>
+                        Notificaciones Recientes
+                    </h2>
+
+                    <div class="notifications-list" id="notificationsList">
+                        <!-- Notification 1 -->
+                        <div class="notification-item notification-info" data-id="1">
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <div class="notification-icon-wrapper notification-icon-info">
+                                        <span class="notification-type-icon">✏️</span>
+                                    </div>
+                                    <div class="notification-details">
+                                        <h3 class="notification-title">Cambio en tu viaje</h3>
+                                        <p class="notification-message">El conductor Carlos Mendoza ha modificado la hora de salida del viaje a Universidad Central.</p>
+                                        <div class="notification-meta">
+                                            <span class="meta-item">
+                                                <span class="meta-icon">📅</span>
+                                                Lunes, 4 Nov 2024
+                                            </span>
+                                            <span class="meta-item">
+                                                <span class="meta-icon">🕐</span>
+                                                Nueva hora: 7:30 AM
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-actions">
+                                    <span class="notification-time">Hace 5 min</span>
+                                    <button class="notification-action-btn" data-action="mark-read">
+                                        ✓
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification 2 -->
+                        <div class="notification-item notification-warning" data-id="2">
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <div class="notification-icon-wrapper notification-icon-warning">
+                                        <span class="notification-type-icon">🕐</span>
+                                    </div>
+                                    <div class="notification-details">
+                                        <h3 class="notification-title">Recordatorio de viaje</h3>
+                                        <p class="notification-message">Tu viaje a Universidad Central comienza en 30 minutos. Prepárate para salir.</p>
+                                        <div class="notification-meta">
+                                            <span class="meta-item">
+                                                <span class="meta-icon">📅</span>
+                                                Hoy, 4 Nov 2024
+                                            </span>
+                                            <span class="meta-item">
+                                                <span class="meta-icon">🕐</span>
+                                                Salida: 8:00 AM
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-actions">
+                                    <span class="notification-time">Hace 15 min</span>
+                                    <button class="notification-action-btn" data-action="mark-read">
+                                        ✓
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification 3 -->
+                        <div class="notification-item notification-error" data-id="3">
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <div class="notification-icon-wrapper notification-icon-error">
+                                        <span class="notification-type-icon">❌</span>
+                                    </div>
+                                    <div class="notification-details">
+                                        <h3 class="notification-title">Viaje cancelado</h3>
+                                        <p class="notification-message">El conductor Ana López ha cancelado el viaje del martes por la mañana debido a problemas técnicos.</p>
+                                        <div class="notification-meta">
+                                            <span class="meta-item">
+                                                <span class="meta-icon">📅</span>
+                                                Martes, 5 Nov 2024
+                                            </span>
+                                            <span class="meta-item">
+                                                <span class="meta-icon">🕐</span>
+                                                Era: 7:45 AM
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-actions">
+                                    <span class="notification-time">Hace 2 horas</span>
+                                    <button class="notification-action-btn" data-action="mark-read">
+                                        ✓
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification 4 -->
+                        <div class="notification-item notification-success" data-id="4">
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <div class="notification-icon-wrapper notification-icon-success">
+                                        <span class="notification-type-icon">✅</span>
+                                    </div>
+                                    <div class="notification-details">
+                                        <h3 class="notification-title">Viaje confirmado</h3>
+                                        <p class="notification-message">Tu reserva para el viaje con María González ha sido confirmada para mañana.</p>
+                                        <div class="notification-meta">
+                                            <span class="meta-item">
+                                                <span class="meta-icon">📅</span>
+                                                Miércoles, 6 Nov 2024
+                                            </span>
+                                            <span class="meta-item">
+                                                <span class="meta-icon">🕐</span>
+                                                Salida: 8:15 AM
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-actions">
+                                    <span class="notification-time">Ayer</span>
+                                    <button class="notification-action-btn" data-action="mark-read">
+                                        ✓
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification 5 -->
+                        <div class="notification-item notification-info read" data-id="5">
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <div class="notification-icon-wrapper notification-icon-info">
+                                        <span class="notification-type-icon">💬</span>
+                                    </div>
+                                    <div class="notification-details">
+                                        <h3 class="notification-title">Nuevo mensaje</h3>
+                                        <p class="notification-message">Tienes un nuevo mensaje de tu conductor para el viaje de mañana.</p>
+                                        <div class="notification-meta">
+                                            <span class="meta-item">
+                                                <span class="meta-icon">👤</span>
+                                                Carlos Mendoza
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-actions">
+                                    <span class="notification-time">Hace 3 horas</span>
+                                    <button class="notification-action-btn read" data-action="mark-unread">
+                                        ↻
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more-section">
+                        <button class="load-more-btn" id="loadMoreBtn">
+                            Ver más notificaciones
+                        </button>
+                    </div>
+
+                    <!-- Mark All as Read -->
+                    <div class="bulk-actions">
+                        <button class="bulk-action-btn" id="markAllReadBtn">
+                            ✓ Marcar todas como leídas
+                        </button>
+                        <button class="bulk-action-btn secondary" id="clearAllBtn">
+                            🗑️ Limpiar notificaciones
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
