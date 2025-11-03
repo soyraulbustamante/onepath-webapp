@@ -248,6 +248,21 @@
   color: var(--white);
 }
 
+/* Search Map Page */
+.search-map-container {
+  width: 100%;
+}
+
+#map {
+  height: 520px;
+  border: 1.5px solid var(--border-light);
+  border-radius: 8px;
+}
+
+/* Generic Tab Panes for search page */
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
 /* Responsive */
 @media (max-width: 1024px) {
   .search-layout {

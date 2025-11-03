@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="../../css/components/forms.css">
     <link rel="stylesheet" href="../../css/components/buttons.css">
     <link rel="stylesheet" href="../../css/pages/trips.css">
+    <!-- Leaflet CSS para vista de mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4QZ8H3D7rA1pZx6WcJQn2aFqvFQ6QnnwP2Z8H0xyEs=" crossorigin="" />
     <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
 <body>
@@ -251,10 +253,24 @@
                         </div>
                     </div>
 
+                    <!-- Tabs Lista/Mapa -->
+                    <div class="trips-tabs" role="tablist" aria-label="Vista de resultados">
+                        <button id="tabList" class="tab-button active" role="tab" aria-selected="true" aria-controls="listTabPane">
+                            <span class="icon">📄</span>
+                            Lista
+                        </button>
+                        <button id="tabMap" class="tab-button" role="tab" aria-selected="false" aria-controls="mapTabPane">
+                            <span class="icon">🗺️</span>
+                            Mapa
+                        </button>
+                    </div>
+
                     <div class="active-filters" id="activeFilters">
                         <!-- Los tags de filtros activos se generan dinámicamente por JavaScript -->
                     </div>
 
+                    <!-- Pestaña Lista -->
+                    <section id="listTabPane" class="tab-pane active" role="tabpanel" aria-labelledby="tabList">
                     <div class="trips-list" id="tripsList">
                         <!-- Trip Card 1 -->
                         <article class="trip-card">
@@ -398,6 +414,14 @@
                     <div class="load-more-section">
                         <button type="button" class="btn-load-more" id="loadMoreBtn">Cargar más viajes</button>
                     </div>
+                    </section>
+
+                    <!-- Pestaña Mapa -->
+                    <section id="mapTabPane" class="tab-pane" role="tabpanel" aria-labelledby="tabMap" style="display:none;">
+                        <div class="search-map-container">
+                            <div id="map" aria-label="Mapa de salidas"></div>
+                        </div>
+                    </section>
                 </section>
             </div>
         </div>
@@ -424,6 +448,9 @@
         </div>
     </footer>
 
+    <!-- Leaflet JS para mapa -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCmZgdK5r3t3tSxCkU1j1rGXe3H2vZ8Q8H8V7G54=" crossorigin=""></script>
+    <script src="../../js/trips/map.js" defer></script>
     <script src="../../js/trips/search.js" defer></script>
     <script src="../../js/trips/filter.js" defer></script>
 </body>

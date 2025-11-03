@@ -15,6 +15,11 @@
   const resultsCount = document.getElementById('resultsCount');
   const loadMoreBtn = document.getElementById('loadMoreBtn');
   const searchBarSection = document.querySelector('.search-bar-section');
+  // Tabs elements
+  const tabListBtn = document.getElementById('tabList');
+  const tabMapBtn = document.getElementById('tabMap');
+  const listTabPane = document.getElementById('listTabPane');
+  const mapTabPane = document.getElementById('mapTabPane');
 
   // Initialize
   function init() {
@@ -43,6 +48,14 @@
 
     if (loadMoreBtn) {
       loadMoreBtn.addEventListener('click', handleLoadMore);
+    }
+
+    // Tabs handlers
+    if (tabListBtn && tabMapBtn && listTabPane && mapTabPane) {
+      tabListBtn.addEventListener('click', () => activateTab('list'));
+      tabMapBtn.addEventListener('click', () => activateTab('map'));
+      // Ensure default
+      activateTab('list');
     }
 
     // Remove active filter tags
@@ -232,5 +245,28 @@
   } else {
     init();
   }
+  // Tabs activation
+  function activateTab(name) {
+    if (!tabListBtn || !tabMapBtn || !listTabPane || !mapTabPane) return;
+
+    const isList = name === 'list';
+    tabListBtn.classList.toggle('active', isList);
+    tabMapBtn.classList.toggle('active', !isList);
+    tabListBtn.setAttribute('aria-selected', isList ? 'true' : 'false');
+    tabMapBtn.setAttribute('aria-selected', !isList ? 'true' : 'false');
+
+    listTabPane.classList.toggle('active', isList);
+    mapTabPane.classList.toggle('active', !isList);
+    mapTabPane.style.display = isList ? 'none' : 'block';
+
+    if (!isList) {
+      // Initialize or refresh map when switching to Map tab
+      if (typeof window.invalidateOnepathMap === 'function') {
+        // Small delay allows layout to settle before resize
+        setTimeout(() => window.invalidateOnepathMap(), 50);
+      }
+    }
+  }
+
 })();
 
