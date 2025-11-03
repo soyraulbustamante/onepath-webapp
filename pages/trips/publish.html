@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Viaje - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/forms.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/notifications.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/pages/trips.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="publish-page-main">
+        <div class="container">
+            <div class="publish-layout">
+                <div class="publish-container">
+                    <!-- Header Section -->
+                    <header class="publish-header">
+                        <h1 class="publish-title">Publicar Nuevo Viaje</h1>
+                        <p class="publish-subtitle">Completa el formulario para publicar tu viaje y que otros estudiantes puedan encontrarlo</p>
+                    </header>
+
+                    <!-- Form Section -->
+                    <section class="publish-form-section">
+                        <form class="publish-form" id="publishForm" novalidate>
+                            <!-- Ruta del Viaje -->
+                            <div class="form-group">
+                                <label class="form-label" for="origin">Punto de Partida <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">📍</span>
+                                    <input 
+                                        type="text" 
+                                        id="origin" 
+                                        name="origin" 
+                                        class="form-input" 
+                                        placeholder="Mi ubicación actual" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="origin-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="origin-error" role="alert" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="destination">Destino (Universidad) <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">🎓</span>
+                                    <select id="destination" name="destination" required aria-required="true" aria-describedby="destination-error">
+                                        <option value="" selected disabled>Selecciona tu universidad</option>
+                                        <option value="PUCP">PUCP</option>
+                                        <option value="UPC">UPC</option>
+                                        <option value="USIL">USIL</option>
+                                        <option value="UNMSM">UNMSM</option>
+                                        <option value="UDEP">UDEP</option>
+                                    </select>
+                                </div>
+                                <span class="error-message" id="destination-error" role="alert" aria-live="polite"></span>
+                            </div>
+
+                            <!-- Fecha y Hora -->
+                            <div class="form-row">
+                                <div class="form-group form-group--half">
+                                    <label class="form-label" for="date">Fecha del Viaje <span class="required">*</span></label>
+                                    <div class="input-with-icon">
+                                        <span class="input-icon" aria-hidden="true">📅</span>
+                                        <input type="date" id="date" name="date" class="form-input" required aria-required="true" aria-describedby="date-error">
+                                    </div>
+                                    <span class="error-message" id="date-error" role="alert" aria-live="polite"></span>
+                                </div>
+
+                                <div class="form-group form-group--half">
+                                    <label class="form-label" for="time">Hora de Salida <span class="required">*</span></label>
+                                    <div class="input-with-icon">
+                                        <span class="input-icon" aria-hidden="true">🕐</span>
+                                        <input type="time" id="time" name="time" class="form-input" required aria-required="true" aria-describedby="time-error">
+                                    </div>
+                                    <span class="error-message" id="time-error" role="alert" aria-live="polite"></span>
+                                </div>
+                            </div>
+
+                            <!-- Detalles del Viaje -->
+                            <div class="form-row">
+                                <div class="form-group form-group--half">
+                                    <label class="form-label" for="seats">Asientos Disponibles <span class="required">*</span></label>
+                                    <div class="input-with-icon">
+                                        <span class="input-icon" aria-hidden="true">💺</span>
+                                        <select id="seats" name="seats" required aria-required="true" aria-describedby="seats-error">
+                                            <option value="" disabled selected>Selecciona</option>
+                                            <option value="1">1 asiento</option>
+                                            <option value="2">2 asientos</option>
+                                            <option value="3">3 asientos</option>
+                                            <option value="4">4 asientos</option>
+                                        </select>
+                                    </div>
+                                    <span class="error-message" id="seats-error" role="alert" aria-live="polite"></span>
+                                </div>
+
+                                <div class="form-group form-group--half">
+                                    <label class="form-label" for="price">Precio por Persona</label>
+                                    <div class="input-prefix">
+                                        <span class="prefix">S/</span>
+                                        <input type="number" id="price" name="price" min="0" step="0.5" placeholder="10.00" aria-describedby="price-hint">
+                                    </div>
+                                    <small class="form-hint" id="price-hint">Deja en blanco si es gratuito</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="notes">Información Adicional (Opcional)</label>
+                                <textarea id="notes" name="notes" class="form-input" rows="3" placeholder="Ej: Aire acondicionado, no fumar en el auto, música, etc."></textarea>
+                            </div>
+
+                            <!-- Preferencias -->
+                            <div class="form-group preferences-group">
+                                <label class="form-label">Preferencias</label>
+                                <div class="preferences-list">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="only-verified">
+                                        <span>Solo estudiantes verificados</span>
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="instant-booking">
+                                        <span>Permitir reserva instantánea</span>
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="recurring">
+                                        <span>Viaje recurrente (mismo horario toda la semana)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary btn-full btn-large" id="submitBtn">
+                                    <span class="btn-icon">🚀</span>
+                                    Publicar Viaje
+                                </button>
+                                <button type="button" class="btn-secondary btn-full" id="cancelBtn">
+                                    Guardar Borrador
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="publish-sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Mis Viajes Publicados</h3>
+
+                        <div class="driver-trip-card">
+                            <div class="trip-card-header">
+                                <div class="status-chip status-chip--active">● Activo</div>
+                                <a class="link-muted" href="#">Ver</a>
+                            </div>
+                            <div class="trip-summary">
+                                <div>San Isidro → PUCP</div>
+                                <small>Hoy, 7:30 AM • 2/3 asientos</small>
+                                <div class="price">S/ 8.00</div>
+                            </div>
+                        </div>
+
+                        <div class="driver-trip-card">
+                            <div class="trip-card-header">
+                                <div class="status-chip status-chip--pending">● Pendiente</div>
+                                <a class="link-muted" href="#">Editar</a>
+                            </div>
+                            <div class="trip-summary">
+                                <div>Miraflores → UPC</div>
+                                <small>Mañana, 8:00 AM • 0/2 asientos</small>
+                                <div class="price">S/ 12.00</div>
+                            </div>
+                        </div>
+
+                        <div class="driver-trip-card">
+                            <div class="trip-card-header">
+                                <div class="status-chip status-chip--completed">● Completado</div>
+                                <a class="link-muted" href="#">Repetir</a>
+                            </div>
+                            <div class="trip-summary">
+                                <div>Surco → USIL</div>
+                                <small>Ayer, 7:45 AM • 1/1 asientos</small>
+                                <div class="price">S/ 15.00</div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-divider"></div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item"><span class="stat-label">Viajes completados</span><span class="stat-value">12</span></div>
+                            <div class="stat-item"><span class="stat-label">Estudiantes transportados</span><span class="stat-value">28</span></div>
+                            <div class="stat-item"><span class="stat-label">Ingresos generados</span><span class="stat-value stat-value--success">S/ 340.00</span></div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/trips/publish.js" defer></script>
+</body>
+</html>
+

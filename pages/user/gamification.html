@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamificación - OnePath</title>
+
+  <!-- Estilos base -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/global.css">
+
+  <!-- Componentes -->
+  <link rel="stylesheet" href="../../css/components/navbar.css">
+  <link rel="stylesheet" href="../../css/components/cards.css">
+  <link rel="stylesheet" href="../../css/components/buttons.css">
+  <link rel="stylesheet" href="../../css/components/footer.css">
+
+  <!-- Página específica -->
+  <link rel="stylesheet" href="../../css/pages/gamification.css">
+
+  <!-- Navbar dinámico -->
+  <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Contenido principal -->
+  <main class="gamification-main container">
+    <a href="profile.html" class="back-button">← Volver</a>
+    <h1 class="page-title">Sistema de Gamificación</h1>
+    <p class="page-subtitle">
+      Gana puntos por tus viajes y actividades, y sube de nivel como pasajero
+    </p>
+
+    <section class="gamification-dashboard">
+      <div class="user-rank-card">
+        <h2>Tu Nivel Actual</h2>
+        <div class="rank-info">
+          <span class="rank-title">Nivel Oro 🏆</span>
+          <progress value="75" max="100"></progress>
+          <p>75% de progreso hacia el siguiente nivel</p>
+        </div>
+      </div>
+
+      <div class="points-summary">
+        <h2>Resumen de Puntos</h2>
+        <ul>
+          <li>🚗 Viajes completados: <strong>+120 pts</strong></li>
+          <li>⭐ Reseñas positivas: <strong>+45 pts</strong></li>
+          <li>🎁 Bonos semanales: <strong>+30 pts</strong></li>
+          <li>❌ Cancelaciones: <strong>-10 pts</strong></li>
+        </ul>
+        <div class="total-points">
+          <span>Total:</span>
+          <strong>185 pts</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🏅 Nueva sección de insignias -->
+    <section class="badges-section">
+      <h2>Insignias Obtenidas 🏅</h2>
+      <div class="badges-grid">
+        <div class="badge-card">
+          <img src="../../assets/images/badges/5_estrellas.png" alt="Viajero Novato">
+          <h3>5 Estrellas</h3>
+          <p>Manten una calificacion promedio mayor a 4.8 estrellas</p>
+        </div>
+        <div class="badge-card">
+          <img src="../../assets/images/badges/carro.png" alt="Explorador Activo">
+          <h3>Explorador Activo</h3>
+          <p>Realizaste 10 viajes exitosos</p>
+        </div>
+        <div class="badge-card">
+          <img src="../../assets/images/badges/corona.png" alt="Amigo Confiable">
+          <h3>Pionero OnePath</h3>
+          <p>Usuario desde el lanzamiento</p>
+        </div>
+        <div class="badge-card">
+          <img src="../../assets/images/badges/guia.png" alt="Viajero Legendario">
+          <h3>Guia solidario</h3>
+          <p>Comentarios o reseñas utiles</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rewards-section">
+      <h2>Recompensas Disponibles 🎁</h2>
+      <div class="rewards-grid">
+        <div class="reward-card">
+          <h3>10% descuento en viaje</h3>
+          <p>Canjea por 100 pts</p>
+          <button class="btn-primary">Canjear</button>
+        </div>
+        <div class="reward-card">
+          <h3>Insignia “Viajero del Mes”</h3>
+          <p>Canjea por 150 pts</p>
+          <button class="btn-primary">Canjear</button>
+        </div>
+        <div class="reward-card">
+          <h3>Asiento preferencial</h3>
+          <p>Canjea por 200 pts</p>
+          <button class="btn-primary">Canjear</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo-section">
+          <div class="footer-logo">
+            <div class="logo-icon">🚗</div>
+            <span>OnePath</span>
+          </div>
+          <p>Conectando estudiantes universitarios con viajes seguros y accesibles</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">Términos y Condiciones</a>
+          <a href="#">Política de Privacidad</a>
+          <a href="#">Soporte</a>
+          <a href="#">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script específico -->
+  <script src="../../js/gamification/badges.js" defer></script>
+</body>
+</html>
