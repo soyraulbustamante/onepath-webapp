@@ -34,6 +34,12 @@
     
     var authSection = isLoggedIn
       ? '<div class="user-info">\n' +
+        '  <div class="notification-bell">\n' +
+        '    <a href="' + base + 'pages/user/notifications.html" class="notification-link" aria-label="Notificaciones">\n' +
+        '      <span class="bell-icon">🔔</span>\n' +
+        '      <span class="notification-badge" style="display: none;">0</span>\n' +
+        '    </a>\n' +
+        '  </div>\n' +
         '  <span class="user-name">' + userName + '</span>\n' +
         '  <button type="button" class="btn-logout" aria-label="Cerrar sesión">Salir</button>\n' +
         '</div>'
@@ -59,8 +65,8 @@
         '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
         '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
         '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
-        '        <a href="#">Configuración</a>\n';
+        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
     } else {
       // Pasajero/Estudiante (role === 'passenger' u otros)
       navLinks =
@@ -68,8 +74,8 @@
         '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
         '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
         '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
-        '        <a href="#">Configuración</a>\n';
+        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
     }
 
     return (
@@ -104,6 +110,25 @@
     });
   }
 
+  function initNotificationCount() {
+    try {
+      var notifications = JSON.parse(localStorage.getItem('onepath_notifications') || '[]');
+      var unreadCount = notifications.filter(function(n) { return !n.read; }).length;
+      
+      var badge = document.querySelector('.notification-badge');
+      if (badge) {
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+          badge.style.display = 'flex';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    } catch (e) {
+      console.error('Error initializing notification count:', e);
+    }
+  }
+
   function renderNavbar() {
     var base = getBasePrefix();
     var html = buildNavbarHtml(base);
@@ -118,6 +143,9 @@
     
     // Mark active link after rendering
     setTimeout(markActiveLink, 0);
+
+    // Initialize notification count
+    setTimeout(initNotificationCount, 100);
 
     // Wire logout if present
     var logoutBtn = document.querySelector('.btn-logout');
