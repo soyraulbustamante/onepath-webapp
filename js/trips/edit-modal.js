@@ -462,10 +462,10 @@
     if (submitBtn) {
       submitBtn.disabled = disabled;
       if (disabled) {
-        submitBtn.innerHTML = '<span class="btn-icon">⏳</span> Guardando...';
+        submitBtn.innerHTML = '<span class="btn-icon material-icons">hourglass_empty</span> Guardando...';
         submitBtn.classList.add('disabled');
       } else {
-        submitBtn.innerHTML = '<span class="btn-icon">💾</span> Guardar Cambios';
+        submitBtn.innerHTML = '<span class="btn-icon material-icons">save</span> Guardar Cambios';
         submitBtn.classList.remove('disabled');
       }
     }
@@ -605,7 +605,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">${type === 'success' ? '✓' : '✕'}</span>
+        <span class="notification-icon material-icons">${type === 'success' ? 'check' : 'close'}</span>
         <span class="notification-message">${message}</span>
       </div>
     `;

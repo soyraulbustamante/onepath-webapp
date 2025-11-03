@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/global.css">
@@ -41,7 +42,7 @@
                         <div class="status-badge status-active">En camino</div>
                     </div>
                     <button class="btn-call">
-                        <span class="call-icon">📞</span>
+                        <span class="call-icon material-icons">phone</span>
                         Llamar
                     </button>
                     <button class="btn-menu">⋮</button>
@@ -55,7 +56,7 @@
         <div class="container">
             <div class="status-content">
                 <div class="meeting-point">
-                    <div class="location-icon">📍</div>
+                    <div class="location-icon material-icons">location_on</div>
                     <div class="location-info">
                         <span class="location-title">Punto de encuentro: Metro San Isidro</span>
                         <div class="location-address">Av. Javier Prado Este 4200 - Salida A</div>
@@ -67,7 +68,7 @@
                         <div class="time-value">07:30 AM</div>
                     </div>
                     <button class="btn-map">
-                        <span class="map-icon">🗺️</span>
+                        <span class="map-icon material-icons">map</span>
                         Ver Mapa
                     </button>
                 </div>
@@ -197,26 +198,26 @@
                 <!-- Message Input Area -->
                 <div class="message-input">
                     <div class="input-row">
-                        <button class="btn-attachment" type="button" aria-label="Adjuntar archivo">📎</button>
+                        <button class="btn-attachment" type="button" aria-label="Adjuntar archivo"><span class="material-icons">attach_file</span></button>
                         <div class="input-wrapper">
                             <input type="text" placeholder="Escribe tu mensaje..." class="message-text-input" id="messageInput">
-                            <button class="btn-emoji" type="button" aria-label="Emojis">😊</button>
+                            <button class="btn-emoji" type="button" aria-label="Emojis"><span class="material-icons">mood</span></button>
                         </div>
                         <button class="btn-send" type="button" id="sendButton">
-                            <span class="send-icon">✈️</span>
+                            <span class="send-icon material-icons">send</span>
                         </button>
                     </div>
                     
                     <!-- Quick Actions -->
                     <div class="quick-actions">
                         <button class="quick-action" type="button" data-action="location">
-                            📍 Compartir ubicación
+                            <span class="material-icons">location_on</span> Compartir ubicación
                         </button>
                         <button class="quick-action" type="button" data-action="photo">
-                            📷 Enviar foto
+                            <span class="material-icons">photo_camera</span> Enviar foto
                         </button>
                         <button class="quick-action quick-action-danger" type="button" data-action="report">
-                            ⚠️ Reportar problema
+                            <span class="material-icons">warning</span> Reportar problema
                         </button>
                     </div>
                 </div>
@@ -230,24 +231,24 @@
             <div class="actions-content">
                 <div class="trip-stats">
                     <div class="stat-item">
-                        <span class="stat-icon">🕐</span>
+                        <span class="stat-icon material-icons">access_time</span>
                         <span class="stat-text">Tiempo estimado: 45 min</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-icon">🛣️</span>
+                        <span class="stat-icon material-icons">road</span>
                         <span class="stat-text">Distancia: 12.5 km</span>
                     </div>
                     <div class="stat-item stat-success">
-                        <span class="stat-icon">✅</span>
+                        <span class="stat-icon material-icons">check_circle</span>
                         <span class="stat-text">Pasajero encontrado</span>
                     </div>
                 </div>
                 <div class="action-buttons">
                     <button class="btn-cancel" type="button">
-                        ❌ Cancelar viaje
+                        <span class="material-icons">cancel</span> Cancelar viaje
                     </button>
                     <button class="btn-start" type="button">
-                        ▶️ Iniciar viaje
+                        <span class="material-icons">play_arrow</span> Iniciar viaje
                     </button>
                 </div>
             </div>
@@ -259,14 +260,14 @@
         <div class="container">
             <div class="emergency-content">
                 <div class="emergency-info">
-                    <span class="emergency-icon">🛡️</span>
+                    <span class="emergency-icon material-icons">security</span>
                     <div class="emergency-text">
                         <span class="emergency-title">¿Necesitas ayuda de emergencia?</span>
                         <span class="emergency-subtitle">Contacta con nuestro equipo de seguridad 24/7</span>
                     </div>
                 </div>
                 <button class="btn-emergency" type="button">
-                    📞 Emergencia
+                    <span class="material-icons">phone</span> Emergencia
                 </button>
             </div>
         </div>
@@ -277,10 +278,10 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
-                        <span>OnePath</span>
-                    </div>
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
                 </div>
                 <div class="footer-links">

@@ -36,13 +36,13 @@
       ? '<div class="user-info">\n' +
         '  <div class="notification-bell">\n' +
         '    <a href="' + base + 'pages/user/notifications.html" class="notification-link" aria-label="Notificaciones">\n' +
-        '      <span class="bell-icon">🔔</span>\n' +
+        '      <span class="bell-icon material-icons">notifications</span>\n' +
         '      <span class="notification-badge" style="display: none;">0</span>\n' +
         '    </a>\n' +
         '  </div>\n' +
         '  <div class="rating-icon">\n' +
         '    <a href="' + base + 'pages/user/rate.html" class="rating-link" aria-label="Mis Reseñas">\n' +
-        '      <span class="star-icon">⭐</span>\n' +
+        '      <span class="star-icon material-icons">star</span>\n' +
         '    </a>\n' +
         '  </div>\n' +
         '  <span class="user-name">' + userName + '</span>\n' +
@@ -89,11 +89,11 @@
       '    <div class="header-content">\n' +
       '      <div class="brand-row">\n' +
       '        <div class="logo">\n' +
-      '          <div class="logo-icon">🚗</div>\n' +
+      '          <div class="logo-icon"><span class="material-icons">directions_car</span></div>\n' +
       '          <span>OnePath</span>\n' +
       '        </div>\n' +
       '        <button type="button" class="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="primary-nav">\n' +
-      '          <span class="hamburger-icon">☰</span>\n' +
+      '          <span class="hamburger-icon material-icons">menu</span>\n' +
       '        </button>\n' +
       '      </div>\n' +
       '      <nav class="nav" id="primary-nav" aria-label="Principal">\n' +

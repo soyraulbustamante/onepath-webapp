@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Reservas - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/global.css">
@@ -77,7 +78,7 @@
 
                     <!-- Empty State -->
                     <div class="empty-state" id="emptyState" style="display: none;">
-                        <div class="empty-state-icon">🚗</div>
+                        <div class="empty-state-icon"><span class="material-icons">directions_car</span></div>
                         <h2>No tienes viajes reservados</h2>
                         <p>Aún no has reservado ningún viaje. ¡Comienza buscando tu primer viaje!</p>
                         <a href="../trips/search.html" class="btn-primary">Buscar Viaje</a>
@@ -121,15 +122,15 @@
                         <h2 class="sidebar-title">Acciones Rápidas</h2>
                         <div class="quick-actions">
                             <a href="../trips/search.html" class="quick-action-btn quick-action-btn--search">
-                                <span class="action-icon">🔍</span>
+                                <span class="action-icon material-icons">search</span>
                                 Buscar Nuevo Viaje
                             </a>
                             <a href="../trips/publish.html" class="quick-action-btn quick-action-btn--publish">
-                                <span class="action-icon">➕</span>
+                                <span class="action-icon material-icons">add</span>
                                 Ofrecer Viaje
                             </a>
                             <a href="../trips/my-trips.html" class="quick-action-btn quick-action-btn--regular">
-                                <span class="action-icon">📅</span>
+                                <span class="action-icon material-icons">calendar_today</span>
                                 Viajes Regulares
                             </a>
                         </div>
@@ -169,7 +170,7 @@
             </div>
             <div class="modal-body">
                 <div class="delete-warning">
-                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-icon material-icons">warning</div>
                     <p id="cancelModalMessage">¿Estás seguro de que deseas cancelar esta reserva?</p>
                 </div>
                 <div class="form-group">
@@ -183,7 +184,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" id="cancelCancelBtn">No, mantener</button>
                 <button type="button" class="btn-danger" id="confirmCancelBtn">
-                    <span class="btn-icon">✕</span>
+                    <span class="btn-icon material-icons">close</span>
                     Cancelar Reserva
                 </button>
             </div>
@@ -196,7 +197,7 @@
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
+                        <div class="logo-icon"><span class="material-icons">directions_car</span></div>
                         <span>OnePath</span>
                     </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>

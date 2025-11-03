@@ -382,17 +382,17 @@
         </div>
 
         <div class="trip-passengers-info">
-          <span class="passengers-count">👥 ${seatsInfo}</span>
+          <span class="passengers-count"><span class="material-icons">people</span> ${seatsInfo}</span>
         </div>
 
         <div class="trip-notes">
-          <p>🚗 ${vehicle}</p>
+          <p><span class="material-icons">directions_car</span> ${vehicle}</p>
         </div>
 
         <div class="trip-actions--driver">
-          <a href="../chat/messages.html" class="btn-secondary btn-small"><span class="btn-icon">💬</span> Mensajes</a>
-          <button class="btn-secondary btn-small" data-action="edit-trip" data-trip-id="${trip.id}"><span class="btn-icon">✏️</span> Editar</button>
-          <button class="btn-danger btn-small ${isTripInProgress(trip) ? 'disabled' : ''}" data-action="delete-trip" data-trip-id="${trip.id}" ${isTripInProgress(trip) ? 'disabled title="No se puede eliminar un viaje en curso"' : ''}><span class="btn-icon">🗑️</span> Eliminar</button>
+          <a href="../chat/messages.html" class="btn-secondary btn-small"><span class="btn-icon material-icons">chat</span> Mensajes</a>
+          <button class="btn-secondary btn-small" data-action="edit-trip" data-trip-id="${trip.id}"><span class="btn-icon material-icons">edit</span> Editar</button>
+          <button class="btn-danger btn-small ${isTripInProgress(trip) ? 'disabled' : ''}" data-action="delete-trip" data-trip-id="${trip.id}" ${isTripInProgress(trip) ? 'disabled title="No se puede eliminar un viaje en curso"' : ''}><span class="btn-icon material-icons">delete</span> Eliminar</button>
         </div>
       </div>
     `;
@@ -426,7 +426,7 @@
 
     if (totalTripsStat) totalTripsStat.textContent = total;
     if (totalPassengersStat) totalPassengersStat.textContent = passengerCount;
-    if (avgRatingStat) avgRatingStat.textContent = '4.8 ⭐';
+    if (avgRatingStat) avgRatingStat.textContent = '4.8';
     if (totalEarningsStat) totalEarningsStat.textContent = `S/${earnings.toFixed(0)}`;
   }
 
@@ -475,7 +475,7 @@
     // Deshabilitar botón
     if (confirmDeleteBtn) {
       confirmDeleteBtn.disabled = true;
-      confirmDeleteBtn.innerHTML = '<span class="btn-icon">⏳</span> Eliminando...';
+      confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">hourglass_empty</span> Eliminando...';
     }
 
     try {
@@ -506,7 +506,7 @@
       // Rehabilitar botón
       if (confirmDeleteBtn) {
         confirmDeleteBtn.disabled = false;
-        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">delete</span> Eliminar Viaje';
       }
     }
   }
@@ -645,7 +645,7 @@
       // Reset button
       if (confirmDeleteBtn) {
         confirmDeleteBtn.disabled = false;
-        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">delete</span> Eliminar Viaje';
       }
     }
   }
@@ -657,7 +657,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✓</span>
+        <span class="notification-icon material-icons">check</span>
         <span class="notification-message">${message}</span>
       </div>
     `;
@@ -683,7 +683,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✕</span>
+        <span class="notification-icon material-icons">close</span>
         <span class="notification-message">${message}</span>
       </div>
     `;
