@@ -121,13 +121,13 @@
 
         switch (action) {
             case 'location':
-                message = 'Te comparto mi ubicación actual 📍';
+                message = 'Te comparto mi ubicación actual';
                 break;
             case 'photo':
-                message = 'Te envío una foto para que me puedas ubicar 📷';
+                message = 'Te envío una foto para que me puedas ubicar';
                 break;
             case 'report':
-                message = 'Tengo un problema con el punto de encuentro ⚠️';
+                message = 'Tengo un problema con el punto de encuentro';
                 break;
         }
 

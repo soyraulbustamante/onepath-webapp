@@ -287,7 +287,7 @@
         submitBtn.textContent = 'Publicando...';
         submitBtn.classList.add('disabled');
       } else {
-        submitBtn.innerHTML = '<span class="btn-icon">🚀</span>\n                                Publicar Viaje';
+        submitBtn.innerHTML = '<span class="btn-icon material-icons">send</span>\n                                Publicar Viaje';
         submitBtn.classList.remove('disabled');
       }
     }
@@ -328,7 +328,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✓</span>
+        <span class="notification-icon material-icons">check</span>
         <span class="notification-message">${message}</span>
       </div>
     `;
@@ -359,7 +359,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✕</span>
+        <span class="notification-icon material-icons">close</span>
         <span class="notification-message">${message}</span>
       </div>
     `;

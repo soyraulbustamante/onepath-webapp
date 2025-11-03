@@ -240,17 +240,17 @@
     // Status config
     const statusConfig = {
       confirmed: {
-        icon: '✓',
+        icon: 'check',
         text: 'Confirmado',
         class: 'reservation-status--confirmed'
       },
       pending: {
-        icon: '⏳',
+        icon: 'hourglass_empty',
         text: 'Pendiente',
         class: 'reservation-status--pending'
       },
       cancelled: {
-        icon: '✕',
+        icon: 'close',
         text: 'Cancelado',
         class: 'reservation-status--cancelled'
       }
@@ -272,7 +272,7 @@
         <div class="reservation-card-header">
           <div class="reservation-status-header">
             <span class="reservation-status ${statusInfo.class}">
-              <span class="reservation-status-icon">${statusInfo.icon}</span>
+              <span class="reservation-status-icon material-icons">${statusInfo.icon}</span>
               ${statusInfo.text}
             </span>
             <span class="reservation-id">#VJ-${trip.date.replace(/-/g, '')}-${String(trip.id).slice(-3)}</span>
@@ -287,7 +287,7 @@
           <div class="reservation-route-point">
             <div class="route-icon-wrapper">
               <div class="route-dot green"></div>
-              <div class="route-car-icon">🚗</div>
+              <div class="route-car-icon"><span class="material-icons">directions_car</span></div>
             </div>
             <div class="reservation-route-details">
               <div class="route-time-date">${timeStr} ${dateStr}</div>
@@ -313,7 +313,7 @@
               <div class="driver-name">${driverName}</div>
               <div class="driver-major">${driverMajor}</div>
               <div class="driver-rating">
-                <span class="rating-stars">${'⭐'.repeat(5)}</span>
+                <span class="rating-stars">${'<span class="material-icons">star</span>'.repeat(5)}</span>
                 <span class="rating-value">${driverRating}</span>
               </div>
               <div class="driver-vehicle">${vehicle}</div>
@@ -343,7 +343,7 @@
         
         <div class="reservation-actions">
           ${status !== 'cancelled' 
-            ? `<a href="#" class="link-cancel" data-reservation-id="${reservation.reservationId}">✕ Cancelar${status === 'pending' ? ' Solicitud' : ''}</a>`
+            ? `<a href="#" class="link-cancel" data-reservation-id="${reservation.reservationId}"><span class="material-icons">close</span> Cancelar${status === 'pending' ? ' Solicitud' : ''}</a>`
             : ''
           }
           <a href="#" class="link-details">Ver Detalles</a>
@@ -414,7 +414,7 @@
     
     if (totalTripsStat) totalTripsStat.textContent = total;
     if (moneySavedStat) moneySavedStat.textContent = `S/ ${totalSaved.toFixed(0)}`;
-    if (avgRatingStat) avgRatingStat.textContent = `${avgRating} ⭐`;
+    if (avgRatingStat) avgRatingStat.textContent = `${avgRating}`;
     if (co2SavedStat) co2SavedStat.textContent = `${co2Saved} kg`;
   }
 
@@ -436,23 +436,23 @@
       const status = res.status;
       const timeAgo = getTimeAgo(res.createdAt);
       
-      let icon = '✓';
+      let icon = 'check';
       let text = '';
       
       if (status === 'confirmed') {
-        icon = '✓';
+        icon = 'check';
         text = `Viaje completado Con ${trip.driverId || 'Conductor'} • hace ${timeAgo}`;
       } else if (status === 'pending') {
-        icon = '⏳';
+        icon = 'hourglass_empty';
         text = `Solicitud enviada A ${trip.driverId || 'Conductor'} • hace ${timeAgo}`;
       } else {
-        icon = '✕';
+        icon = 'close';
         text = `Reserva cancelada • hace ${timeAgo}`;
       }
       
       return `
         <div class="activity-item">
-          <span class="activity-icon">${icon}</span>
+          <span class="activity-icon material-icons">${icon}</span>
           <div class="activity-content">
             <p class="activity-text">${text}</p>
             <span class="activity-time">${new Date(res.createdAt).toLocaleDateString('es-ES')}</span>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Viajes - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/global.css">
@@ -76,7 +77,7 @@
 
                     <!-- Empty State -->
                     <div class="empty-state" id="emptyState" style="display: none;">
-                        <div class="empty-state-icon">🚗</div>
+                        <div class="empty-state-icon"><span class="material-icons">directions_car</span></div>
                         <h2>No tienes viajes publicados</h2>
                         <p>Aún no has publicado ningún viaje. ¡Comienza compartiendo tu primer viaje!</p>
                         <a href="../trips/publish.html" class="btn-primary">Publicar Mi Primer Viaje</a>
@@ -120,15 +121,15 @@
                         <h2 class="sidebar-title">Acciones Rápidas</h2>
                         <div class="quick-actions">
                             <a href="../trips/search.html" class="quick-action-btn quick-action-btn--search">
-                                <span class="action-icon">🔍</span>
+                                <span class="action-icon material-icons">search</span>
                                 Buscar Nuevo Viaje
                             </a>
                             <a href="../trips/publish.html" class="quick-action-btn quick-action-btn--publish">
-                                <span class="action-icon">➕</span>
+                                <span class="action-icon material-icons">add</span>
                                 Publicar Viaje
                             </a>
                             <a href="../trips/my-trips.html" class="quick-action-btn quick-action-btn--regular">
-                                <span class="action-icon">📅</span>
+                                <span class="action-icon material-icons">calendar_today</span>
                                 Viajes Regulares
                             </a>
                         </div>
@@ -139,14 +140,14 @@
                         <h2 class="sidebar-title">Actividad Reciente</h2>
                         <div class="activity-list" id="recentActivity">
                             <div class="activity-item">
-                                <span class="activity-icon">✓</span>
+                                <span class="activity-icon material-icons">check</span>
                                 <div class="activity-content">
                                     <p class="activity-text">Viaje publicado</p>
                                     <span class="activity-time">Hace 2 horas</span>
                                 </div>
                             </div>
                             <div class="activity-item">
-                                <span class="activity-icon">👤</span>
+                                <span class="activity-icon material-icons">person</span>
                                 <div class="activity-content">
                                     <p class="activity-text">Nuevo pasajero reservó</p>
                                     <span class="activity-time">Hace 5 horas</span>
@@ -180,9 +181,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="delete-warning">
-                    <div class="warning-icon">⚠️</div>
-                    <p id="deleteModalMessage">¿Estás seguro de que deseas eliminar este viaje? Esta acción no se puede deshacer.</p>
+                    <div class="delete-warning">
+                        <div class="warning-icon material-icons">warning</div>
+                        <p id="deleteModalMessage">¿Estás seguro de que deseas eliminar este viaje? Esta acción no se puede deshacer.</p>
                     <div class="delete-consequences" id="deleteConsequences" style="display: none;">
                         <p class="consequences-title">Al eliminar este viaje:</p>
                         <ul class="consequences-list">
@@ -196,7 +197,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" id="cancelDeleteBtn">Cancelar</button>
                 <button type="button" class="btn-danger" id="confirmDeleteBtn">
-                    <span class="btn-icon">🗑️</span>
+                    <span class="btn-icon material-icons">delete</span>
                     Eliminar Viaje
                 </button>
             </div>
@@ -227,7 +228,7 @@
 
                 <!-- Error State -->
                 <div class="error-state" id="editModalErrorState" style="display: none;">
-                    <div class="error-icon">⚠️</div>
+                    <div class="error-icon material-icons">warning</div>
                     <h3>No se puede editar este viaje</h3>
                     <p id="editModalErrorMessage"></p>
                 </div>
@@ -239,7 +240,7 @@
                         <div class="form-group">
                             <label class="form-label" for="editOrigin">Punto de Partida <span class="required">*</span></label>
                             <div class="input-with-icon">
-                                <span class="input-icon" aria-hidden="true">📍</span>
+                                <span class="input-icon material-icons" aria-hidden="true">location_on</span>
                                 <input 
                                     type="text" 
                                     id="editOrigin" 
@@ -258,7 +259,7 @@
                         <div class="form-group">
                             <label class="form-label" for="editDestination">Destino (Universidad) <span class="required">*</span></label>
                             <div class="input-with-icon">
-                                <span class="input-icon" aria-hidden="true">🎓</span>
+                                <span class="input-icon material-icons" aria-hidden="true">school</span>
                                 <input 
                                     type="text" 
                                     id="editDestination" 
@@ -278,7 +279,7 @@
                             <div class="form-group form-group--half">
                                 <label class="form-label" for="editDate">Fecha del Viaje <span class="required">*</span></label>
                                 <div class="input-with-icon">
-                                    <span class="input-icon" aria-hidden="true">📅</span>
+                                    <span class="input-icon material-icons" aria-hidden="true">calendar_today</span>
                                     <input 
                                         type="date" 
                                         id="editDate" 
@@ -295,7 +296,7 @@
                             <div class="form-group form-group--half">
                                 <label class="form-label" for="editTime">Hora de Salida <span class="required">*</span></label>
                                 <div class="input-with-icon">
-                                    <span class="input-icon" aria-hidden="true">🕐</span>
+                                    <span class="input-icon material-icons" aria-hidden="true">schedule</span>
                                     <input 
                                         type="time" 
                                         id="editTime" 
@@ -315,7 +316,7 @@
                             <div class="form-group form-group--half">
                                 <label class="form-label" for="editSeats">Asientos Disponibles</label>
                                 <div class="input-with-icon">
-                                    <span class="input-icon" aria-hidden="true">💺</span>
+                                    <span class="input-icon material-icons" aria-hidden="true">event_seat</span>
                                     <input 
                                         type="number" 
                                         id="editSeats" 
@@ -348,7 +349,7 @@
                         <!-- Actions -->
                         <div class="form-actions">
                             <button type="submit" class="btn-primary btn-full btn-large" id="submitEditBtn">
-                                <span class="btn-icon">💾</span>
+                                <span class="btn-icon material-icons">save</span>
                                 Guardar Cambios
                             </button>
                             <button type="button" class="btn-secondary btn-full" id="cancelEditBtn">
@@ -366,10 +367,10 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
-                        <span>OnePath</span>
-                    </div>
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
                 </div>
                 <div class="footer-links">

@@ -238,7 +238,7 @@
     if (totalPassengersStat) totalPassengersStat.textContent = totalPassengers;
     if (avgRatingStat) {
       avgRatingStat.textContent = ratingsCount > 0 
-        ? parseFloat(ratingsSum / ratingsCount).toFixed(1) + ' ⭐'
+        ? parseFloat(ratingsSum / ratingsCount).toFixed(1)
         : '-';
     }
     if (totalEarningsStat) totalEarningsStat.textContent = `S/${totalEarnings.toFixed(2)}`;
@@ -350,17 +350,17 @@
       </div>
       <div class="trip-details">
         <div class="trip-meta">
-          <span class="trip-seats">💺 ${availableSeats} de ${trip.seats || 0} asientos disponibles</span>
-          ${trip.vehicle ? `<span class="trip-vehicle">🚗 ${trip.vehicle}</span>` : ''}
+          <span class="trip-seats"><span class="material-icons">event_seat</span> ${availableSeats} de ${trip.seats || 0} asientos disponibles</span>
+          ${trip.vehicle ? `<span class="trip-vehicle"><span class="material-icons">directions_car</span> ${trip.vehicle}</span>` : ''}
         </div>
       </div>
       <div class="trip-actions trip-actions--driver">
         <a href="../trips/edit.html?id=${trip.id}" class="btn-secondary btn-small ${isStarted ? 'disabled' : ''}" ${isStarted ? 'onclick="return false;" title="No se puede editar un viaje en curso"' : ''}>
-          <span class="btn-icon">✏️</span>
+          <span class="btn-icon material-icons">edit</span>
           Editar
         </a>
         <button type="button" class="btn-danger btn-small btn-delete-trip ${isStarted ? 'disabled' : ''}" data-trip-id="${trip.id}" ${isStarted ? 'disabled title="No se puede eliminar un viaje en curso"' : ''}>
-          <span class="btn-icon">🗑️</span>
+          <span class="btn-icon material-icons">delete</span>
           Eliminar
         </button>
       </div>
@@ -437,7 +437,7 @@
     // Disable button
     if (confirmDeleteBtn) {
       confirmDeleteBtn.disabled = true;
-      confirmDeleteBtn.innerHTML = '<span class="btn-icon">⏳</span> Eliminando...';
+      confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">hourglass_empty</span> Eliminando...';
     }
 
     try {
@@ -469,7 +469,7 @@
       // Re-enable button
       if (confirmDeleteBtn) {
         confirmDeleteBtn.disabled = false;
-        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">delete</span> Eliminar Viaje';
       }
     }
   }
@@ -603,7 +603,7 @@
       // Reset button
       if (confirmDeleteBtn) {
         confirmDeleteBtn.disabled = false;
-        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon material-icons">delete</span> Eliminar Viaje';
       }
     }
   }
@@ -644,7 +644,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✓</span>
+        <span class="notification-icon material-icons">check</span>
         <span class="notification-message">${message}</span>
       </div>
     `;
@@ -671,7 +671,7 @@
     notification.setAttribute('aria-live', 'assertive');
     notification.innerHTML = `
       <div class="notification-content">
-        <span class="notification-icon">✕</span>
+        <span class="notification-icon material-icons">close</span>
         <span class="notification-message">${message}</span>
       </div>
     `;
