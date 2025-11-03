@@ -82,14 +82,6 @@
       // Filter by driver
       driverTrips = trips.filter(t => String(t.driverId) === String(user.id));
 
-      // Para maquetar: solo mostrar viajes completados
-      const now = new Date();
-      driverTrips = driverTrips.filter(t => {
-        if (!t.date || !t.time) return false;
-        const tripDate = new Date(t.date + 'T' + t.time);
-        return tripDate <= now && t.status !== 'cancelled';
-      });
-
       hideLoading();
       showContent();
       updateBadges();
@@ -107,6 +99,11 @@
     const minusDays = (d) => {
       const n = new Date(now);
       n.setDate(n.getDate() - d);
+      return n;
+    };
+    const plusDays = (d) => {
+      const n = new Date(now);
+      n.setDate(n.getDate() + d);
       return n;
     };
 
@@ -196,6 +193,44 @@
         passengers: ['passenger-003', 'passenger-004'],
         vehicle: 'Hyundai Elantra Blanco',
         createdAt: minusDays(3).toISOString()
+      },
+      {
+        id: 'trip-demo-6',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'San Miguel',
+        originAddress: 'Av. La Marina 1200',
+        destination: 'Puerta Principal UNMSM',
+        destinationAddress: 'Av. Venezuela s/n, Lima',
+        date: plusDays(1).toISOString().split('T')[0],
+        time: '07:00',
+        driverName: 'Carlos M.',
+        driverMajor: 'Ing. Sistemas',
+        driverRating: 4.9,
+        seats: 4,
+        price: 7.50,
+        passengers: ['passenger-001'],
+        vehicle: 'Volkswagen Golf Gris',
+        createdAt: now.toISOString()
+      },
+      {
+        id: 'trip-demo-7',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Plaza Norte',
+        originAddress: 'Av. Túpac Amaru 2499',
+        destination: 'Facultad de Medicina',
+        destinationAddress: 'Ciudad Universitaria',
+        date: plusDays(2).toISOString().split('T')[0],
+        time: '08:30',
+        driverName: 'Carlos M.',
+        driverMajor: 'Ing. Sistemas',
+        driverRating: 4.9,
+        seats: 3,
+        price: 9.00,
+        passengers: [],
+        vehicle: 'Toyota Corolla Blanco',
+        createdAt: now.toISOString()
       }
     ];
   }
@@ -232,14 +267,30 @@
     if (!listContainer) return;
     listContainer.innerHTML = items.map(renderDriverTripCard).join('');
 
-    // Attach per-card actions (UI only)
+    // Attach per-card actions
     document.querySelectorAll('[data-action="delete-trip"]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         alert('Eliminar (UI demo): aquí abriríamos el modal de confirmación.');
       });
     });
+
+    // Attach edit buttons
+    document.querySelectorAll('[data-action="edit-trip"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tripId = btn.getAttribute('data-trip-id');
+        if (tripId && window.openEditTripModal) {
+          window.openEditTripModal(tripId);
+        }
+      });
+    });
   }
+
+  // Listen for trip update event to reload trips
+  window.addEventListener('tripUpdated', () => {
+    loadTrips();
+  });
 
   function renderDriverTripCard(trip) {
     const dateObj = new Date(trip.date + 'T' + trip.time);
@@ -287,7 +338,7 @@
 
         <div class="trip-actions--driver">
           <a href="../chat/messages.html" class="btn-secondary btn-small"><span class="btn-icon">💬</span> Mensajes</a>
-          <a href="../trips/edit.html" class="btn-secondary btn-small"><span class="btn-icon">✏️</span> Editar</a>
+          <button class="btn-secondary btn-small" data-action="edit-trip" data-trip-id="${trip.id}"><span class="btn-icon">✏️</span> Editar</button>
           <button class="btn-danger btn-small" data-action="delete-trip"><span class="btn-icon">🗑️</span> Eliminar</button>
         </div>
       </div>
