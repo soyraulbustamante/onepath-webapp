@@ -1,10 +1,11 @@
-// Driver "Mis Viajes" UI: render list, tabs and actions (UI only)
+// Driver "Mis Viajes" UI: render list, tabs and actions
 (function() {
   'use strict';
 
   // State
   let currentTab = 'history'; // Mostrar historial por defecto para maquetar
   let driverTrips = [];
+  let currentDeleteTrip = null;
 
   // Elements
   const loadingState = document.getElementById('loadingState');
@@ -24,16 +25,55 @@
   const avgRatingStat = document.getElementById('avgRatingStat');
   const totalEarningsStat = document.getElementById('totalEarningsStat');
 
+  // Delete modal elements
+  const deleteModal = document.getElementById('deleteModal');
+  const deleteModalMessage = document.getElementById('deleteModalMessage');
+  const deleteConsequences = document.getElementById('deleteConsequences');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+  const closeDeleteModal = document.getElementById('closeDeleteModal');
+
   function init() {
     bindEvents();
     // Inicializar el tab activo (historial por defecto)
     switchTab(currentTab);
     loadTrips();
+    setupDeleteModal();
   }
 
   function bindEvents() {
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+    });
+  }
+
+  function setupDeleteModal() {
+    // Setup delete modal event listeners
+    if (confirmDeleteBtn) {
+      confirmDeleteBtn.addEventListener('click', handleConfirmDelete);
+    }
+
+    if (cancelDeleteBtn) {
+      cancelDeleteBtn.addEventListener('click', closeDeleteModalFunc);
+    }
+
+    if (closeDeleteModal) {
+      closeDeleteModal.addEventListener('click', closeDeleteModalFunc);
+    }
+
+    // Close modal on overlay click
+    if (deleteModal) {
+      const overlay = deleteModal.querySelector('.modal-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', closeDeleteModalFunc);
+      }
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && deleteModal && deleteModal.style.display !== 'none') {
+        closeDeleteModalFunc();
+      }
     });
   }
 
@@ -271,7 +311,11 @@
     document.querySelectorAll('[data-action="delete-trip"]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        alert('Eliminar (UI demo): aquí abriríamos el modal de confirmación.');
+        const tripId = btn.getAttribute('data-trip-id');
+        const trip = driverTrips.find(t => String(t.id) === String(tripId));
+        if (trip) {
+          handleDeleteClick(trip);
+        }
       });
     });
 
@@ -292,13 +336,22 @@
     loadTrips();
   });
 
+  function isTripInProgress(trip) {
+    if (!trip.date || !trip.time) return false;
+    const tripDateTime = new Date(trip.date + 'T' + trip.time);
+    const now = new Date();
+    return tripDateTime <= now;
+  }
+
   function renderDriverTripCard(trip) {
     const dateObj = new Date(trip.date + 'T' + trip.time);
     const dateStr = dateObj.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
     const timeStr = (trip.time || '').slice(0,5);
 
-    const status = trip.status === 'cancelled' ? 'cancelled' : 'confirmed';
-    const statusChipClass = status === 'confirmed' ? 'status-chip--active' : 'status-chip--cancelled';
+    const isInProgress = isTripInProgress(trip);
+    const status = trip.status === 'cancelled' ? 'cancelled' : (isInProgress ? 'in-progress' : 'confirmed');
+    const statusChipClass = status === 'cancelled' ? 'status-chip--cancelled' : (status === 'in-progress' ? 'status-chip--in-progress' : 'status-chip--active');
+    const statusText = status === 'cancelled' ? 'Cancelado' : (status === 'in-progress' ? 'En Curso' : 'Programado');
     const idText = `#VJ-${trip.date?.replace(/-/g,'')}-${String(trip.id).slice(-3)}`;
     const price = typeof trip.price === 'number' ? trip.price.toFixed(2) : (trip.price || '0');
     const seatsInfo = `${(trip.passengers?.length || 0)}/${trip.seats || 4} asientos`;
@@ -308,7 +361,7 @@
       <div class="trip-card trip-card--driver">
         <div class="trip-card-header trip-card-header--driver">
           <div class="trip-status-header">
-            <span class="status-chip ${statusChipClass}">● ${status === 'confirmed' ? 'Programado' : 'Cancelado'}</span>
+            <span class="status-chip ${statusChipClass}">● ${statusText}</span>
             <span class="trip-id">${idText}</span>
           </div>
           <div class="trip-cost">
@@ -339,7 +392,7 @@
         <div class="trip-actions--driver">
           <a href="../chat/messages.html" class="btn-secondary btn-small"><span class="btn-icon">💬</span> Mensajes</a>
           <button class="btn-secondary btn-small" data-action="edit-trip" data-trip-id="${trip.id}"><span class="btn-icon">✏️</span> Editar</button>
-          <button class="btn-danger btn-small" data-action="delete-trip"><span class="btn-icon">🗑️</span> Eliminar</button>
+          <button class="btn-danger btn-small ${isTripInProgress(trip) ? 'disabled' : ''}" data-action="delete-trip" data-trip-id="${trip.id}" ${isTripInProgress(trip) ? 'disabled title="No se puede eliminar un viaje en curso"' : ''}><span class="btn-icon">🗑️</span> Eliminar</button>
         </div>
       </div>
     `;
@@ -375,6 +428,278 @@
     if (totalPassengersStat) totalPassengersStat.textContent = passengerCount;
     if (avgRatingStat) avgRatingStat.textContent = '4.8 ⭐';
     if (totalEarningsStat) totalEarningsStat.textContent = `S/${earnings.toFixed(0)}`;
+  }
+
+  // Delete trip functionality
+  function handleDeleteClick(trip) {
+    currentDeleteTrip = trip;
+
+    // Validar si el viaje está en curso
+    if (isTripInProgress(trip)) {
+      showErrorNotification('No se puede eliminar un viaje que ya está en curso');
+      return;
+    }
+
+    // Configurar mensaje del modal
+    const hasPassengers = trip.passengers && trip.passengers.length > 0;
+    let message = '¿Estás seguro de que deseas eliminar este viaje? Esta acción no se puede deshacer.';
+    
+    if (hasPassengers) {
+      message = `¿Estás seguro de que deseas eliminar este viaje? Tienes ${trip.passengers.length} pasajero(s) reservado(s).`;
+      if (deleteConsequences) {
+        deleteConsequences.style.display = 'block';
+      }
+    } else {
+      if (deleteConsequences) {
+        deleteConsequences.style.display = 'none';
+      }
+    }
+
+    if (deleteModalMessage) {
+      deleteModalMessage.textContent = message;
+    }
+
+    openDeleteModal();
+  }
+
+  async function handleConfirmDelete() {
+    if (!currentDeleteTrip) return;
+
+    // Doble verificación: si el viaje está en curso
+    if (isTripInProgress(currentDeleteTrip)) {
+      closeDeleteModalFunc();
+      showErrorNotification('No se puede eliminar un viaje que ya está en curso');
+      return;
+    }
+
+    // Deshabilitar botón
+    if (confirmDeleteBtn) {
+      confirmDeleteBtn.disabled = true;
+      confirmDeleteBtn.innerHTML = '<span class="btn-icon">⏳</span> Eliminando...';
+    }
+
+    try {
+      // Eliminar viaje
+      await deleteTrip(currentDeleteTrip.id);
+      
+      // Liberar reservas de pasajeros
+      await releasePassengerReservations(currentDeleteTrip);
+      
+      // Notificar a pasajeros
+      await notifyPassengers(currentDeleteTrip);
+      
+      // Mostrar notificación de éxito
+      showSuccessNotification('¡Viaje eliminado exitosamente! Los pasajeros han sido notificados.');
+
+      // Cerrar modal
+      closeDeleteModalFunc();
+
+      // Recargar viajes
+      setTimeout(() => {
+        loadTrips();
+      }, 500);
+
+    } catch (error) {
+      console.error('Error deleting trip:', error);
+      showErrorNotification(error.message || 'Hubo un error al eliminar el viaje. Por favor, intenta nuevamente.');
+      
+      // Rehabilitar botón
+      if (confirmDeleteBtn) {
+        confirmDeleteBtn.disabled = false;
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+      }
+    }
+  }
+
+  async function deleteTrip(tripId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        try {
+          const trips = JSON.parse(localStorage.getItem('trips') || '[]');
+          const tripIndex = trips.findIndex(t => String(t.id) === String(tripId));
+
+          if (tripIndex === -1) {
+            reject(new Error('El viaje no fue encontrado'));
+            return;
+          }
+
+          const trip = trips[tripIndex];
+          const currentUser = getCurrentUser();
+
+          // Verificar que el usuario es el creador
+          if (String(trip.driverId) !== String(currentUser.id) && String(trip.creatorId) !== String(currentUser.id)) {
+            reject(new Error('No tienes permiso para eliminar este viaje. Solo el creador puede eliminarlo.'));
+            return;
+          }
+
+          // Verificar que el viaje no haya empezado
+          if (isTripInProgress(trip)) {
+            reject(new Error('No se puede eliminar un viaje que ya está en curso'));
+            return;
+          }
+
+          // Eliminar viaje del array
+          trips.splice(tripIndex, 1);
+          localStorage.setItem('trips', JSON.stringify(trips));
+
+          console.log('Trip deleted:', tripId);
+          resolve({ success: true });
+        } catch (error) {
+          reject(error);
+        }
+      }, 300);
+    });
+  }
+
+  async function releasePassengerReservations(trip) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (!trip.passengers || trip.passengers.length === 0) {
+          resolve({ success: true });
+          return;
+        }
+
+        try {
+          // Obtener reservas del storage
+          const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+          
+          // Eliminar reservas relacionadas con este viaje
+          const updatedReservations = reservations.filter(res => 
+            String(res.tripId) !== String(trip.id)
+          );
+
+          localStorage.setItem('reservations', JSON.stringify(updatedReservations));
+          console.log('Passenger reservations released:', trip.passengers.length);
+          
+          resolve({ success: true });
+        } catch (error) {
+          console.error('Error releasing reservations:', error);
+          resolve({ success: true }); // Continuar incluso si hay error
+        }
+      }, 200);
+    });
+  }
+
+  async function notifyPassengers(trip) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (!trip.passengers || trip.passengers.length === 0) {
+          resolve({ success: true });
+          return;
+        }
+
+        try {
+          // Obtener notificaciones del storage
+          const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+
+          // Crear notificación para cada pasajero
+          trip.passengers.forEach(passengerId => {
+            const dateStr = trip.date ? new Date(trip.date).toLocaleDateString('es-ES', { 
+              day: 'numeric', 
+              month: 'long', 
+              year: 'numeric' 
+            }) : 'la fecha programada';
+            
+            notifications.push({
+              id: `notif-${Date.now()}-${Math.random()}`,
+              userId: passengerId,
+              type: 'trip_deleted',
+              title: 'Viaje Eliminado',
+              message: `El conductor ha eliminado el viaje de ${trip.origin} a ${trip.destination} del ${dateStr}. Tus asientos han sido liberados automáticamente.`,
+              tripId: trip.id,
+              read: false,
+              createdAt: new Date().toISOString()
+            });
+          });
+
+          localStorage.setItem('notifications', JSON.stringify(notifications));
+          console.log('Passengers notified about deletion:', trip.passengers.length);
+
+          resolve({ success: true });
+        } catch (error) {
+          console.error('Error notifying passengers:', error);
+          resolve({ success: true }); // Continuar incluso si hay error
+        }
+      }, 200);
+    });
+  }
+
+  function openDeleteModal() {
+    if (deleteModal) {
+      deleteModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Focus trap
+      if (cancelDeleteBtn) {
+        setTimeout(() => cancelDeleteBtn.focus(), 100);
+      }
+    }
+  }
+
+  function closeDeleteModalFunc() {
+    if (deleteModal) {
+      deleteModal.style.display = 'none';
+      document.body.style.overflow = '';
+      currentDeleteTrip = null;
+
+      // Reset button
+      if (confirmDeleteBtn) {
+        confirmDeleteBtn.disabled = false;
+        confirmDeleteBtn.innerHTML = '<span class="btn-icon">🗑️</span> Eliminar Viaje';
+      }
+    }
+  }
+
+  function showSuccessNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification notification-success';
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'assertive');
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon">✓</span>
+        <span class="notification-message">${message}</span>
+      </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 5000);
+  }
+
+  function showErrorNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification notification-error';
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'assertive');
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon">✕</span>
+        <span class="notification-message">${message}</span>
+      </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 5000);
   }
 
   // UI helpers

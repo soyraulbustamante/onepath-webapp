@@ -936,6 +936,11 @@ textarea[readonly]:focus {
   color: #b45309; /* amber-700 */
 }
 
+.status-chip--in-progress {
+  background-color: #eff6ff; /* blue-50 */
+  color: #1e40af; /* blue-800 */
+}
+
 .status-chip--cancelled {
   background-color: #fef2f2; /* red-50 */
   color: #b91c1c; /* red-700 */
