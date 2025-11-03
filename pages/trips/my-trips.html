@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historial de Viajes - OnePath</title>
+
+  <!-- Estilos globales y componentes -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components/navbar.css">
+  <link rel="stylesheet" href="../../css/components/cards.css">
+  <link rel="stylesheet" href="../../css/components/footer.css">
+  <link rel="stylesheet" href="../../css/pages/trips.css">
+
+  <!-- Navbar dinámico -->
+  <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Contenido principal -->
+  <main class="search-page-main">
+    <div class="container">
+      <section class="results-section">
+        <div class="results-header">
+          <h1>Historial de viajes</h1>
+        </div>
+
+        <!-- Mensaje si no hay viajes -->
+        <div class="no-trips-message" id="noTripsMessage" style="display: none;">
+          <p>🚘 Aún no has realizado viajes.</p>
+        </div>
+
+        <!-- Lista de viajes -->
+        <div class="trips-list" id="tripsHistoryList">
+
+          <!-- Viaje 1 -->
+          <article class="trip-card">
+            <div class="trip-card-header">
+              <div class="driver-info">
+                <h3>Lucía R.</h3>
+                <span class="driver-major">Arquitectura</span>
+              </div>
+              <div class="driver-rating">
+                <span class="rating-stars">★★★★☆</span>
+                <span class="rating-value">4.8</span>
+              </div>
+            </div>
+
+            <div class="trip-route">
+              <div class="route-point departure">
+                <span class="route-dot green"></span>
+                <div class="route-details">
+                  <span class="route-time">07:10</span>
+                  <span class="route-location">Av. Angamos - Surco</span>
+                </div>
+              </div>
+              <div class="route-line"></div>
+              <div class="route-point arrival">
+                <span class="route-dot red"></span>
+                <div class="route-details">
+                  <span class="route-time">07:45</span>
+                  <span class="route-location">Facultad de Ingeniería - UNMSM</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="trip-details">
+              <div class="trip-info">
+                <span class="trip-date">📅 12 Oct 2025</span>
+                <span class="trip-duration">⏱️ 35 min</span>
+                <span class="trip-vehicle">🚗 Kia Rio - Blanco</span>
+              </div>
+              <div class="trip-price">
+                <span class="price-amount">S/7</span>
+              </div>
+            </div>
+
+            <div class="trip-actions">
+              <button class="btn-view-details">Ver detalles</button>
+            </div>
+
+            <!-- Bloque de detalles oculto -->
+            <div class="trip-extra-details" style="display: none;">
+              <p><strong>Conductor:</strong> Ana L.</p>
+              <p><strong>Pasajero:</strong> Tú</p>
+              <p><strong>Calificación dada:</strong> ⭐⭐⭐⭐☆</p>
+              <p><strong>Comentarios:</strong> Viaje puntual y cómodo.</p>
+            </div>
+          </article>
+
+          <!-- Viaje 2 -->
+          <article class="trip-card">
+            <div class="trip-card-header">
+              <div class="driver-info">
+                <h3>Carlos M.</h3>
+                <span class="driver-major">Ingeniería</span>
+              </div>
+              <div class="driver-rating">
+                <span class="rating-stars">★★★☆☆</span>
+                <span class="rating-value">3.9</span>
+              </div>
+            </div>
+
+            <div class="trip-route">
+              <div class="route-point departure">
+                <span class="route-dot green"></span>
+                <div class="route-details">
+                  <span class="route-time">08:15</span>
+                  <span class="route-location">Av. La Marina - San Miguel</span>
+                </div>
+              </div>
+              <div class="route-line"></div>
+              <div class="route-point arrival">
+                <span class="route-dot red"></span>
+                <div class="route-details">
+                  <span class="route-time">08:50</span>
+                  <span class="route-location">Campus UNMSM</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="trip-details">
+              <div class="trip-info">
+                <span class="trip-date">📅 13 Oct 2025</span>
+                <span class="trip-duration">⏱️ 35 min</span>
+                <span class="trip-vehicle">🚗 Toyota Corolla - Azul</span>
+              </div>
+              <div class="trip-price">
+                <span class="price-amount">S/8</span>
+              </div>
+            </div>
+
+            <div class="trip-actions">
+              <button class="btn-view-details">Ver detalles</button>
+            </div>
+
+            <!-- Bloque de detalles oculto -->
+            <div class="trip-extra-details" style="display: none;">
+              <p><strong>Conductor:</strong> Carlos M.</p>
+              <p><strong>Pasajero:</strong> Tú</p>
+              <p><strong>Calificación dada:</strong> ⭐⭐⭐☆☆</p>
+              <p><strong>Comentarios:</strong> Viaje cómodo, sin retrasos.</p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo-section">
+          <div class="footer-logo">
+            <div class="logo-icon">🚗</div>
+            <span>OnePath</span>
+          </div>
+          <p>Conectando estudiantes universitarios con viajes seguros y económicos</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">Términos y Condiciones</a>
+          <a href="#">Política de Privacidad</a>
+          <a href="#">Soporte</a>
+          <a href="#">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script de comportamiento -->
+  <script src="../../js/trips/history.js" defer></script>
+</body>
+</html>
