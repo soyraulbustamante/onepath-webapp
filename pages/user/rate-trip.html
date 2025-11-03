@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificar Viaje - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="rate-trip.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="rate-trip.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Trip Completed Banner -->
+    <section class="trip-completed-banner">
+        <div class="container">
+            <div class="completion-content">
+                <div class="completion-icon">
+                    <span class="check-icon">✅</span>
+                </div>
+                <div class="completion-text">
+                    <h2>¡Viaje Completado!</h2>
+                    <p>Has llegado a tu destino - Universidad Nacional Mayor de San Marcos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Trip Summary Section -->
+            <section class="trip-summary-section">
+                <div class="trip-summary-card">
+                    <h3 class="section-title">Resumen del Viaje</h3>
+                    
+                    <div class="driver-info">
+                        <div class="driver-details">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="driver-avatar">
+                            <div class="driver-text">
+                                <h4 class="driver-name">Carlos M.</h4>
+                                <p class="driver-career">Ing. Sistemas - 5to año</p>
+                                <p class="driver-vehicle">Volkswagen Golf Gris • ABC-123</p>
+                            </div>
+                        </div>
+                        <div class="trip-cost">
+                            <div class="cost-amount">S/ 8.00</div>
+                            <div class="cost-label">Costo del viaje</div>
+                        </div>
+                    </div>
+
+                    <div class="trip-stats">
+                        <div class="stat-item">
+                            <span class="stat-icon">🕐</span>
+                            <div class="stat-value">42 min</div>
+                            <div class="stat-label">Duración</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🛣️</span>
+                            <div class="stat-value">12.3 km</div>
+                            <div class="stat-label">Distancia</div>
+                        </div>
+                    </div>
+
+                    <div class="trip-route">
+                        <div class="route-point route-start">
+                            <div class="route-dot start-dot"></div>
+                            <div class="route-info">
+                                <div class="route-location">Metro San Isidro</div>
+                                <div class="route-time">07:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-point route-end">
+                            <div class="route-dot end-dot"></div>
+                            <div class="route-info">
+                                <div class="route-location">UNMSM - Puerta Principal</div>
+                                <div class="route-time">08:12 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rating Section -->
+            <section class="rating-section">
+                <div class="rating-card">
+                    <h3 class="section-title">Califica tu experiencia</h3>
+                    
+                    <!-- Overall Rating -->
+                    <div class="overall-rating" id="overallRating">
+                        <h4 class="rating-question">¿Cómo fue tu viaje con Carlos?</h4>
+                        <div class="star-rating">
+                            <button class="star-btn" data-rating="1">
+                                <span class="star-icon">⭐</span>
+                            </button>
+                            <button class="star-btn" data-rating="2">
+                                <span class="star-icon">⭐</span>
+                            </button>
+                            <button class="star-btn" data-rating="3">
+                                <span class="star-icon">⭐</span>
+                            </button>
+                            <button class="star-btn" data-rating="4">
+                                <span class="star-icon">⭐</span>
+                            </button>
+                            <button class="star-btn" data-rating="5">
+                                <span class="star-icon">⭐</span>
+                            </button>
+                        </div>
+                        <div class="rating-text" id="ratingText">Selecciona una calificación</div>
+                    </div>
+
+                    <!-- Detailed Ratings -->
+                    <div class="detailed-ratings" id="detailedRatings">
+                        <div class="rating-category">
+                            <div class="category-header">
+                                <span class="category-name">Puntualidad</span>
+                                <div class="category-stars">
+                                    <button class="category-star" data-category="punctuality" data-rating="1">⭐</button>
+                                    <button class="category-star" data-category="punctuality" data-rating="2">⭐</button>
+                                    <button class="category-star" data-category="punctuality" data-rating="3">⭐</button>
+                                    <button class="category-star" data-category="punctuality" data-rating="4">⭐</button>
+                                    <button class="category-star" data-category="punctuality" data-rating="5">⭐</button>
+                                </div>
+                            </div>
+                            <p class="category-description">¿El conductor llegó a tiempo?</p>
+                        </div>
+
+                        <div class="rating-category">
+                            <div class="category-header">
+                                <span class="category-name">Seguridad de conducción</span>
+                                <div class="category-stars">
+                                    <button class="category-star" data-category="safety" data-rating="1">⭐</button>
+                                    <button class="category-star" data-category="safety" data-rating="2">⭐</button>
+                                    <button class="category-star" data-category="safety" data-rating="3">⭐</button>
+                                    <button class="category-star" data-category="safety" data-rating="4">⭐</button>
+                                    <button class="category-star" data-category="safety" data-rating="5">⭐</button>
+                                </div>
+                            </div>
+                            <p class="category-description">¿Te sentiste seguro durante el viaje?</p>
+                        </div>
+
+                        <div class="rating-category">
+                            <div class="category-header">
+                                <span class="category-name">Limpieza del vehículo</span>
+                                <div class="category-stars">
+                                    <button class="category-star" data-category="cleanliness" data-rating="1">⭐</button>
+                                    <button class="category-star" data-category="cleanliness" data-rating="2">⭐</button>
+                                    <button class="category-star" data-category="cleanliness" data-rating="3">⭐</button>
+                                    <button class="category-star" data-category="cleanliness" data-rating="4">⭐</button>
+                                    <button class="category-star" data-category="cleanliness" data-rating="5">⭐</button>
+                                </div>
+                            </div>
+                            <p class="category-description">¿Cómo estaba la limpieza del auto?</p>
+                        </div>
+
+                        <div class="rating-category">
+                            <div class="category-header">
+                                <span class="category-name">Comunicación</span>
+                                <div class="category-stars">
+                                    <button class="category-star" data-category="communication" data-rating="1">⭐</button>
+                                    <button class="category-star" data-category="communication" data-rating="2">⭐</button>
+                                    <button class="category-star" data-category="communication" data-rating="3">⭐</button>
+                                    <button class="category-star" data-category="communication" data-rating="4">⭐</button>
+                                    <button class="category-star" data-category="communication" data-rating="5">⭐</button>
+                                </div>
+                            </div>
+                            <p class="category-description">¿Fue fácil comunicarse con el conductor?</p>
+                        </div>
+                    </div>
+
+                    <!-- Comment Section -->
+                    <div class="comment-section" id="commentSection">
+                        <h4 class="comment-title">Comparte tu experiencia (opcional)</h4>
+                        <textarea 
+                            class="comment-textarea" 
+                            id="commentTextarea"
+                            rows="4" 
+                            placeholder="Cuéntanos más sobre tu viaje con Carlos. Tu comentario ayudará a otros estudiantes..."
+                            maxlength="500"
+                        ></textarea>
+                        <div class="char-counter" id="charCounter">0/500 caracteres</div>
+                    </div>
+
+                    <!-- Quick Feedback Tags -->
+                    <div class="feedback-tags" id="feedbackTags">
+                        <h4 class="tags-title">Etiquetas rápidas</h4>
+                        <div class="tags-container">
+                            <button class="feedback-tag" data-tag="punctual">Muy puntual</button>
+                            <button class="feedback-tag" data-tag="clean">Auto limpio</button>
+                            <button class="feedback-tag" data-tag="safe">Conducción segura</button>
+                            <button class="feedback-tag" data-tag="conversation">Buena conversación</button>
+                            <button class="feedback-tag" data-tag="music">Música agradable</button>
+                            <button class="feedback-tag" data-tag="route">Ruta eficiente</button>
+                            <button class="feedback-tag" data-tag="friendly">Muy amable</button>
+                            <button class="feedback-tag" data-tag="recommended">Recomendado</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="action-buttons-section">
+                <div class="action-buttons">
+                    <button class="btn-secondary" id="rateLaterBtn">
+                        <span class="btn-icon">🕐</span>
+                        Calificar más tarde
+                    </button>
+                    <button class="btn-primary" id="submitRatingBtn">
+                        <span class="btn-icon">⭐</span>
+                        Enviar calificación
+                    </button>
+                </div>
+                <div class="report-section">
+                    <button class="report-btn" id="reportBtn">
+                        Reportar un problema con este viaje
+                    </button>
+                </div>
+            </section>
+
+            <!-- Thank You Section -->
+            <section class="thank-you-section" id="thankYouSection" style="display: none;">
+                <div class="thank-you-card">
+                    <div class="thank-you-icon">❤️</div>
+                    <h3 class="thank-you-title">¡Gracias por usar OnePath!</h3>
+                    <p class="thank-you-text">Tu calificación nos ayuda a mantener una comunidad segura y confiable para todos los estudiantes.</p>
+                    
+                    <div class="impact-stats">
+                        <div class="impact-item">
+                            <span class="impact-icon">🌱</span>
+                            <div class="impact-value">~2.1 kg</div>
+                            <div class="impact-label">Ahorro de CO₂</div>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-icon">💰</span>
+                            <div class="impact-value">S/ 12.00</div>
+                            <div class="impact-label">Dinero ahorrado</div>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-icon">👥</span>
+                            <div class="impact-value">23 total</div>
+                            <div class="impact-label">Viajes completados</div>
+                        </div>
+                    </div>
+
+                    <div class="next-actions">
+                        <button class="btn-primary full-width" id="searchTripBtn">
+                            <span class="btn-icon">🔍</span>
+                            Buscar otro viaje
+                        </button>
+                        <button class="btn-secondary full-width" id="goHomeBtn">
+                            <span class="btn-icon">🏠</span>
+                            Volver al inicio
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section class="recommendations-section">
+                <h3 class="recommendations-title">Otros conductores que podrían interesarte</h3>
+                
+                <div class="recommendations-grid">
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <h4 class="recommendation-name">Luis R.</h4>
+                                <p class="recommendation-career">Ing. Industrial</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-rating">
+                            <div class="rating-stars">
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="rating-value">4.8</span>
+                            </div>
+                            <span class="recommendation-price">S/ 7.50</span>
+                        </div>
+                        <p class="recommendation-description">Ruta similar • Viajes regulares</p>
+                        <button class="btn-primary small">Ver perfil</button>
+                    </div>
+
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Ana" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <h4 class="recommendation-name">Ana M.</h4>
+                                <p class="recommendation-career">Medicina</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-rating">
+                            <div class="rating-stars">
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="rating-value">4.9</span>
+                            </div>
+                            <span class="recommendation-price">S/ 8.50</span>
+                        </div>
+                        <p class="recommendation-description">Zona norte • Horarios flexibles</p>
+                        <button class="btn-primary small">Ver perfil</button>
+                    </div>
+
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg" alt="Diego" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <h4 class="recommendation-name">Diego S.</h4>
+                                <p class="recommendation-career">Arquitectura</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-rating">
+                            <div class="rating-stars">
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star filled">⭐</span>
+                                <span class="star">⭐</span>
+                                <span class="rating-value">4.7</span>
+                            </div>
+                            <span class="recommendation-price">S/ 9.00</span>
+                        </div>
+                        <p class="recommendation-description">Ruta directa • Auto nuevo</p>
+                        <button class="btn-primary small">Ver perfil</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
