@@ -55,7 +55,7 @@
 .review-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .review-user { display:flex; align-items:center; gap:8px; }
 .review-avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; }
-.review-text { margin: 8px 0; }
+.review-text { margin: 8px 0; color: var(--text-light);}
 .rating-stars { color: #fbbf24; }
 
 /* Similar trips */
@@ -75,6 +75,44 @@
 .btn-secondary:hover { background-color: var(--light-blue); }
 
 .security-box { background-color: var(--white); border:1px solid var(--border-light); border-radius:12px; padding:20px; }
+
+/* Ruta del viaje */
+.trip-route {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.route-point { display:flex; align-items:center; gap:10px; }
+.route-details { display:flex; flex-direction:column; gap:2px; }
+.route-time { font-size:16px; font-weight:700; color: var(--text-dark); }
+.route-location { font-weight:600; color: var(--text-light); }
+
+.route-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+.route-dot.green { background-color: var(--success); }
+.route-dot.red { background-color: var(--error); }
+
+.route-middle { display:flex; align-items:center; gap:8px; flex-direction:column; }
+.route-middle .duration { font-size:12px; color: var(--text-light); }
+.route-middle .car-icon { font-size:18px; color: var(--text-light); }
+.route-line {
+  width: 120px;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--gray-300) 0px,
+    var(--gray-300) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border: none;
+}
 
 /* Responsive */
 @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
