@@ -215,6 +215,7 @@
   function createReservationCard(reservation) {
     const trip = reservation.trip;
     const status = reservation.status;
+    const cancelReason = reservation.cancelReason || '';
     
     // Get driver info from trip or default
     const driverName = trip.driverName || 'Carlos M.';
@@ -320,8 +321,8 @@
           </div>
           <div class="driver-actions">
             ${status === 'confirmed' 
-              ? '<button class="btn-contact">Contactar</button>'
-              : '<button class="btn-waiting">Esperando</button>'
+              ? '<button class="btn-secondary btn-small">Contactar</button>'
+              : '<button class="btn-warning btn-small" disabled>Esperando</button>'
             }
           </div>
         </div>
@@ -333,6 +334,12 @@
           </div>
           ${!isPast && status !== 'cancelled' ? `<div class="reservation-meta-right">Faltan ${daysText}</div>` : ''}
         </div>
+        ${status === 'cancelled' && cancelReason ? `
+          <div class="reservation-cancel-reason" style="padding: 8px 0; border-top: 1px solid var(--gray-100); margin-top: 8px;">
+            <span style="font-size:12px; color: var(--text-light);">Motivo de cancelación:</span>
+            <p style="font-size:13px; color: var(--text-dark); margin:4px 0 0 0;">${cancelReason}</p>
+          </div>
+        ` : ''}
         
         <div class="reservation-actions">
           ${status !== 'cancelled' 
@@ -466,6 +473,11 @@
     const message = `¿Estás seguro de que deseas cancelar esta reserva para el viaje del ${new Date(trip.date + 'T' + trip.time).toLocaleDateString('es-ES')}?`;
     
     if (cancelModalMessage) cancelModalMessage.textContent = message;
+    // Reset motivo de cancelación
+    const reasonInput = document.getElementById('cancelReasonInput');
+    if (reasonInput) {
+      reasonInput.value = '';
+    }
     if (cancelModal) cancelModal.style.display = 'flex';
   }
 
@@ -477,14 +489,24 @@
   function handleConfirmCancel() {
     if (!currentCancelReservation) return;
     
+    // Leer motivo (opcional)
+    const reasonInput = document.getElementById('cancelReasonInput');
+    const cancelReason = reasonInput ? (reasonInput.value || '').trim() : '';
+
     // Update reservation status
     currentCancelReservation.status = 'cancelled';
+    if (cancelReason) {
+      currentCancelReservation.cancelReason = cancelReason;
+    }
     
     // Update in localStorage (simplified - in real app would update properly)
     const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
     const existingRes = reservations.find(r => r.id === currentCancelReservation.reservationId);
     if (existingRes) {
       existingRes.status = 'cancelled';
+      if (cancelReason) {
+        existingRes.cancelReason = cancelReason;
+      }
       localStorage.setItem('reservations', JSON.stringify(reservations));
     }
     
