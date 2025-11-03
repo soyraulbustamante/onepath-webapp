@@ -32,7 +32,10 @@
     var userName = user && user.name ? user.name.split(' ')[0] : 'Usuario';
     
     var authSection = isLoggedIn
-      ? '<div class="user-info"><span class="user-name">' + userName + '</span></div>'
+      ? '<div class="user-info">\n' +
+        '  <span class="user-name">' + userName + '</span>\n' +
+        '  <button type="button" class="btn-logout" aria-label="Cerrar sesión">Salir</button>\n' +
+        '</div>'
       : '<div class="auth-buttons">\n' +
         '        <a class="btn-login" href="' + base + 'pages/auth/login.html">Iniciar Sesión</a>\n' +
         '        <a class="btn-register" href="' + base + 'pages/auth/register.html">Registrarse</a>\n' +
@@ -88,6 +91,26 @@
     
     // Mark active link after rendering
     setTimeout(markActiveLink, 0);
+
+    // Wire logout if present
+    var logoutBtn = document.querySelector('.btn-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        try {
+          if (window.Session && typeof window.Session.logout === 'function') {
+            window.Session.logout();
+          } else {
+            // Fallback directo
+            localStorage.removeItem('currentUser');
+            var currentPath = window.location.pathname;
+            var basePath = currentPath.indexOf('/pages/') !== -1 ? '../../' : '';
+            window.location.href = basePath + 'index.html';
+          }
+        } catch (e) {
+          console.error('Logout error:', e);
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
