@@ -36,6 +36,15 @@
   font-size: 18px;
 }
 
+/* Fila de marca: logo centrado + hamburguesa a la derecha */
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centra el logo */
+  position: relative; /* permite posicionar la hamburguesa */
+  gap: 12px;
+}
+
 .nav {
   display: flex;
   gap: 24px;
@@ -165,6 +174,39 @@
   animation: pulse 2s infinite;
 }
 
+/* Botón hamburguesa (oculto en escritorio) */
+.hamburger {
+  display: none;
+  width: 40px;
+  height: 32px; /* igual que .logo-icon */
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background-color: var(--gray-100);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--text-dark);
+  transition: transform 0.2s ease;
+}
+
+.header.menu-open .hamburger-icon {
+  transform: rotate(90deg);
+}
+
+/* Overlay para cerrar menú en móviles */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 90;
+}
+
 .btn-logout {
   background: none;
   border: 1px solid var(--border-light);
@@ -197,8 +239,28 @@
 
 @media (max-width: 768px) {
   .header-content { flex-direction: column; gap: 12px; }
+  /* La fila de marca ocupa todo el ancho para que el botón pueda anclarse a la derecha */
+  .brand-row { width: 100%; padding-right: 48px; }
+  .hamburger { display: flex; position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
   .nav { flex-direction: column; gap: 8px; margin-left: 0; width: 100%; }
+  /* Ocultar el menú por defecto en móviles; mostrar al abrir */
+  .nav { display: none; }
+  .header.menu-open .nav { display: flex; }
+  /* Asegurar que el overlay solo sea visible cuando se abre el menú (controlado por JS con atributo hidden) */
   
+  /* Mostrar botones de auth al abrir el menú y mejorar tamaño */
+  .auth-buttons { display: none; width: 100%; }
+  .header.menu-open .auth-buttons { display: flex; flex-direction: column; gap: 12px; }
+  .auth-buttons a,
+  .btn-login,
+  .btn-register {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 15px;
+    border-radius: 12px;
+    text-align: center; /* centrar texto */
+  }
+
   .user-info {
     flex-direction: row;
     justify-content: center;

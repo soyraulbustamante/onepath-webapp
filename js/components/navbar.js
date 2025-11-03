@@ -82,15 +82,21 @@
       '\n<header class="header">\n' +
       '  <div class="container">\n' +
       '    <div class="header-content">\n' +
-      '      <div class="logo">\n' +
-      '        <div class="logo-icon">🚗</div>\n' +
-      '        <span>OnePath</span>\n' +
+      '      <div class="brand-row">\n' +
+      '        <div class="logo">\n' +
+      '          <div class="logo-icon">🚗</div>\n' +
+      '          <span>OnePath</span>\n' +
+      '        </div>\n' +
+      '        <button type="button" class="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="primary-nav">\n' +
+      '          <span class="hamburger-icon">☰</span>\n' +
+      '        </button>\n' +
       '      </div>\n' +
-      '      <nav class="nav" aria-label="Principal">\n' +
+      '      <nav class="nav" id="primary-nav" aria-label="Principal">\n' +
       navLinks +
       '      </nav>\n' +
       authSection +
       '    </div>\n' +
+      '    <div class="nav-overlay" hidden></div>\n' +
       '  </div>\n' +
       '</header>\n'
     );
@@ -163,6 +169,51 @@
           }
         } catch (e) {
           console.error('Logout error:', e);
+        }
+      });
+    }
+
+    // Menú móvil (hamburguesa)
+    var headerEl = document.querySelector('.header');
+    var navEl = document.getElementById('primary-nav');
+    var overlayEl = document.querySelector('.nav-overlay');
+    var hamburgerBtn = document.querySelector('.hamburger');
+
+    if (hamburgerBtn && headerEl && navEl) {
+      function closeMenu() {
+        headerEl.classList.remove('menu-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        if (overlayEl) overlayEl.hidden = true;
+      }
+
+      function openMenu() {
+        headerEl.classList.add('menu-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        if (overlayEl) overlayEl.hidden = false;
+      }
+
+      function toggleMenu() {
+        if (headerEl.classList.contains('menu-open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
+
+      hamburgerBtn.addEventListener('click', toggleMenu);
+      if (overlayEl) {
+        overlayEl.addEventListener('click', closeMenu);
+      }
+
+      // Cerrar al navegar por un enlace del menú
+      navEl.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', closeMenu);
+      });
+
+      // Cerrar automáticamente al pasar a escritorio
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+          closeMenu();
         }
       });
     }

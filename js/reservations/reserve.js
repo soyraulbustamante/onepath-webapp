@@ -1,42 +1,73 @@
-// Trip detail / reservation interactions
-(function () {
+// Reserva: cálculo de total y acciones básicas
+(function() {
   'use strict';
 
-  const passengersSelect = document.getElementById('passengers');
-  const qtyEl = document.getElementById('qty');
-  const totalEl = document.getElementById('total');
-  const priceEachEl = document.getElementById('priceEach');
-  const submitBtn = document.getElementById('submitReservation');
-
-  const PRICE_PER_PERSON = 8; // S/
-
   function init() {
-    if (priceEachEl) priceEachEl.textContent = formatMoney(PRICE_PER_PERSON);
+    const form = document.getElementById('reserveForm');
+    const passengersSelect = document.getElementById('passengers');
+    const pricePerEl = document.getElementById('pricePer');
+    const qtyEl = document.getElementById('qty');
+    const totalEl = document.getElementById('totalPrice');
+    const contactBtn = document.getElementById('contactDriver');
+    const favBtn = document.getElementById('saveFavorite');
+
+    if (!form || !passengersSelect || !pricePerEl || !qtyEl || !totalEl) return;
+
+    const pricePer = 8; // S/ 8 por persona (según diseño)
+
+    function updateTotal() {
+      const qty = parseInt(passengersSelect.value || '1', 10);
+      qtyEl.textContent = String(qty);
+      pricePerEl.textContent = pricePer.toFixed(2);
+      totalEl.textContent = (pricePer * qty).toFixed(2);
+    }
+
+    passengersSelect.addEventListener('change', updateTotal);
     updateTotal();
 
-    if (passengersSelect) {
-      passengersSelect.addEventListener('change', updateTotal);
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const qty = parseInt(passengersSelect.value || '1', 10);
+      const total = pricePer * qty;
+      alert('Solicitud enviada. Total: S/ ' + total.toFixed(2));
+    });
+
+    if (contactBtn) {
+      contactBtn.addEventListener('click', function() {
+        alert('Abriremos el chat con el conductor pronto.');
+      });
     }
 
-    if (submitBtn) {
-      submitBtn.addEventListener('click', handleSubmit);
+    if (favBtn) {
+      favBtn.addEventListener('click', function() {
+        alert('Guardado en favoritos.');
+      });
     }
+
+    // Establecer avatares aleatorios mediante API pública (DiceBear)
+    setRandomAvatars();
   }
 
-  function updateTotal() {
-    const qty = Number(passengersSelect?.value || 1);
-    if (qtyEl) qtyEl.textContent = String(qty);
-    if (totalEl) totalEl.textContent = formatMoney(qty * PRICE_PER_PERSON);
+  // Genera una URL de avatar aleatorio (DiceBear v8)
+  function randomAvatarUrl(size, variant) {
+    const seed = Math.random().toString(36).slice(2, 10);
+    const sprite = typeof variant === 'string' && variant.length ? variant : 'avataaars';
+    const s = parseInt(size || 64, 10);
+    // Usamos PNG para asegurar tamaño fijo
+    return `https://api.dicebear.com/8.x/${sprite}/png?seed=${seed}&size=${s}`;
   }
 
-  function handleSubmit() {
-    // In a real app, here we would call the API to create the reservation
-    const qty = Number(passengersSelect?.value || 1);
-    alert(`Solicitud enviada para ${qty} pasajero(s). ¡Te notificaremos cuando el conductor confirme!`);
-  }
-
-  function formatMoney(amount) {
-    return `S/ ${amount.toFixed(2)}`;
+  function setRandomAvatars() {
+    const imgs = document.querySelectorAll('img.js-random-avatar');
+    imgs.forEach(img => {
+      const fallback = img.getAttribute('src');
+      const size = img.dataset.size || '64';
+      const variant = img.dataset.variant || 'avataaars';
+      const url = randomAvatarUrl(size, variant);
+      // Si falla la carga, se mantiene el fallback local
+      img.onerror = function() { img.src = fallback; };
+      img.src = url;
+    });
   }
 
   if (document.readyState === 'loading') {
@@ -45,5 +76,3 @@
     init();
   }
 })();
-
-
