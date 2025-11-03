@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reseñas - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="rate.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="rate.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Breadcrumb Navigation -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="../user/profile.html" class="breadcrumb-link">Mi Perfil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">Mis Reseñas</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Page Header -->
+            <section class="page-header">
+                <div class="header-content">
+                    <div class="header-text">
+                        <h1>Mis Reseñas</h1>
+                        <p>Todas las reseñas que has recibido de otros usuarios</p>
+                    </div>
+                    <div class="rating-summary" id="ratingSummary">
+                        <div class="overall-rating">
+                            <div class="rating-score">4.8</div>
+                            <div class="rating-details">
+                                <div class="stars">
+                                    <span class="star filled">⭐</span>
+                                    <span class="star filled">⭐</span>
+                                    <span class="star filled">⭐</span>
+                                    <span class="star filled">⭐</span>
+                                    <span class="star filled">⭐</span>
+                                </div>
+                                <div class="review-count">23 reseñas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review Stats and Filters -->
+            <section class="stats-filters-section">
+                <div class="stats-filters-card">
+                    <div class="stats-filters-grid">
+                        <!-- Rating Distribution -->
+                        <div class="rating-distribution">
+                            <h3 class="section-subtitle">Distribución de Calificaciones</h3>
+                            <div class="distribution-bars">
+                                <div class="distribution-item">
+                                    <span class="rating-label">5★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%"></div>
+                                    </div>
+                                    <span class="rating-count">20</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label">4★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 13%"></div>
+                                    </div>
+                                    <span class="rating-count">3</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label">3★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label">2★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label">1★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Filters -->
+                        <div class="review-filters">
+                            <h3 class="section-subtitle">Filtrar Reseñas</h3>
+                            <div class="filters-form">
+                                <div class="filter-group">
+                                    <label class="filter-label">Calificación</label>
+                                    <select class="filter-select" id="ratingFilter">
+                                        <option value="">Todas las calificaciones</option>
+                                        <option value="5">5 estrellas</option>
+                                        <option value="4">4 estrellas</option>
+                                        <option value="3">3 estrellas</option>
+                                        <option value="2">2 estrellas</option>
+                                        <option value="1">1 estrella</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-label">Rol en el viaje</label>
+                                    <select class="filter-select" id="roleFilter">
+                                        <option value="">Todos los roles</option>
+                                        <option value="driver">Como conductor/a</option>
+                                        <option value="passenger">Como pasajero/a</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-label">Período</label>
+                                    <select class="filter-select" id="periodFilter">
+                                        <option value="">Todos los períodos</option>
+                                        <option value="month">Último mes</option>
+                                        <option value="quarter">Últimos 3 meses</option>
+                                        <option value="year">Último año</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reviews List -->
+            <section class="reviews-list-section">
+                <div class="reviews-header">
+                    <h2 class="reviews-title">Todas las Reseñas (<span id="reviewCount">23</span>)</h2>
+                    <div class="sort-controls">
+                        <label class="sort-label">Ordenar por:</label>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="newest">Más recientes</option>
+                            <option value="oldest">Más antiguos</option>
+                            <option value="highest">Calificación más alta</option>
+                            <option value="lowest">Calificación más baja</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="reviews-list" id="reviewsList">
+                    <!-- Review 1 -->
+                    <div class="review-card" data-rating="5" data-role="driver" data-date="2025-10-02">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="reviewer-avatar">
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">Carlos Mendoza</h4>
+                                    <p class="reviewer-career">Estudiante de Ingeniería</p>
+                                    <div class="review-rating">
+                                        <div class="stars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                        </div>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="role-badge driver">Como Conductor/a</span>
+                                <p class="review-date">2 de octubre, 2025</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">"María es una excelente conductora. Muy puntual, amable y su auto siempre está limpio. El viaje fue muy cómodo y llegamos a tiempo a la universidad. La conversación durante el trayecto fue muy agradable y me sentí muy seguro. Definitivamente la recomiendo a otros estudiantes."</p>
+                            <div class="trip-info">
+                                <span class="trip-icon">🛣️</span>
+                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
+                            </div>
+                        </div>
+                        <div class="review-footer">
+                            <div class="review-stats">
+                                <span class="helpful-count">
+                                    <span class="helpful-icon">👍</span>
+                                    Útil (3)
+                                </span>
+                                <span class="highlight-tag">
+                                    <span class="tag-icon">🕐</span>
+                                    Puntualidad: Excelente
+                                </span>
+                            </div>
+                            <button class="reply-btn">Responder</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="review-card" data-rating="5" data-role="passenger" data-date="2025-09-28">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Ana" class="reviewer-avatar">
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">Ana López</h4>
+                                    <p class="reviewer-career">Estudiante de Medicina</p>
+                                    <div class="review-rating">
+                                        <div class="stars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                        </div>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="role-badge passenger">Como Pasajero/a</span>
+                                <p class="review-date">28 de septiembre, 2025</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">"Excelente pasajera. María fue muy respetuosa y puntual. La conversación fue muy agradable durante el viaje y se adaptó perfectamente a las reglas del auto. Es una persona muy educada y responsable. Sin duda la invitaría de nuevo a mis viajes."</p>
+                            <div class="trip-info">
+                                <span class="trip-icon">🛣️</span>
+                                <span class="trip-route">Miraflores → UNMSM • S/ 7</span>
+                            </div>
+                        </div>
+                        <div class="review-footer">
+                            <div class="review-stats">
+                                <span class="helpful-count">
+                                    <span class="helpful-icon">👍</span>
+                                    Útil (2)
+                                </span>
+                                <span class="highlight-tag">
+                                    <span class="tag-icon">✅</span>
+                                    Comportamiento: Excelente
+                                </span>
+                            </div>
+                            <button class="reply-btn">Responder</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card" data-rating="4" data-role="driver" data-date="2025-09-25">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Diego" class="reviewer-avatar">
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">Diego Martínez</h4>
+                                    <p class="reviewer-career">Estudiante de Economía</p>
+                                    <div class="review-rating">
+                                        <div class="stars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star">⭐</span>
+                                        </div>
+                                        <span class="rating-value">4.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="role-badge driver">Como Conductor/a</span>
+                                <p class="review-date">25 de septiembre, 2025</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">"Buen viaje en general. María maneja con cuidado y es muy responsable. Solo llegamos un poco tarde por el tráfico intenso, pero no fue culpa suya. El auto está en buenas condiciones y la música estuvo bien. La recomiendo."</p>
+                            <div class="trip-info">
+                                <span class="trip-icon">🛣️</span>
+                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
+                            </div>
+                        </div>
+                        <div class="review-footer">
+                            <div class="review-stats">
+                                <span class="helpful-count">
+                                    <span class="helpful-icon">👍</span>
+                                    Útil (1)
+                                </span>
+                                <span class="highlight-tag">
+                                    <span class="tag-icon">🚗</span>
+                                    Manejo: Muy bueno
+                                </span>
+                            </div>
+                            <button class="reply-btn">Responder</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="review-card" data-rating="5" data-role="passenger" data-date="2025-09-20">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis" class="reviewer-avatar">
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">Luis García</h4>
+                                    <p class="reviewer-career">Estudiante de Derecho</p>
+                                    <div class="review-rating">
+                                        <div class="stars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                        </div>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="role-badge passenger">Como Pasajero/a</span>
+                                <p class="review-date">20 de septiembre, 2025</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">"María es una pasajera modelo. Siempre está lista a la hora acordada, es muy respetuosa con el vehículo y las reglas. Además, es muy buena compañía durante el viaje. Totalmente recomendada para otros conductores."</p>
+                            <div class="trip-info">
+                                <span class="trip-icon">🛣️</span>
+                                <span class="trip-route">Surco → UNMSM • S/ 10</span>
+                            </div>
+                        </div>
+                        <div class="review-footer">
+                            <div class="review-stats">
+                                <span class="helpful-count">
+                                    <span class="helpful-icon">👍</span>
+                                    Útil (4)
+                                </span>
+                                <span class="highlight-tag">
+                                    <span class="tag-icon">🤝</span>
+                                    Respeto: Excelente
+                                </span>
+                            </div>
+                            <button class="reply-btn">Responder</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 5 -->
+                    <div class="review-card" data-rating="5" data-role="driver" data-date="2025-09-18">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Sofia" class="reviewer-avatar">
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">Sofía Ruiz</h4>
+                                    <p class="reviewer-career">Estudiante de Psicología</p>
+                                    <div class="review-rating">
+                                        <div class="stars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                        </div>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-meta">
+                                <span class="role-badge driver">Como Conductor/a</span>
+                                <p class="review-date">18 de septiembre, 2025</p>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">"Increíble experiencia con María. Es súper puntual, muy amable y hace que el viaje sea muy placentero. Su auto está impecable y maneja muy bien. Me ayudó mucho durante mis primeras semanas en la universidad. ¡Gracias!"</p>
+                            <div class="trip-info">
+                                <span class="trip-icon">🛣️</span>
+                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
+                            </div>
+                        </div>
+                        <div class="review-footer">
+                            <div class="review-stats">
+                                <span class="helpful-count">
+                                    <span class="helpful-icon">👍</span>
+                                    Útil (5)
+                                </span>
+                                <span class="highlight-tag">
+                                    <span class="tag-icon">❤️</span>
+                                    Amabilidad: Excelente
+                                </span>
+                            </div>
+                            <button class="reply-btn">Responder</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <button class="pagination-btn prev" disabled>
+                        <span class="pagination-icon">‹</span>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <span class="pagination-dots">...</span>
+                    <button class="pagination-btn">5</button>
+                    <button class="pagination-btn next">
+                        <span class="pagination-icon">›</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Review Insights -->
+            <section class="insights-section">
+                <h2 class="insights-title">Resumen de Comentarios</h2>
+                <div class="insights-grid">
+                    <div class="insight-card positive">
+                        <div class="insight-header">
+                            <div class="insight-icon positive">👍</div>
+                            <h3 class="insight-title">Aspectos Destacados</h3>
+                        </div>
+                        <ul class="insight-list">
+                            <li class="insight-item">
+                                <span class="insight-check">✓</span>
+                                Puntualidad (mencionado 18 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="insight-check">✓</span>
+                                Amabilidad (mencionado 15 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="insight-check">✓</span>
+                                Auto limpio (mencionado 12 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="insight-check">✓</span>
+                                Manejo seguro (mencionado 10 veces)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card info">
+                        <div class="insight-header">
+                            <div class="insight-icon info">📊</div>
+                            <h3 class="insight-title">Tendencia de Reseñas</h3>
+                        </div>
+                        <div class="trend-stats">
+                            <div class="trend-item">
+                                <span class="trend-label">Último mes</span>
+                                <span class="trend-value">8 reseñas</span>
+                            </div>
+                            <div class="trend-item">
+                                <span class="trend-label">Promedio mensual</span>
+                                <span class="trend-value">4.9★</span>
+                            </div>
+                            <div class="trend-item">
+                                <span class="trend-label">Crecimiento</span>
+                                <span class="trend-value positive">+15%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card warning">
+                        <div class="insight-header">
+                            <div class="insight-icon warning">💡</div>
+                            <h3 class="insight-title">Oportunidades de Mejora</h3>
+                        </div>
+                        <ul class="insight-list">
+                            <li class="insight-item">
+                                <span class="insight-arrow">↗</span>
+                                Mejorar comunicación previa al viaje
+                            </li>
+                            <li class="insight-item">
+                                <span class="insight-arrow">↗</span>
+                                Considerar rutas alternas en tráfico
+                            </li>
+                            <li class="insight-item">
+                                <span class="insight-arrow">↗</span>
+                                Actualizar playlist musical
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">¿Quieres Mejorar tu Calificación?</h2>
+                    <p class="cta-text">Sigue ofreciendo viajes de calidad y mantén una buena comunicación con otros estudiantes para seguir recibiendo reseñas positivas.</p>
+                    <div class="cta-buttons">
+                        <button class="btn-primary" id="offerTripBtn">Ofrecer Nuevo Viaje</button>
+                        <button class="btn-secondary" id="viewTipsBtn">Ver Consejos</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
