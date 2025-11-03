@@ -74,6 +74,7 @@
 .user-info {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .user-name {
@@ -113,8 +114,99 @@
 
 .btn-register:hover { background-color: var(--light-blue); }
 
+/* Notification Bell */
+.notification-bell {
+  position: relative;
+}
+
+.notification-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.notification-link:hover {
+  background-color: var(--primary-blue);
+  transform: scale(1.05);
+}
+
+.notification-link:hover .bell-icon {
+  filter: brightness(0) invert(1);
+}
+
+.bell-icon {
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: var(--error);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: var(--error);
+  color: var(--white);
+  border-color: var(--error);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 768px) {
   .header-content { flex-direction: column; gap: 12px; }
   .nav { flex-direction: column; gap: 8px; margin-left: 0; width: 100%; }
+  
+  .user-info {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .notification-bell {
+    order: -1;
+  }
 }
 

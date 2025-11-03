@@ -30,13 +30,53 @@
     var user = getCurrentUser();
     var isLoggedIn = user !== null;
     var userName = user && user.name ? user.name.split(' ')[0] : 'Usuario';
+    var role = user && user.role ? user.role : null; // 'driver' | 'passenger'
     
     var authSection = isLoggedIn
-      ? '<div class="user-info"><span class="user-name">' + userName + '</span></div>'
+      ? '<div class="user-info">\n' +
+        '  <div class="notification-bell">\n' +
+        '    <a href="' + base + 'pages/user/notifications.html" class="notification-link" aria-label="Notificaciones">\n' +
+        '      <span class="bell-icon">🔔</span>\n' +
+        '      <span class="notification-badge" style="display: none;">0</span>\n' +
+        '    </a>\n' +
+        '  </div>\n' +
+        '  <span class="user-name">' + userName + '</span>\n' +
+        '  <button type="button" class="btn-logout" aria-label="Cerrar sesión">Salir</button>\n' +
+        '</div>'
       : '<div class="auth-buttons">\n' +
         '        <a class="btn-login" href="' + base + 'pages/auth/login.html">Iniciar Sesión</a>\n' +
         '        <a class="btn-register" href="' + base + 'pages/auth/register.html">Registrarse</a>\n' +
         '      </div>';
+
+    // Links del menú según rol
+    var navLinks = '';
+    if (!isLoggedIn) {
+      // Público: mostrar opciones generales
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/trips/publish.html">Ofrecer Viaje</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
+        '        <a href="#">Configuración</a>\n';
+    } else if (role === 'driver') {
+      // Conductor
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
+        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
+        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+    } else {
+      // Pasajero/Estudiante (role === 'passenger' u otros)
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
+        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
+        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+    }
 
     return (
       '\n<header class="header">\n' +
@@ -47,11 +87,7 @@
       '        <span>OnePath</span>\n' +
       '      </div>\n' +
       '      <nav class="nav" aria-label="Principal">\n' +
-      '        <a href="' + base + 'index.html">Inicio</a>\n' +
-      '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
-      '        <a href="' + base + 'pages/trips/publish.html">Ofrecer Viaje</a>\n' +
-      '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
-      '        <a href="#">Configuración</a>\n' +
+      navLinks +
       '      </nav>\n' +
       authSection +
       '    </div>\n' +
@@ -74,6 +110,25 @@
     });
   }
 
+  function initNotificationCount() {
+    try {
+      var notifications = JSON.parse(localStorage.getItem('onepath_notifications') || '[]');
+      var unreadCount = notifications.filter(function(n) { return !n.read; }).length;
+      
+      var badge = document.querySelector('.notification-badge');
+      if (badge) {
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+          badge.style.display = 'flex';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    } catch (e) {
+      console.error('Error initializing notification count:', e);
+    }
+  }
+
   function renderNavbar() {
     var base = getBasePrefix();
     var html = buildNavbarHtml(base);
@@ -88,6 +143,29 @@
     
     // Mark active link after rendering
     setTimeout(markActiveLink, 0);
+
+    // Initialize notification count
+    setTimeout(initNotificationCount, 100);
+
+    // Wire logout if present
+    var logoutBtn = document.querySelector('.btn-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        try {
+          if (window.Session && typeof window.Session.logout === 'function') {
+            window.Session.logout();
+          } else {
+            // Fallback directo
+            localStorage.removeItem('currentUser');
+            var currentPath = window.location.pathname;
+            var basePath = currentPath.indexOf('/pages/') !== -1 ? '../../' : '';
+            window.location.href = basePath + 'index.html';
+          }
+        } catch (e) {
+          console.error('Logout error:', e);
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
