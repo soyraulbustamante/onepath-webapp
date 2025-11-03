@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Viaje - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/forms.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/notifications.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/pages/trips.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="publish-page-main">
+        <div class="container">
+            <div class="publish-container">
+                <!-- Header Section -->
+                <header class="publish-header">
+                    <h1 class="publish-title">Editar Viaje</h1>
+                    <p class="publish-subtitle">Actualiza la información de tu viaje. Los pasajeros serán notificados de los cambios.</p>
+                </header>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando información del viaje...</p>
+                </div>
+
+                <!-- Error State -->
+                <div class="error-state" id="errorState" style="display: none;">
+                    <div class="error-icon">⚠️</div>
+                    <h2>No se pudo cargar el viaje</h2>
+                    <p id="errorMessage">Hubo un error al cargar la información del viaje.</p>
+                    <a href="../../pages/trips/my-trips.html" class="btn-primary">Volver a Mis Viajes</a>
+                </div>
+
+                <!-- Form Section -->
+                <section class="publish-form-section" id="formSection" style="display: none;">
+                    <form class="publish-form" id="editForm" novalidate>
+                        <!-- Origen -->
+                        <div class="form-group">
+                            <label class="form-label" for="origin">Origen <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">📍</span>
+                                <input 
+                                    type="text" 
+                                    id="origin" 
+                                    name="origin" 
+                                    class="form-input" 
+                                    placeholder="Ej: San Isidro, Lima" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="origin-error"
+                                >
+                            </div>
+                            <span class="error-message" id="origin-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Destino -->
+                        <div class="form-group">
+                            <label class="form-label" for="destination">Destino <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">🎓</span>
+                                <input 
+                                    type="text" 
+                                    id="destination" 
+                                    name="destination" 
+                                    class="form-input" 
+                                    placeholder="Ej: Universidad San Marcos" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="destination-error"
+                                >
+                            </div>
+                            <span class="error-message" id="destination-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Date and Time Row -->
+                        <div class="form-row">
+                            <!-- Fecha -->
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="date">Fecha <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">📅</span>
+                                    <input 
+                                        type="date" 
+                                        id="date" 
+                                        name="date" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="date-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="date-error" role="alert" aria-live="polite"></span>
+                            </div>
+
+                            <!-- Hora -->
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="time">Hora <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">🕐</span>
+                                    <input 
+                                        type="time" 
+                                        id="time" 
+                                        name="time" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="time-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="time-error" role="alert" aria-live="polite"></span>
+                            </div>
+                        </div>
+
+                        <!-- Asientos (readonly, solo informativo) -->
+                        <div class="form-group">
+                            <label class="form-label" for="seats">Número de Asientos Disponibles</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">💺</span>
+                                <input 
+                                    type="number" 
+                                    id="seats" 
+                                    name="seats" 
+                                    class="form-input" 
+                                    readonly
+                                    aria-readonly="true"
+                                    aria-describedby="seats-hint"
+                                >
+                            </div>
+                            <small class="form-hint" id="seats-hint">Los asientos no se pueden modificar después de la publicación</small>
+                        </div>
+
+                        <!-- Precio (readonly, solo informativo) -->
+                        <div class="form-group">
+                            <label class="form-label" for="price">Precio por Pasajero (S/)</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">💰</span>
+                                <input 
+                                    type="number" 
+                                    id="price" 
+                                    name="price" 
+                                    class="form-input" 
+                                    readonly
+                                    aria-readonly="true"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Notas adicionales (readonly, solo informativo) -->
+                        <div class="form-group">
+                            <label class="form-label" for="notes">Notas Adicionales</label>
+                            <textarea 
+                                id="notes" 
+                                name="notes" 
+                                class="form-input" 
+                                rows="4" 
+                                readonly
+                                aria-readonly="true"
+                            ></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-full btn-large" id="submitBtn">
+                                <span class="btn-icon">💾</span>
+                                Guardar Cambios
+                            </button>
+                            <button type="button" class="btn-secondary btn-full" id="cancelBtn">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/trips/edit.js" defer></script>
+</body>
+</html>
+
