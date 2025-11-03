@@ -3,7 +3,7 @@
   'use strict';
 
   // State
-  let currentTab = 'upcoming';
+  let currentTab = 'history'; // Mostrar historial por defecto para maquetar
   let driverTrips = [];
 
   // Elements
@@ -26,6 +26,8 @@
 
   function init() {
     bindEvents();
+    // Inicializar el tab activo (historial por defecto)
+    switchTab(currentTab);
     loadTrips();
   }
 
@@ -46,13 +48,47 @@
     showLoading();
 
     try {
-      const user = getCurrentUser();
-      if (!user) throw new Error('Debes iniciar sesión para ver tus viajes');
+      let user = getCurrentUser();
+      
+      // Si no hay usuario o es pasajero, usar el conductor de demo para maquetar
+      if (!user || (user.role !== 'driver' && user.id !== 'driver-001')) {
+        const demoDriver = localStorage.getItem('demoDriver');
+        if (demoDriver) {
+          user = JSON.parse(demoDriver);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+          // Crear usuario conductor de demo si no existe
+          user = { id: 'driver-001', name: 'Carlos Mendoza', role: 'driver', university: 'UNMSM', major: 'Ing. Sistemas' };
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('demoDriver', JSON.stringify(user));
+        }
+      }
 
-      const trips = JSON.parse(localStorage.getItem('trips') || '[]');
+      let trips = JSON.parse(localStorage.getItem('trips') || '[]');
+      const driverTripsCount = trips.filter(t => String(t.driverId) === String(user.id)).length;
+
+      // Si no hay viajes o muy pocos del conductor, agregar algunos de ejemplo para maquetar
+      if (driverTripsCount < 3) {
+        const demoTrips = createDemoTrips(user.id);
+        // Agregar solo los viajes de demo que no existan ya
+        demoTrips.forEach(demoTrip => {
+          if (!trips.find(t => t.id === demoTrip.id)) {
+            trips.push(demoTrip);
+          }
+        });
+        localStorage.setItem('trips', JSON.stringify(trips));
+      }
 
       // Filter by driver
       driverTrips = trips.filter(t => String(t.driverId) === String(user.id));
+
+      // Para maquetar: solo mostrar viajes completados
+      const now = new Date();
+      driverTrips = driverTrips.filter(t => {
+        if (!t.date || !t.time) return false;
+        const tripDate = new Date(t.date + 'T' + t.time);
+        return tripDate <= now && t.status !== 'cancelled';
+      });
 
       hideLoading();
       showContent();
@@ -60,10 +96,108 @@
       renderByTab();
       updateStats();
     } catch (err) {
-      console.error(err);
+      console.error('Error loading trips:', err);
       hideLoading();
       showEmpty();
     }
+  }
+
+  function createDemoTrips(driverId) {
+    const now = new Date();
+    const minusDays = (d) => {
+      const n = new Date(now);
+      n.setDate(n.getDate() - d);
+      return n;
+    };
+
+    return [
+      {
+        id: 'trip-demo-1',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Metro San Isidro',
+        originAddress: 'Av. Javier Prado Este 4200',
+        destination: 'Puerta Principal UNMSM',
+        destinationAddress: 'Av. Venezuela s/n, Lima',
+        date: minusDays(7).toISOString().split('T')[0],
+        time: '07:30',
+        driverName: 'Carlos M.',
+        driverMajor: 'Ing. Sistemas',
+        driverRating: 4.9,
+        seats: 4,
+        price: 8.00,
+        passengers: ['passenger-001', 'passenger-002'],
+        vehicle: 'Volkswagen Golf Gris',
+        createdAt: minusDays(8).toISOString()
+      },
+      {
+        id: 'trip-demo-2',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Jockey Plaza',
+        originAddress: 'Av. Javier Prado Este 4200',
+        destination: 'Facultad de Medicina',
+        destinationAddress: 'Ciudad Universitaria',
+        date: minusDays(5).toISOString().split('T')[0],
+        time: '08:00',
+        driverName: 'Carlos M.',
+        driverMajor: 'Ing. Sistemas',
+        driverRating: 4.9,
+        seats: 3,
+        price: 10.00,
+        passengers: ['passenger-003'],
+        vehicle: 'Toyota Corolla Blanco',
+        createdAt: minusDays(6).toISOString()
+      },
+      {
+        id: 'trip-demo-3',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Miraflores Centro',
+        originAddress: 'Av. Larco 1234',
+        destination: 'Biblioteca Central UNMSM',
+        destinationAddress: 'Ciudad Universitaria',
+        date: minusDays(3).toISOString().split('T')[0],
+        time: '06:45',
+        seats: 2,
+        price: 6.00,
+        passengers: ['passenger-002', 'passenger-003'],
+        vehicle: 'Honda Civic Azul',
+        createdAt: minusDays(4).toISOString()
+      },
+      {
+        id: 'trip-demo-4',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Larcomar',
+        originAddress: 'Malecón de la Reserva 610',
+        destination: 'Campus Principal PUCP',
+        destinationAddress: 'Av. Universitaria 1801',
+        date: minusDays(10).toISOString().split('T')[0],
+        time: '09:15',
+        seats: 4,
+        price: 12.00,
+        passengers: ['passenger-001'],
+        vehicle: 'Nissan Sentra Negro',
+        createdAt: minusDays(11).toISOString()
+      },
+      {
+        id: 'trip-demo-5',
+        driverId: driverId,
+        creatorId: driverId,
+        origin: 'Centro de Lima',
+        originAddress: 'Plaza San Martín',
+        destination: 'Universidad Nacional de Ingeniería',
+        destinationAddress: 'Av. Túpac Amaru 210',
+        date: minusDays(2).toISOString().split('T')[0],
+        time: '14:30',
+        seats: 3,
+        price: 9.00,
+        passengers: ['passenger-003', 'passenger-004'],
+        vehicle: 'Hyundai Elantra Blanco',
+        createdAt: minusDays(3).toISOString()
+      }
+    ];
   }
 
   function switchTab(tab) {
