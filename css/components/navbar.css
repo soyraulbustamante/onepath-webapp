@@ -119,7 +119,13 @@
   position: relative;
 }
 
-.notification-link {
+/* Rating Icon */
+.rating-icon {
+  position: relative;
+}
+
+.notification-link,
+.rating-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,16 +138,19 @@
   position: relative;
 }
 
-.notification-link:hover {
+.notification-link:hover,
+.rating-link:hover {
   background-color: var(--primary-blue);
   transform: scale(1.05);
 }
 
-.notification-link:hover .bell-icon {
+.notification-link:hover .bell-icon,
+.rating-link:hover .star-icon {
   filter: brightness(0) invert(1);
 }
 
-.bell-icon {
+.bell-icon,
+.star-icon {
   font-size: 16px;
   transition: all 0.2s ease;
 }
