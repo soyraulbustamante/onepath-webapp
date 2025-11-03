@@ -1,0 +1,646 @@
+/* Chat Page Styles - OnePath */
+
+/* Chat Header */
+.chat-header {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+}
+
+.chat-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.trip-participant {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.participant-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.participant-info {
+    flex: 1;
+}
+
+.participant-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.25rem 0;
+}
+
+.participant-details {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.stars {
+    color: #f59e0b;
+}
+
+.rating-text {
+    color: var(--text-light);
+}
+
+.trip-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.trip-time {
+    text-align: right;
+}
+
+.time-label {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.status-badge {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.status-active {
+    background-color: var(--success);
+    color: var(--white);
+}
+
+.btn-call {
+    background-color: var(--success);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-call:hover {
+    background-color: #059669;
+}
+
+.btn-menu {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: color 0.2s;
+}
+
+.btn-menu:hover {
+    color: var(--text);
+}
+
+/* Trip Status */
+.trip-status {
+    background-color: var(--light-blue);
+    border-bottom: 1px solid var(--primary-blue);
+    padding: 0.75rem 0;
+}
+
+.status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meeting-point {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.location-icon {
+    background-color: var(--success);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+.location-title {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.875rem;
+}
+
+.location-address {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+.trip-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.arrival-time {
+    text-align: right;
+}
+
+.time-value {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.btn-map {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-map:hover {
+    background-color: #2980b9;
+}
+
+/* Chat Main */
+.chat-main {
+    padding: 1.5rem 0;
+}
+
+.chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+}
+
+/* Chat Messages */
+.chat-messages {
+    height: 600px;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--gray-100);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+}
+
+/* System Message */
+.system-message {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.system-text {
+    background-color: var(--gray-100);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    display: inline-block;
+}
+
+/* Messages */
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.message-own {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.message-content {
+    flex: 1;
+    max-width: 70%;
+}
+
+.message-own .message-content {
+    text-align: right;
+}
+
+.message-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.message-other .message-bubble {
+    background-color: var(--gray-100);
+    color: var(--text);
+    border-bottom-left-radius: 0.25rem;
+}
+
+.message-own .message-bubble {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-bottom-right-radius: 0.25rem;
+}
+
+.message-bubble p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    padding: 0 0.5rem;
+}
+
+/* Typing Indicator */
+.typing-indicator .message-bubble {
+    padding: 1rem;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-light);
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+/* Message Input */
+.message-input {
+    border-top: 1px solid var(--border-light);
+    padding: 1rem;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.btn-attachment, .btn-emoji {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: color 0.2s;
+}
+
+.btn-attachment:hover, .btn-emoji:hover {
+    color: var(--text);
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.message-text-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.message-text-input:focus {
+    border-color: var(--primary-blue);
+}
+
+.btn-emoji {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem;
+}
+
+.btn-send {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-send:hover {
+    background-color: #2980b9;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.quick-action {
+    background-color: var(--gray-100);
+    color: var(--text);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.quick-action:hover {
+    background-color: var(--gray-200);
+}
+
+.quick-action-danger {
+    background-color: #fef2f2;
+    color: var(--error);
+}
+
+.quick-action-danger:hover {
+    background-color: #fee2e2;
+}
+
+/* Trip Actions Panel */
+.trip-actions-panel {
+    background-color: var(--white);
+    border-top: 1px solid var(--border-light);
+    padding: 1rem 0;
+    margin-top: 1.5rem;
+}
+
+.actions-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.trip-stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.stat-success {
+    color: var(--success);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-cancel {
+    color: var(--error);
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-cancel:hover {
+    color: #dc2626;
+}
+
+.btn-start {
+    background-color: var(--success);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-start:hover {
+    background-color: #059669;
+}
+
+/* Emergency Banner */
+.emergency-banner {
+    background-color: #fffbeb;
+    border-top: 1px solid var(--warning);
+    border-bottom: 1px solid var(--warning);
+    padding: 0.75rem 0;
+}
+
+.emergency-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.emergency-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.emergency-icon {
+    color: var(--warning);
+    font-size: 1.125rem;
+}
+
+.emergency-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.emergency-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.emergency-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.btn-emergency {
+    background-color: var(--error);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-emergency:hover {
+    background-color: #dc2626;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chat-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .trip-actions {
+        align-self: stretch;
+        justify-content: space-between;
+    }
+
+    .status-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .trip-info {
+        align-self: stretch;
+        justify-content: space-between;
+    }
+
+    .chat-messages {
+        height: 400px;
+        padding: 1rem;
+    }
+
+    .message-content {
+        max-width: 85%;
+    }
+
+    .actions-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .trip-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .action-buttons {
+        align-self: stretch;
+        justify-content: space-between;
+    }
+
+    .emergency-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .emergency-info {
+        align-self: stretch;
+    }
+
+    .btn-emergency {
+        align-self: stretch;
+        text-align: center;
+    }
+}
