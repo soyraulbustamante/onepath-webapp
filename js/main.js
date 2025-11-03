@@ -143,15 +143,18 @@
     var hero = document.querySelector('.hero');
     if (!hero) return;
 
+    // Detectar rol del usuario
+    var userRaw = localStorage.getItem('currentUser');
+    var user = null;
+    try { user = userRaw ? JSON.parse(userRaw) : null; } catch (e) { user = null; }
+    var role = user && user.role ? user.role : 'passenger';
+
     var quickActions = document.createElement('section');
     quickActions.className = 'quick-actions';
     quickActions.style.padding = '48px 0';
     quickActions.style.backgroundColor = '#ffffff';
-    
-    quickActions.innerHTML = 
-      '<div class="container">' +
-      '  <h2 style="margin-bottom: 24px; font-size: 28px; color: #1f2937">Acciones Rápidas</h2>' +
-      '  <div class="features-grid">' +
+
+    var passengerCards = 
       '    <a class="feature-card" href="pages/trips/search.html" style="text-decoration: none; display: block;">' +
       '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🔍</div>' +
       '      <h3 style="margin-bottom: 8px">Buscar Viaje</h3>' +
@@ -171,7 +174,35 @@
       '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">⭐</div>' +
       '      <h3 style="margin-bottom: 8px">Calificaciones</h3>' +
       '      <p>Ve y deja reseñas de conductores</p>' +
+      '    </a>';
+
+    var driverCards =
+      '    <a class="feature-card" href="pages/trips/publish.html" style="text-decoration: none; display: block;">' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">📝</div>' +
+      '      <h3 style="margin-bottom: 8px">Publicar Viaje</h3>' +
+      '      <p>Crea un viaje para que estudiantes se unan</p>' +
       '    </a>' +
+      '    <a class="feature-card" href="pages/trips/my-trips.html" style="text-decoration: none; display: block;">' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🧭</div>' +
+      '      <h3 style="margin-bottom: 8px">Mis Viajes</h3>' +
+      '      <p>Gestiona tus viajes publicados</p>' +
+      '    </a>' +
+      '    <a class="feature-card" href="pages/trips/search.html" style="text-decoration: none; display: block;">' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🗺️</div>' +
+      '      <h3 style="margin-bottom: 8px">Explorar Solicitudes</h3>' +
+      '      <p>Busca rutas y posibles pasajeros</p>' +
+      '    </a>' +
+      '    <a class="feature-card" href="pages/user/rate.html" style="text-decoration: none; display: block;">' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">⭐</div>' +
+      '      <h3 style="margin-bottom: 8px">Calificaciones</h3>' +
+      '      <p>Revisa y mejora tu reputación</p>' +
+      '    </a>';
+
+    quickActions.innerHTML = 
+      '<div class="container">' +
+      '  <h2 style="margin-bottom: 24px; font-size: 28px; color: #1f2937">Acciones Rápidas</h2>' +
+      '  <div class="features-grid">' +
+      (role === 'driver' ? driverCards : passengerCards) +
       '  </div>' +
       '</div>';
 

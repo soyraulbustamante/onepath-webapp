@@ -30,6 +30,7 @@
     var user = getCurrentUser();
     var isLoggedIn = user !== null;
     var userName = user && user.name ? user.name.split(' ')[0] : 'Usuario';
+    var role = user && user.role ? user.role : null; // 'driver' | 'passenger'
     
     var authSection = isLoggedIn
       ? '<div class="user-info">\n' +
@@ -41,6 +42,34 @@
         '        <a class="btn-register" href="' + base + 'pages/auth/register.html">Registrarse</a>\n' +
         '      </div>';
 
+    // Links del menú según rol
+    var navLinks = '';
+    if (!isLoggedIn) {
+      // Público: mostrar opciones generales
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/trips/publish.html">Ofrecer Viaje</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
+        '        <a href="#">Configuración</a>\n';
+    } else if (role === 'driver') {
+      // Conductor
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
+        '        <a href="#">Configuración</a>\n';
+    } else {
+      // Pasajero/Estudiante (role === 'passenger' u otros)
+      navLinks =
+        '        <a href="' + base + 'index.html">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
+        '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
+        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
+        '        <a href="#">Configuración</a>\n';
+    }
+
     return (
       '\n<header class="header">\n' +
       '  <div class="container">\n' +
@@ -50,11 +79,7 @@
       '        <span>OnePath</span>\n' +
       '      </div>\n' +
       '      <nav class="nav" aria-label="Principal">\n' +
-      '        <a href="' + base + 'index.html">Inicio</a>\n' +
-      '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
-      '        <a href="' + base + 'pages/trips/publish.html">Ofrecer Viaje</a>\n' +
-      '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
-      '        <a href="#">Configuración</a>\n' +
+      navLinks +
       '      </nav>\n' +
       authSection +
       '    </div>\n' +
