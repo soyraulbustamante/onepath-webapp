@@ -85,9 +85,11 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .footer { padding: 24px 0; margin-top: 32px; }
   .footer-content {
     flex-direction: column;
     text-align: center;
+    gap: 16px;
   }
 
   .footer-logo-section {
@@ -96,10 +98,33 @@
 
   .footer-logo {
     justify-content: center;
+    font-size: 16px;
   }
 
   .footer-links {
     justify-content: center;
+    flex-direction: column;
+    gap: 12px;
   }
+
+  .footer-links a {
+    font-size: 14px;
+    padding: 8px 0; /* mayor área táctil */
+  }
+
+  .footer-logo .logo-icon {
+    width: 28px; height: 28px; font-size: 16px;
+  }
+
+  .footer-logo-section p { font-size: 13px; max-width: 100%; padding: 0 16px; }
+
+  .footer-bottom p { font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  .footer { padding: 20px 0; }
+  .footer-logo { font-size: 15px; }
+  .footer-logo .logo-icon { width: 24px; height: 24px; font-size: 14px; }
+  .footer-links a { font-size: 13px; }
 }
 

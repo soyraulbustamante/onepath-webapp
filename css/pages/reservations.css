@@ -82,4 +82,25 @@
   .reserve-layout { grid-template-columns: 1fr; }
   .info-columns { grid-template-columns: 1fr; }
   .similar-grid { grid-template-columns: 1fr; }
+
+  /* Driver summary: stack elements for mobile */
+  .driver-summary-header { grid-template-columns: 48px 1fr; }
+  .driver-avatar { width: 48px; height: 48px; }
+  .driver-main h3 { font-size: 16px; }
+  .driver-meta { font-size: 12px; }
+  .price-box { grid-column: 1 / -1; align-items: flex-start; }
+  .price-box .price-amount { font-size: 20px; }
+
+  /* Cards padding tighter on mobile */
+  .card, .sidebar-card { padding: 16px; }
+
+  /* Reviews wrap to avoid overflow */
+  .review-header { flex-wrap: wrap; }
+
+  /* Smaller avatars in similar trips */
+  .avatar-small { width: 24px; height: 24px; }
+}
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
