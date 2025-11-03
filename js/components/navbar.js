@@ -40,6 +40,11 @@
         '      <span class="notification-badge" style="display: none;">0</span>\n' +
         '    </a>\n' +
         '  </div>\n' +
+        '  <div class="rating-icon">\n' +
+        '    <a href="' + base + 'pages/user/rate.html" class="rating-link" aria-label="Mis Reseñas">\n' +
+        '      <span class="star-icon">⭐</span>\n' +
+        '    </a>\n' +
+        '  </div>\n' +
         '  <span class="user-name">' + userName + '</span>\n' +
         '  <button type="button" class="btn-logout" aria-label="Cerrar sesión">Salir</button>\n' +
         '</div>'

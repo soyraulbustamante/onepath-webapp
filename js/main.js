@@ -532,11 +532,16 @@
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">S/ 192</div>' +
       '      <div style="font-size: 14px; color: #6b7280">Ahorrado en transporte</div>' +
       '    </div>' +
-      '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center">' +
+      '    <a href="pages/user/rate.html" class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center; text-decoration: none; display: block; transition: all 0.2s ease">' +
       '      <div style="font-size: 48px; margin-bottom: 12px">⭐</div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">' + (user.rating || '4.9') + '</div>' +
       '      <div style="font-size: 14px; color: #6b7280">Calificación promedio</div>' +
-      '    </div>' +
+      '    </a>' +
+      '    <a href="pages/user/rate-trip.html" class="feature-card" style="padding: 24px; border: 1px solid #3b82f6; border-radius: 12px; text-align: center; text-decoration: none; display: block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; transition: all 0.2s ease">' +
+      '      <div style="font-size: 48px; margin-bottom: 12px">📝</div>' +
+      '      <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px">Calificar</div>' +
+      '      <div style="font-size: 14px; opacity: 0.9">Califica tu último viaje</div>' +
+      '    </a>' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center">' +
       '      <div style="font-size: 48px; margin-bottom: 12px">🌿</div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">48kg</div>' +

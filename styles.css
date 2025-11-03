@@ -28,6 +28,17 @@
     margin: 0 auto;
     padding: 0 20px;
   }
+
+  /* Dashboard Cards Hover Effects */
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-card[href*="rate-trip"]:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+  }
   
   /* Header */
   .header {
