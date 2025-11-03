@@ -58,6 +58,7 @@
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
         '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
         '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
+        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
         '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
         '        <a href="#">Configuración</a>\n';
     } else {
@@ -66,6 +67,7 @@
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
         '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
         '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
+        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
         '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
         '        <a href="#">Configuración</a>\n';
     }
