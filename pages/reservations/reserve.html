@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Viaje - OnePath</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components/navbar.css">
+  <link rel="stylesheet" href="../../css/components/cards.css">
+  <link rel="stylesheet" href="../../css/components/buttons.css">
+  <link rel="stylesheet" href="../../css/components/forms.css">
+  <link rel="stylesheet" href="../../css/components/rating.css">
+  <link rel="stylesheet" href="../../css/components/footer.css">
+  <link rel="stylesheet" href="../../css/pages/reserve.css">
+  <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="trip-detail">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../trips/search.html">Buscar Viaje</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Reservar</span>
+      </nav>
+
+      <div class="detail-grid">
+        <section class="detail-left">
+          <header class="driver-header card">
+            <div class="driver-header__profile">
+              <div class="avatar" aria-hidden="true">👤</div>
+              <div>
+                <h1 class="driver-header__title">Carlos M. - Ing. Sistemas</h1>
+                <div class="driver-header__meta">
+                  <span class="stars" aria-label="4.9 de 5">★★★★★</span>
+                  <span class="rating-value">4.9</span>
+                  <span class="rating-count">(23 reseñas)</span>
+                  <span class="member-since">Miembro desde Marzo 2024</span>
+                  <span class="rides-count">47 viajes completados</span>
+                </div>
+              </div>
+            </div>
+            <div class="driver-header__price">
+              <div class="price-amount">S/ 8</div>
+              <div class="price-unit">por persona</div>
+            </div>
+          </header>
+
+          <section class="route card" aria-labelledby="route-title">
+            <h2 id="route-title" class="section-title">Ruta del Viaje</h2>
+            <div class="route__content">
+              <div class="route__point">
+                <div class="dot dot--start" aria-hidden="true"></div>
+                <div>
+                  <div class="time">07:30</div>
+                  <div class="place">Metro San Isidro</div>
+                  <div class="address">Av. Javier Prado Este 4200</div>
+                </div>
+              </div>
+              <div class="route__between" aria-hidden="true">
+                <span>45 min</span>
+              </div>
+              <div class="route__point">
+                <div class="dot dot--end" aria-hidden="true"></div>
+                <div>
+                  <div class="time">08:15</div>
+                  <div class="place">Puerta Principal UNMSM</div>
+                  <div class="address">Av. Venezuela s/n, Lima</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="route__highlights" aria-label="Resumen del viaje">
+              <div class="highlight-item">
+                <div class="highlight-icon highlight-icon--blue">💺</div>
+                <div class="highlight-text">
+                  <strong>2 asientos</strong>
+                  <span>disponibles</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon highlight-icon--green">🚗</div>
+                <div class="highlight-text">
+                  <strong>Volkswagen Golf</strong>
+                  <span>Gris - 2019</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon highlight-icon--yellow">⏱️</div>
+                <div class="highlight-text">
+                  <strong>45 minutos</strong>
+                  <span>duración</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon highlight-icon--purple">🎓</div>
+                <div class="highlight-text">
+                  <strong>UNMSM</strong>
+                  <span>destino</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="driver-info card" aria-labelledby="driver-info-title">
+            <h2 id="driver-info-title" class="section-title">Información del Conductor</h2>
+            <div class="driver-info__grid">
+              <div>
+                <h3 class="sub-title">Preferencias de Viaje</h3>
+                <ul class="info-list">
+                  <li><span class="info-icon">🎵</span> Música permitida</li>
+                  <li><span class="info-icon">🚭</span> No fumar</li>
+                  <li><span class="info-icon">🐾</span> No mascotas</li>
+                  <li><span class="info-icon">💬</span> Conversación bienvenida</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="sub-title">Información Adicional</h3>
+                <ul class="info-list">
+                  <li><span class="info-icon">🎓</span> Estudiante de Ing. Sistemas - 8vo ciclo</li>
+                  <li><span class="info-icon">📞</span> Verificado por teléfono</li>
+                  <li><span class="info-icon">📄</span> Documento verificado</li>
+                  <li><span class="info-icon">🗺️</span> Viaja regularmente esta ruta</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="reviews card" aria-labelledby="reviews-title">
+            <h2 id="reviews-title" class="section-title">Reseñas de Pasajeros</h2>
+            <article class="review">
+              <div class="review__header">
+                <div class="avatar" aria-hidden="true">👩</div>
+                <div>
+                  <strong>Laura S.</strong>
+                  <div class="stars" aria-label="5 de 5">★★★★★</div>
+                </div>
+              </div>
+              <p>Excelente conductor, muy puntual y el viaje fue muy cómodo. Carlos es muy amable y hace que el trayecto sea agradable. Definitivamente volvería a viajar con él.</p>
+              <span class="review__time">Hace 3 días</span>
+            </article>
+
+            <article class="review">
+              <div class="review__header">
+                <div class="avatar" aria-hidden="true">👨</div>
+                <div>
+                  <strong>Diego M.</strong>
+                  <div class="stars" aria-label="5 de 5">★★★★★</div>
+                </div>
+              </div>
+              <p>Muy buen servicio, llegamos a tiempo y el auto estaba limpio. Carlos es confiable y profesional. Lo recomiendo totalmente para estudiantes.</p>
+              <span class="review__time">Hace 1 semana</span>
+            </article>
+          </section>
+
+          <section class="similar-trips" aria-labelledby="similar-title">
+            <h2 id="similar-title" class="section-title">Otros Viajes Similares</h2>
+            <div class="similar-grid">
+              <article class="similar card">
+                <div class="similar__header">
+                  <div class="avatar" aria-hidden="true">👩</div>
+                  <div>
+                    <strong>Ana L.</strong>
+                    <div class="stars">★★★★★</div>
+                  </div>
+                </div>
+                <div class="similar__content">
+                  <div>08:00 - Jockey Plaza</div>
+                  <div>08:50 - Facultad de Medicina</div>
+                </div>
+                <div class="similar__footer">
+                  <div class="price">S/ 10</div>
+                  <a class="btn btn-secondary" href="reserve.html">Ver Detalles</a>
+                </div>
+              </article>
+
+              <article class="similar card">
+                <div class="similar__header">
+                  <div class="avatar" aria-hidden="true">👨</div>
+                  <div>
+                    <strong>Miguel R.</strong>
+                    <div class="stars">★★★★★</div>
+                  </div>
+                </div>
+                <div class="similar__content">
+                  <div>06:45 - Miraflores</div>
+                  <div>07:30 - Biblioteca Central</div>
+                </div>
+                <div class="similar__footer">
+                  <div class="price">S/ 6</div>
+                  <a class="btn btn-secondary" href="reserve.html">Ver Detalles</a>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <aside class="detail-right">
+          <section class="reservation card" aria-labelledby="reservation-title">
+            <h2 id="reservation-title" class="reservation-title">Reservar Asiento</h2>
+
+            <div class="reservation__date-info">
+              <div class="date-row">
+                <span class="date-label">Lunes, 7 Oct 2025</span>
+                <span class="date-time">07:30</span>
+              </div>
+              <div class="location-row">
+                <span class="location-icon">📍</span>
+                <span class="location-text">Metro San Isidro</span>
+              </div>
+              <div class="location-row">
+                <span class="location-icon">🏫</span>
+                <span class="location-text">Puerta Principal UNMSM</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="passengers" class="form-label">Número de Pasajeros</label>
+              <div class="select-wrapper">
+                <select id="passengers" class="form-select" aria-label="Número de pasajeros">
+                  <option value="1" selected>1 pasajero</option>
+                  <option value="2">2 pasajeros</option>
+                  <option value="3">3 pasajeros</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="price-breakdown">
+              <div class="price-row">
+                <span>Precio por persona</span>
+                <strong id="priceEach">S/ 8.00</strong>
+              </div>
+              <div class="price-row">
+                <span>Cantidad de pasajeros</span>
+                <strong id="qty">1</strong>
+              </div>
+              <div class="price-row price-total">
+                <span>Total</span>
+                <strong id="total">S/ 8.00</strong>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message" class="form-label">Mensaje al Conductor (Opcional)</label>
+              <textarea id="message" class="form-textarea" rows="3" placeholder="Ej: Hola Carlos, soy estudiante de la UNMSM también. ¿Podrías confirmar el punto exacto de recojo?"></textarea>
+            </div>
+
+            <div class="security-notice">
+              <span class="security-icon">🛡️</span>
+              <div class="security-text">
+                <strong>Seguridad</strong>
+                <p>Tu información de contacto será compartida con el conductor solo después de confirmar la reserva.</p>
+              </div>
+            </div>
+
+            <button id="submitReservation" class="btn btn-primary btn-block" type="button">
+              <span class="btn-icon">✈️</span>
+              Enviar Solicitud de Viaje
+            </button>
+
+            <div class="reservation__actions">
+              <button class="btn btn-outline-secondary btn-block" type="button" id="contactDriver">
+                <span class="btn-icon">💬</span>
+                Contactar Conductor
+              </button>
+              <button class="btn btn-outline-secondary btn-block" type="button" id="saveFavorite">
+                <span class="btn-icon">❤️</span>
+                Guardar en Favoritos
+              </button>
+            </div>
+          </section>
+
+          <section class="tips-card">
+            <div class="tips-header">
+              <span class="tips-icon">⚠️</span>
+              <h3>Consejos de Seguridad</h3>
+            </div>
+            <ul class="tips-list">
+              <li>Verifica la identidad del conductor</li>
+              <li>Comparte tu ubicación con alguien de confianza</li>
+              <li>Confirma los detalles del viaje antes de subir</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo-section">
+          <div class="footer-logo">
+            <div class="logo-icon">🚗</div>
+            <span>OnePath</span>
+          </div>
+          <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">Términos y Condiciones</a>
+          <a href="#">Política de Privacidad</a>
+          <a href="#">Soporte</a>
+          <a href="#">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/reservations/reserve.js" defer></script>
+</body>
+</html>
+
