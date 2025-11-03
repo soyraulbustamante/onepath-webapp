@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Viajes Reservados - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/notifications.css">
+    <link rel="stylesheet" href="../../css/components/modals.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/pages/trips.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="my-trips-page-main">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="../user/profile.html">Mi Perfil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">Mis Viajes Reservados</span>
+            </nav>
+
+            <!-- Header Section -->
+            <header class="my-trips-header">
+                <div class="my-trips-header-content">
+                    <h1 class="my-trips-title">Mis Viajes Reservados</h1>
+                    <p class="my-trips-subtitle">Gestiona todos tus viajes como pasajero</p>
+                </div>
+                <div class="my-trips-badges">
+                    <span class="trip-badge trip-badge--active" id="activeTripsBadge">
+                        <span class="badge-count" id="activeTripsCount">0</span> Viajes Activos
+                    </span>
+                    <span class="trip-badge trip-badge--completed" id="completedTripsBadge">
+                        <span class="badge-count" id="completedTripsCount">0</span> Viajes Completados
+                    </span>
+                </div>
+            </header>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Cargando tus viajes...</p>
+            </div>
+
+            <!-- Main Content Layout -->
+            <div class="my-trips-layout" id="tripsContent" style="display: none;">
+                <!-- Left Panel: Trips List -->
+                <div class="my-trips-main">
+                    <!-- Tabs -->
+                    <div class="trips-tabs" role="tablist">
+                        <button class="tab-button active" data-tab="upcoming" role="tab" aria-selected="true" id="tabUpcoming">
+                            Viajes Próximos
+                            <span class="tab-badge" id="upcomingBadge">0</span>
+                        </button>
+                        <button class="tab-button" data-tab="history" role="tab" aria-selected="false" id="tabHistory">
+                            Historial
+                            <span class="tab-badge" id="historyBadge">0</span>
+                        </button>
+                        <button class="tab-button" data-tab="cancelled" role="tab" aria-selected="false" id="tabCancelled">
+                            Cancelados
+                            <span class="tab-badge" id="cancelledBadge">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-state-icon">🚗</div>
+                        <h2>No tienes viajes publicados</h2>
+                        <p>Aún no has publicado ningún viaje. ¡Comienza compartiendo tu primer viaje!</p>
+                        <a href="../trips/publish.html" class="btn-primary">Publicar Mi Primer Viaje</a>
+                    </div>
+
+                    <!-- Trips List -->
+                    <div class="trips-list-container" id="tripsList">
+                        <div class="trips-list" id="tripsListContent">
+                            <!-- Los viajes se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Sidebar -->
+                <aside class="my-trips-sidebar">
+                    <!-- Statistics -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Estadísticas</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total de viajes</span>
+                                <span class="stat-value" id="totalTripsStat">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Pasajeros transportados</span>
+                                <span class="stat-value" id="totalPassengersStat">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Calificación promedio</span>
+                                <span class="stat-value" id="avgRatingStat">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Ingresos totales</span>
+                                <span class="stat-value" id="totalEarningsStat">S/0</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Quick Actions -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Acciones Rápidas</h2>
+                        <div class="quick-actions">
+                            <a href="../trips/search.html" class="quick-action-btn quick-action-btn--search">
+                                <span class="action-icon">🔍</span>
+                                Buscar Nuevo Viaje
+                            </a>
+                            <a href="../trips/publish.html" class="quick-action-btn quick-action-btn--publish">
+                                <span class="action-icon">➕</span>
+                                Publicar Viaje
+                            </a>
+                            <a href="../trips/my-trips.html" class="quick-action-btn quick-action-btn--regular">
+                                <span class="action-icon">📅</span>
+                                Viajes Regulares
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Recent Activity -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Actividad Reciente</h2>
+                        <div class="activity-list" id="recentActivity">
+                            <div class="activity-item">
+                                <span class="activity-icon">✓</span>
+                                <div class="activity-content">
+                                    <p class="activity-text">Viaje publicado</p>
+                                    <span class="activity-time">Hace 2 horas</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-icon">👤</span>
+                                <div class="activity-content">
+                                    <p class="activity-text">Nuevo pasajero reservó</p>
+                                    <span class="activity-time">Hace 5 horas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Help Section -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">¿Necesitas Ayuda?</h2>
+                        <p class="help-text">Consulta nuestras guías o contacta con soporte si tienes alguna duda.</p>
+                        <div class="help-actions">
+                            <a href="#" class="btn-secondary btn-full btn-small">Centro de Ayuda</a>
+                            <a href="#" class="btn-text btn-full btn-small">Contactar Soporte</a>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal" role="dialog" aria-labelledby="deleteModalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-content--small">
+            <div class="modal-header">
+                <h2 class="modal-title" id="deleteModalTitle">Eliminar Viaje</h2>
+                <button class="modal-close" id="closeDeleteModal" aria-label="Cerrar modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-warning">
+                    <div class="warning-icon">⚠️</div>
+                    <p id="deleteModalMessage">¿Estás seguro de que deseas eliminar este viaje? Esta acción no se puede deshacer.</p>
+                    <div class="delete-consequences" id="deleteConsequences" style="display: none;">
+                        <p class="consequences-title">Al eliminar este viaje:</p>
+                        <ul class="consequences-list">
+                            <li>Se notificarán a todos los pasajeros reservados</li>
+                            <li>Se liberarán sus asientos automáticamente</li>
+                            <li>El viaje desaparecerá de la lista de viajes disponibles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn">Cancelar</button>
+                <button type="button" class="btn-danger" id="confirmDeleteBtn">
+                    <span class="btn-icon">🗑️</span>
+                    Eliminar Viaje
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/utils/setup-test-data.js"></script>
+    <script src="../../js/trips/delete.js" defer></script>
+</body>
+</html>
