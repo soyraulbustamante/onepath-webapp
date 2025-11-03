@@ -203,6 +203,164 @@
         </div>
     </div>
 
+    <!-- Edit Trip Modal -->
+    <div class="modal" id="editTripModal" role="dialog" aria-labelledby="editTripModalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-content--large">
+            <div class="modal-header">
+                <button class="modal-close" id="closeEditModal" aria-label="Cerrar modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Header Section -->
+                <header class="edit-modal-header">
+                    <h2 class="edit-modal-title" id="editTripModalTitle">Editar Viaje</h2>
+                    <p class="edit-modal-subtitle">Actualiza la información de tu viaje. Los pasajeros serán notificados automáticamente de los cambios.</p>
+                </header>
+                
+                <!-- Loading State -->
+                <div class="loading-state" id="editModalLoadingState" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando información del viaje...</p>
+                </div>
+
+                <!-- Error State -->
+                <div class="error-state" id="editModalErrorState" style="display: none;">
+                    <div class="error-icon">⚠️</div>
+                    <h3>No se puede editar este viaje</h3>
+                    <p id="editModalErrorMessage"></p>
+                </div>
+
+                <!-- Form Section -->
+                <section class="edit-modal-form-section" id="editModalFormSection" style="display: none;">
+                    <form class="edit-trip-form publish-form" id="editTripForm" novalidate>
+                        <!-- Origen -->
+                        <div class="form-group">
+                            <label class="form-label" for="editOrigin">Punto de Partida <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">📍</span>
+                                <input 
+                                    type="text" 
+                                    id="editOrigin" 
+                                    name="origin" 
+                                    class="form-input" 
+                                    placeholder="Ej: San Isidro, Lima" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="editOrigin-error"
+                                >
+                            </div>
+                            <span class="error-message" id="editOrigin-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Destino -->
+                        <div class="form-group">
+                            <label class="form-label" for="editDestination">Destino (Universidad) <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon" aria-hidden="true">🎓</span>
+                                <input 
+                                    type="text" 
+                                    id="editDestination" 
+                                    name="destination" 
+                                    class="form-input" 
+                                    placeholder="Ej: Universidad San Marcos" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="editDestination-error"
+                                >
+                            </div>
+                            <span class="error-message" id="editDestination-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Fecha y Hora -->
+                        <div class="form-row">
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editDate">Fecha del Viaje <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">📅</span>
+                                    <input 
+                                        type="date" 
+                                        id="editDate" 
+                                        name="date" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="editDate-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="editDate-error" role="alert" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editTime">Hora de Salida <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">🕐</span>
+                                    <input 
+                                        type="time" 
+                                        id="editTime" 
+                                        name="time" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="editTime-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="editTime-error" role="alert" aria-live="polite"></span>
+                            </div>
+                        </div>
+
+                        <!-- Información adicional (solo lectura) -->
+                        <div class="form-row">
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editSeats">Asientos Disponibles</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon" aria-hidden="true">💺</span>
+                                    <input 
+                                        type="number" 
+                                        id="editSeats" 
+                                        name="seats" 
+                                        class="form-input" 
+                                        readonly
+                                        aria-readonly="true"
+                                    >
+                                </div>
+                                <small class="form-hint">Los asientos no se pueden modificar</small>
+                            </div>
+
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editPrice">Precio por Persona</label>
+                                <div class="input-prefix">
+                                    <span class="prefix">S/</span>
+                                    <input 
+                                        type="number" 
+                                        id="editPrice" 
+                                        name="price" 
+                                        class="form-input" 
+                                        readonly
+                                        aria-readonly="true"
+                                    >
+                                </div>
+                                <small class="form-hint">El precio no se puede modificar</small>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-full btn-large" id="submitEditBtn">
+                                <span class="btn-icon">💾</span>
+                                Guardar Cambios
+                            </button>
+                            <button type="button" class="btn-secondary btn-full" id="cancelEditBtn">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -225,6 +383,7 @@
     </footer>
 
     <script src="../../js/utils/demo-seed.js" defer></script>
+    <script src="../../js/trips/edit-modal.js" defer></script>
     <script src="../../js/trips/my-trips.js" defer></script>
 </body>
 </html>
