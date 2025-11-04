@@ -66,6 +66,9 @@
 
     // Update active filters on page load
     updateActiveFilters();
+
+    // Set random avatars for driver images
+    setRandomAvatars();
   }
 
 
@@ -84,6 +87,26 @@
     if (searchForm) {
       searchForm.dispatchEvent(new Event('submit'));
     }
+  }
+
+  // --- Random avatar utilities (DiceBear v8) ---
+  function randomAvatarUrl(size, variant) {
+    const seed = Math.random().toString(36).slice(2, 10);
+    const sprite = typeof variant === 'string' && variant.length ? variant : 'avataaars';
+    const s = parseInt(size || 64, 10);
+    return `https://api.dicebear.com/8.x/${sprite}/png?seed=${seed}&size=${s}`;
+  }
+
+  function setRandomAvatars() {
+    const imgs = document.querySelectorAll('img.js-random-avatar');
+    imgs.forEach(img => {
+      const fallback = img.getAttribute('src');
+      const size = img.dataset.size || '64';
+      const variant = img.dataset.variant || 'avataaars';
+      const url = randomAvatarUrl(size, variant);
+      img.onerror = function() { img.src = fallback; };
+      img.src = url;
+    });
   }
 
   // Handle search form submission
