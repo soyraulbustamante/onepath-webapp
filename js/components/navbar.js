@@ -31,6 +31,10 @@
     var isLoggedIn = user !== null;
     var userName = user && user.name ? user.name.split(' ')[0] : 'Usuario';
     var role = user && user.role ? user.role : null; // 'driver' | 'passenger'
+    // Fallback local para el avatar del header (se reemplaza por uno aleatorio con JS)
+    var fallbackAvatar = base + 'assets/images/avatars/default.svg';
+    // No mostrar encabezado de perfil dentro del drawer; solo en el header
+    var mobileProfileHeader = '';
     
     var authSection = isLoggedIn
       ? '<div class="user-info">\n' +
@@ -40,13 +44,15 @@
         '      <span class="notification-badge" style="display: none;">0</span>\n' +
         '    </a>\n' +
         '  </div>\n' +
-        '  <div class="rating-icon">\n' +
-        '    <a href="' + base + 'pages/user/rate.html" class="rating-link" aria-label="Mis Reseñas">\n' +
-        '      <span class="star-icon material-icons">star</span>\n' +
-        '    </a>\n' +
+        '  <button type="button" class="user-avatar" aria-haspopup="menu" aria-expanded="false" aria-label="Abrir menú de usuario"><img class="js-random-avatar" data-size="32" data-variant="avataaars" src="' + fallbackAvatar + '" alt="Avatar de ' + userName + '"></button>\n' +
+        '  <div class="user-menu" hidden role="menu" aria-label="Opciones de usuario">\n' +
+        '    <a href="' + base + 'pages/user/profile.html" class="menu-item" role="menuitem">Mi Perfil</a>\n' +
+        '    <a href="' + base + 'pages/reservations/my-reservations.html" class="menu-item" role="menuitem">Mis Reservas</a>\n' +
+        '    <a href="' + base + 'pages/user/rate.html" class="menu-item" role="menuitem">Mis Reseñas</a>\n' +
+        '    <a href="' + base + 'pages/chat/messages.html" class="menu-item" role="menuitem">Chat</a>\n' +
+        '    <div class="menu-divider" role="separator" aria-hidden="true"></div>\n' +
+        '    <button type="button" class="menu-item logout" role="menuitem">Cerrar sesión</button>\n' +
         '  </div>\n' +
-        '  <span class="user-name">' + userName + '</span>\n' +
-        '  <button type="button" class="btn-logout" aria-label="Cerrar sesión">Salir</button>\n' +
         '</div>'
       : '<div class="auth-buttons">\n' +
         '        <a class="btn-login" href="' + base + 'pages/auth/login.html">Iniciar Sesión</a>\n' +
@@ -55,32 +61,49 @@
 
     // Links del menú según rol
     var navLinks = '';
+    var mobileUserLinks = '';
+    if (isLoggedIn) {
+      if (role === 'driver') {
+        // Mantener minimal para conductor
+        mobileUserLinks =
+          '        <a href="' + base + 'pages/user/rate.html" class="nav-user-link" role="menuitem">Mis Reseñas</a>\n' +
+          '        <button type="button" class="nav-user-link btn-logout" role="menuitem">Cerrar sesión</button>\n';
+      } else {
+        // Pasajero/Estudiante: mover Perfil y Reservas al menú del avatar; Chat después de Reseñas
+        mobileUserLinks =
+          '        <a href="' + base + 'pages/user/rate.html" class="nav-user-link" role="menuitem">Mis Reseñas</a>\n' +
+          '        <a href="' + base + 'pages/chat/messages.html" class="nav-user-link" role="menuitem">Chat</a>\n' +
+          '        <div class="nav-divider" role="separator" aria-hidden="true"></div>\n' +
+          '        <a href="' + base + 'index.html" class="nav-user-link" role="menuitem">Inicio</a>\n' +
+          '        <a href="' + base + 'pages/trips/search.html" class="nav-user-link" role="menuitem">Buscar Viaje</a>\n' +
+          '        <div class="nav-divider" role="separator" aria-hidden="true"></div>\n' +
+          '        <button type="button" class="nav-user-link btn-logout" role="menuitem">Cerrar sesión</button>\n';
+      }
+    }
     if (!isLoggedIn) {
-      // Público: mostrar opciones generales
+      // Público: solo opciones principales
       navLinks =
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
-        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
-        '        <a href="' + base + 'pages/trips/publish.html">Ofrecer Viaje</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n' +
-        '        <a href="#">Configuración</a>\n';
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n';
+      // En mobile mostrar estos como nav-user-link para que aparezcan en el drawer
+      mobileUserLinks =
+        '        <a href="' + base + 'index.html" class="nav-user-link" role="menuitem">Inicio</a>\n' +
+        '        <a href="' + base + 'pages/trips/search.html" class="nav-user-link" role="menuitem">Buscar Viaje</a>\n' +
+        '        <div class="nav-divider" role="separator" aria-hidden="true"></div>\n' +
+        '        <a href="' + base + 'pages/auth/login.html" class="nav-user-link btn-login" role="menuitem">Iniciar Sesión</a>\n' +
+        '        <a href="' + base + 'pages/auth/register.html" class="nav-user-link btn-register" role="menuitem">Registrarse</a>\n';
     } else if (role === 'driver') {
-      // Conductor
+      // Conductor: remover Chat y Mi Perfil del header
       navLinks =
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
         '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
-        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
-        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n';
     } else {
       // Pasajero/Estudiante (role === 'passenger' u otros)
+      // Mover "Mi Perfil" y "Mis Reservas" al menú del avatar; remover Chat del header
       navLinks =
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
-        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
-        '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
-        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/notifications.html">Notificaciones</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n';
     }
 
     return (
@@ -88,15 +111,25 @@
       '  <div class="container">\n' +
       '    <div class="header-content">\n' +
       '      <div class="brand-row">\n' +
-      '        <div class="logo">\n' +
+      '        <a href="' + base + 'index.html" class="logo" aria-label="Inicio">\n' +
       '          <div class="logo-icon"><span class="material-icons">directions_car</span></div>\n' +
       '          <span>OnePath</span>\n' +
-      '        </div>\n' +
+      '        </a>\n' +
+      (isLoggedIn
+        ? '        <div class="brand-notification">\n' +
+          '          <a href="' + base + 'pages/user/notifications.html" class="notification-link" aria-label="Notificaciones">\n' +
+          '            <span class="bell-icon material-icons">notifications</span>\n' +
+          '            <span class="notification-badge" style="display: none;">0</span>\n' +
+          '          </a>\n' +
+          '        </div>\n'
+        : '') +
       '        <button type="button" class="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="primary-nav">\n' +
       '          <span class="hamburger-icon material-icons">menu</span>\n' +
       '        </button>\n' +
       '      </div>\n' +
       '      <nav class="nav" id="primary-nav" aria-label="Principal">\n' +
+      mobileProfileHeader +
+      mobileUserLinks +
       navLinks +
       '      </nav>\n' +
       authSection +
@@ -105,6 +138,26 @@
       '  </div>\n' +
       '</header>\n'
     );
+  }
+
+  // --- Utilidades de avatar aleatorio (DiceBear v8) ---
+  function randomAvatarUrl(size, variant) {
+    var seed = Math.random().toString(36).slice(2, 10);
+    var sprite = (typeof variant === 'string' && variant.length) ? variant : 'avataaars';
+    var s = parseInt(size || '64', 10);
+    return 'https://api.dicebear.com/8.x/' + sprite + '/png?seed=' + seed + '&size=' + s;
+  }
+
+  function setRandomAvatars() {
+    var imgs = document.querySelectorAll('img.js-random-avatar');
+    imgs.forEach(function(img) {
+      var fallback = img.getAttribute('src');
+      var size = img.dataset.size || '64';
+      var variant = img.dataset.variant || 'avataaars';
+      var url = randomAvatarUrl(size, variant);
+      img.onerror = function() { img.src = fallback; };
+      img.src = url;
+    });
   }
 
   function markActiveLink() {
@@ -125,16 +178,16 @@
     try {
       var notifications = JSON.parse(localStorage.getItem('onepath_notifications') || '[]');
       var unreadCount = notifications.filter(function(n) { return !n.read; }).length;
-      
-      var badge = document.querySelector('.notification-badge');
-      if (badge) {
+      // Actualizar todas las insignias de notificaciones (header y brand)
+      var badges = document.querySelectorAll('.notification-badge');
+      badges.forEach(function(badge) {
         if (unreadCount > 0) {
           badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
           badge.style.display = 'flex';
         } else {
           badge.style.display = 'none';
         }
-      }
+      });
     } catch (e) {
       console.error('Error initializing notification count:', e);
     }
@@ -158,24 +211,75 @@
     // Initialize notification count
     setTimeout(initNotificationCount, 100);
 
-    // Wire logout if present
-    var logoutBtn = document.querySelector('.btn-logout');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', function() {
-        try {
-          if (window.Session && typeof window.Session.logout === 'function') {
-            window.Session.logout();
-          } else {
-            // Fallback directo
-            localStorage.removeItem('currentUser');
-            var currentPath = window.location.pathname;
-            var basePath = currentPath.indexOf('/pages/') !== -1 ? '../../' : '';
-            window.location.href = basePath + 'index.html';
-          }
-        } catch (e) {
-          console.error('Logout error:', e);
+    // Inicializa avatar aleatorio del header si corresponde
+    setTimeout(setRandomAvatars, 0);
+
+    // Menú de usuario: abrir/cerrar y logout
+    var userInfoEl = document.querySelector('.user-info');
+    var avatarBtn = userInfoEl ? userInfoEl.querySelector('.user-avatar') : null;
+    var userMenuEl = userInfoEl ? userInfoEl.querySelector('.user-menu') : null;
+    var logoutItem = userInfoEl ? userInfoEl.querySelector('.menu-item.logout') : null;
+    var logoutNavBtn = document.querySelector('.nav .btn-logout');
+
+    function closeUserMenu() {
+      if (userMenuEl && !userMenuEl.hidden) {
+        userMenuEl.hidden = true;
+        if (avatarBtn) avatarBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function toggleUserMenu(e) {
+      e && e.preventDefault();
+      if (!userMenuEl || !avatarBtn) return;
+      var isOpen = !userMenuEl.hidden;
+      userMenuEl.hidden = isOpen; // si estaba abierto, lo ocultamos
+      if (!isOpen) {
+        // abrir
+        userMenuEl.hidden = false;
+        avatarBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        avatarBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    if (avatarBtn && userMenuEl) {
+      avatarBtn.addEventListener('click', toggleUserMenu);
+      // Cerrar al hacer click fuera
+      document.addEventListener('click', function(ev) {
+        if (!userInfoEl) return;
+        var target = ev.target;
+        if (!userInfoEl.contains(target)) {
+          closeUserMenu();
         }
       });
+      // Cerrar con Escape
+      document.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Escape') closeUserMenu();
+      });
+    }
+
+    function doLogout(e) {
+      if (e) e.preventDefault();
+      try {
+        if (window.Session && typeof window.Session.logout === 'function') {
+          window.Session.logout();
+        } else {
+          // Fallback directo
+          localStorage.removeItem('currentUser');
+          var currentPath = window.location.pathname;
+          var basePath = currentPath.indexOf('/pages/') !== -1 ? '../../' : '';
+          window.location.href = basePath + 'index.html';
+        }
+      } catch (err) {
+        console.error('Logout error:', err);
+      }
+    }
+
+    if (logoutItem) {
+      logoutItem.addEventListener('click', doLogout);
+    }
+    if (logoutNavBtn) {
+      logoutNavBtn.addEventListener('click', doLogout);
     }
 
     // Menú móvil (hamburguesa)
