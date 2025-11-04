@@ -12,6 +12,51 @@
     };
     let currentSort = 'newest';
 
+    const ICON_MAP = {
+        '🕐': 'schedule',
+        '⏰': 'schedule',
+        '✅': 'check_circle',
+        '✔️': 'check_circle',
+        '🚗': 'directions_car',
+        '🛣️': 'alt_route',
+        '🤝': 'handshake',
+        '❤️': 'favorite',
+        '💬': 'chat',
+        '🛡️': 'verified_user',
+        '📝': 'rate_review',
+        '👍': 'thumb_up',
+        '💡': 'lightbulb',
+        '📊': 'insights'
+    };
+
+    function toMaterialIcon(value, fallback = 'star') {
+        if (!value) return fallback;
+        const normalized = value.trim();
+        if (ICON_MAP[normalized]) {
+            return ICON_MAP[normalized];
+        }
+        if (/^[a-z_]+$/i.test(normalized)) {
+            return normalized;
+        }
+        return fallback;
+    }
+
+    const AVATAR_BASE_PATH = '../../assets/images/avatars/';
+
+    function getAvatarPath(filename) {
+        if (!filename) {
+            return `${AVATAR_BASE_PATH}default.svg`;
+        }
+        const trimmed = filename.trim();
+        if (trimmed.startsWith('http')) {
+            return trimmed;
+        }
+        if (trimmed.includes('/')) {
+            return trimmed;
+        }
+        return `${AVATAR_BASE_PATH}${trimmed}`;
+    }
+
     // DOM elements
     let reviewsList, reviewCount, ratingFilter, roleFilter, periodFilter, sortSelect;
     let ratingSummary, offerTripBtn, viewTipsBtn;
@@ -45,15 +90,15 @@
         try {
             const stored = localStorage.getItem('onepath_user_reviews');
             if (stored) {
-                reviewsData = JSON.parse(stored);
+                reviewsData = normalizeReviews(JSON.parse(stored));
             } else {
                 // Use mock data
-                reviewsData = getMockReviewsData();
+                reviewsData = normalizeReviews(getMockReviewsData());
                 saveReviewsData();
             }
         } catch (e) {
             console.error('Error loading reviews data:', e);
-            reviewsData = getMockReviewsData();
+            reviewsData = normalizeReviews(getMockReviewsData());
         }
     }
 
@@ -116,8 +161,10 @@
 
     // Handle filter changes
     function handleFilterChange(e) {
-        const filterType = e.target.id.replace('Filter', '');
+        const filterType = e.target.id.replace('Filter', '').toLowerCase();
         currentFilters[filterType] = e.target.value;
+        console.log('Filter changed:', filterType, '=', e.target.value);
+        console.log('Current filters:', currentFilters);
         applyFiltersAndSort();
     }
 
@@ -131,21 +178,29 @@
     function applyFiltersAndSort() {
         // Start with all reviews
         filteredReviews = [...reviewsData];
+        
+        console.log('Total reviews before filter:', filteredReviews.length);
 
-        // Apply filters
-        if (currentFilters.rating) {
-            filteredReviews = filteredReviews.filter(review => 
-                review.rating == currentFilters.rating
-            );
+        // Apply rating filter
+        if (currentFilters.rating && currentFilters.rating !== '') {
+            const ratingValue = parseInt(currentFilters.rating);
+            filteredReviews = filteredReviews.filter(review => {
+                const reviewRating = parseInt(review.rating) || 0;
+                return reviewRating === ratingValue;
+            });
+            console.log('After rating filter:', filteredReviews.length);
         }
 
-        if (currentFilters.role) {
+        // Apply role filter
+        if (currentFilters.role && currentFilters.role !== '') {
             filteredReviews = filteredReviews.filter(review => 
                 review.role === currentFilters.role
             );
+            console.log('After role filter:', filteredReviews.length);
         }
 
-        if (currentFilters.period) {
+        // Apply period filter
+        if (currentFilters.period && currentFilters.period !== '') {
             const now = new Date();
             const filterDate = new Date();
             
@@ -161,11 +216,11 @@
                     break;
             }
 
-            if (currentFilters.period) {
-                filteredReviews = filteredReviews.filter(review => 
-                    new Date(review.date) >= filterDate
-                );
-            }
+            filteredReviews = filteredReviews.filter(review => {
+                const reviewDate = new Date(review.date);
+                return reviewDate >= filterDate;
+            });
+            console.log('After period filter:', filteredReviews.length);
         }
 
         // Apply sorting
@@ -184,6 +239,8 @@
             }
         });
 
+        console.log('Final filtered reviews:', filteredReviews.length);
+
         // Update UI
         renderReviews();
         updateReviewCount();
@@ -196,7 +253,7 @@
         if (filteredReviews.length === 0) {
             reviewsList.innerHTML = `
                 <div class="no-reviews">
-                    <div class="no-reviews-icon">📝</div>
+                    <div class="no-reviews-icon"><span class="material-icons">rate_review</span></div>
                     <h3>No se encontraron reseñas</h3>
                     <p>Intenta ajustar los filtros para ver más resultados.</p>
                 </div>
@@ -209,24 +266,37 @@
 
     // Create HTML for a single review
     function createReviewHTML(review) {
-        const starsHTML = Array.from({ length: 5 }, (_, i) => 
-            `<span class="star ${i < review.rating ? 'filled' : ''}">⭐</span>`
-        ).join('');
+        const ratingValue = Number(review.rating) || 0;
+        const starsHTML = Array.from({ length: 5 }, (_, i) => {
+            const filled = i < ratingValue;
+            const iconName = filled ? 'star' : 'star_outline';
+            return `<span class="material-icons star ${filled ? 'filled' : ''}">${iconName}</span>`;
+        }).join('');
 
         const roleClass = review.role === 'driver' ? 'driver' : 'passenger';
         const roleText = review.role === 'driver' ? 'Como Conductor/a' : 'Como Pasajero/a';
+        const highlightIcon = toMaterialIcon(review.highlight?.icon, 'grade');
+        const ratingDisplay = ratingValue.toFixed(1);
+        const helpfulCount = Number(review.helpful || 0);
+        const highlightHTML = review.highlight && review.highlight.text ? `
+                        <span class="highlight-tag">
+                            <span class="material-icons tag-icon">${highlightIcon}</span>
+                            ${review.highlight.text}
+                        </span>` : '';
+        const avatarSrc = getAvatarPath(review.avatar);
+        const fallbackAvatar = getAvatarPath('default.svg');
 
         return `
             <div class="review-card" data-rating="${review.rating}" data-role="${review.role}" data-date="${review.date}">
                 <div class="review-header">
                     <div class="reviewer-info">
-                        <img src="${review.avatar}" alt="${review.name}" class="reviewer-avatar">
+                        <img src="${avatarSrc}" alt="${review.name}" class="reviewer-avatar" onerror="this.onerror=null;this.src='${fallbackAvatar}'">
                         <div class="reviewer-details">
                             <h4 class="reviewer-name">${review.name}</h4>
                             <p class="reviewer-career">${review.career}</p>
                             <div class="review-rating">
                                 <div class="stars">${starsHTML}</div>
-                                <span class="rating-value">${review.rating}.0</span>
+                                    <span class="rating-value">${ratingDisplay}</span>
                             </div>
                         </div>
                     </div>
@@ -238,20 +308,17 @@
                 <div class="review-content">
                     <p class="review-text">"${review.comment}"</p>
                     <div class="trip-info">
-                        <span class="trip-icon">🛣️</span>
+                        <span class="material-icons trip-icon">alt_route</span>
                         <span class="trip-route">${review.route} • S/ ${review.price}</span>
                     </div>
                 </div>
                 <div class="review-footer">
                     <div class="review-stats">
                         <span class="helpful-count">
-                            <span class="helpful-icon">👍</span>
-                            Útil (${review.helpful || 0})
+                            <span class="material-icons helpful-icon">thumb_up</span>
+                            Útil (${helpfulCount})
                         </span>
-                        <span class="highlight-tag">
-                            <span class="tag-icon">${review.highlight.icon}</span>
-                            ${review.highlight.text}
-                        </span>
+                        ${highlightHTML}
                     </div>
                     <button class="reply-btn" data-review-id="${review.id}">Responder</button>
                 </div>
@@ -283,6 +350,16 @@
 
         if (reviewCountEl) {
             reviewCountEl.textContent = `${totalReviews} reseñas`;
+        }
+
+        const starsContainer = ratingSummary.querySelector('.stars');
+        if (starsContainer) {
+            const filledStars = Math.round(averageRating);
+            starsContainer.innerHTML = Array.from({ length: 5 }, (_, i) => {
+                const filled = i < filledStars;
+                const iconName = filled ? 'star' : 'star_outline';
+                return `<span class="material-icons star ${filled ? 'filled' : ''}">${iconName}</span>`;
+            }).join('');
         }
     }
 
@@ -382,28 +459,28 @@
                 <div class="modal-body">
                     <div class="tips-list">
                         <div class="tip-item">
-                            <div class="tip-icon">🕐</div>
+                            <div class="tip-icon"><span class="material-icons">schedule</span></div>
                             <div class="tip-content">
                                 <h4>Sé Puntual</h4>
                                 <p>Llega siempre a tiempo y avisa si hay algún retraso.</p>
                             </div>
                         </div>
                         <div class="tip-item">
-                            <div class="tip-icon">🚗</div>
+                            <div class="tip-icon"><span class="material-icons">directions_car</span></div>
                             <div class="tip-content">
                                 <h4>Mantén tu Vehículo Limpio</h4>
                                 <p>Un auto limpio y en buen estado genera confianza.</p>
                             </div>
                         </div>
                         <div class="tip-item">
-                            <div class="tip-icon">💬</div>
+                            <div class="tip-icon"><span class="material-icons">chat</span></div>
                             <div class="tip-content">
                                 <h4>Comunícate Bien</h4>
                                 <p>Mantén una comunicación clara antes y durante el viaje.</p>
                             </div>
                         </div>
                         <div class="tip-item">
-                            <div class="tip-icon">🛡️</div>
+                            <div class="tip-icon"><span class="material-icons">verified_user</span></div>
                             <div class="tip-content">
                                 <h4>Conduce Seguro</h4>
                                 <p>Respeta las normas de tránsito y conduce con precaución.</p>
@@ -482,6 +559,25 @@
         }, 4000);
     }
 
+    function normalizeReviewEntry(review) {
+        if (!review || typeof review !== 'object') return review;
+
+        return {
+            ...review,
+            rating: Number(review.rating) || 0,
+            helpful: Number(review.helpful) || 0,
+            avatar: review.avatar || '',
+            highlight: review.highlight ? {
+                ...review.highlight,
+                icon: toMaterialIcon(review.highlight.icon, 'grade')
+            } : null
+        };
+    }
+
+    function normalizeReviews(data) {
+        return Array.isArray(data) ? data.map(normalizeReviewEntry) : [];
+    }
+
     // Get mock reviews data
     function getMockReviewsData() {
         return [
@@ -489,7 +585,7 @@
                 id: 1,
                 name: 'Carlos Mendoza',
                 career: 'Estudiante de Ingeniería',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
+                avatar: 'carlos.svg',
                 rating: 5,
                 role: 'driver',
                 date: '2025-10-02',
@@ -497,13 +593,13 @@
                 route: 'San Isidro → UNMSM',
                 price: 8,
                 helpful: 3,
-                highlight: { icon: '🕐', text: 'Puntualidad: Excelente' }
+                highlight: { icon: 'schedule', text: 'Puntualidad: Excelente' }
             },
             {
                 id: 2,
                 name: 'Ana López',
                 career: 'Estudiante de Medicina',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
+                avatar: 'ana.svg',
                 rating: 5,
                 role: 'passenger',
                 date: '2025-09-28',
@@ -511,13 +607,13 @@
                 route: 'Miraflores → UNMSM',
                 price: 7,
                 helpful: 2,
-                highlight: { icon: '✅', text: 'Comportamiento: Excelente' }
+                highlight: { icon: 'check_circle', text: 'Comportamiento: Excelente' }
             },
             {
                 id: 3,
                 name: 'Diego Martínez',
                 career: 'Estudiante de Economía',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg',
+                avatar: 'miguel.svg',
                 rating: 4,
                 role: 'driver',
                 date: '2025-09-25',
@@ -525,13 +621,13 @@
                 route: 'San Isidro → UNMSM',
                 price: 8,
                 helpful: 1,
-                highlight: { icon: '🚗', text: 'Manejo: Muy bueno' }
+                highlight: { icon: 'directions_car', text: 'Manejo: Muy bueno' }
             },
             {
                 id: 4,
                 name: 'Luis García',
                 career: 'Estudiante de Derecho',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg',
+                avatar: 'roberto.svg',
                 rating: 5,
                 role: 'passenger',
                 date: '2025-09-20',
@@ -539,13 +635,13 @@
                 route: 'Surco → UNMSM',
                 price: 10,
                 helpful: 4,
-                highlight: { icon: '🤝', text: 'Respeto: Excelente' }
+                highlight: { icon: 'handshake', text: 'Respeto: Excelente' }
             },
             {
                 id: 5,
                 name: 'Sofía Ruiz',
                 career: 'Estudiante de Psicología',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg',
+                avatar: 'ana.svg',
                 rating: 5,
                 role: 'driver',
                 date: '2025-09-18',
@@ -553,7 +649,7 @@
                 route: 'San Isidro → UNMSM',
                 price: 8,
                 helpful: 5,
-                highlight: { icon: '❤️', text: 'Amabilidad: Excelente' }
+                highlight: { icon: 'favorite', text: 'Amabilidad: Excelente' }
             }
         ];
     }
@@ -662,8 +758,15 @@
             }
 
             .tip-icon {
-                font-size: 1.5rem;
                 flex-shrink: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--primary-blue);
+            }
+
+            .tip-icon .material-icons {
+                font-size: 1.5rem;
             }
 
             .tip-content h4 {
@@ -686,8 +789,15 @@
             }
 
             .no-reviews-icon {
-                font-size: 3rem;
                 margin-bottom: 1rem;
+                color: var(--primary-blue);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .no-reviews-icon .material-icons {
+                font-size: 3rem;
             }
 
             .no-reviews h3 {
