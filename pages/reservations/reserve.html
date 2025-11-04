@@ -16,12 +16,15 @@
     <link rel="stylesheet" href="../../css/components/buttons.css">
     <link rel="stylesheet" href="../../css/components/footer.css">
     <!-- Estilos específicos de la página -->
+    <link rel="stylesheet" href="../../css/components/notifications.css">
     <link rel="stylesheet" href="../../css/pages/reservations.css">
     <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
 <body>
     <!-- Header (renderizado por componente) -->
     <div id="navbar"></div>
+
+    <div id="notification-container"></div>
 
     <main class="container">
         <!-- Encabezado del viaje -->
@@ -265,6 +268,7 @@
         </div>
     </footer>
 
+    <script src="../../js/utils/notification.js" defer></script>
     <script src="../../js/reservations/reserve.js" defer></script>
 </body>
 </html>
