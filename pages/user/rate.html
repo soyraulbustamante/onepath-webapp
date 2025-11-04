@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Reseñas - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/global.css">
@@ -45,12 +46,12 @@
                         <div class="overall-rating">
                             <div class="rating-score">4.8</div>
                             <div class="rating-details">
-                                <div class="stars">
-                                    <span class="star filled">⭐</span>
-                                    <span class="star filled">⭐</span>
-                                    <span class="star filled">⭐</span>
-                                    <span class="star filled">⭐</span>
-                                    <span class="star filled">⭐</span>
+                                <div class="stars" aria-hidden="true">
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
                                 </div>
                                 <div class="review-count">23 reseñas</div>
                             </div>
@@ -68,35 +69,50 @@
                             <h3 class="section-subtitle">Distribución de Calificaciones</h3>
                             <div class="distribution-bars">
                                 <div class="distribution-item">
-                                    <span class="rating-label">5★</span>
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">5</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 87%"></div>
                                     </div>
                                     <span class="rating-count">20</span>
                                 </div>
                                 <div class="distribution-item">
-                                    <span class="rating-label">4★</span>
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">4</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 13%"></div>
                                     </div>
                                     <span class="rating-count">3</span>
                                 </div>
                                 <div class="distribution-item">
-                                    <span class="rating-label">3★</span>
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">3</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 0%"></div>
                                     </div>
                                     <span class="rating-count">0</span>
                                 </div>
                                 <div class="distribution-item">
-                                    <span class="rating-label">2★</span>
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">2</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 0%"></div>
                                     </div>
                                     <span class="rating-count">0</span>
                                 </div>
                                 <div class="distribution-item">
-                                    <span class="rating-label">1★</span>
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">1</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 0%"></div>
                                     </div>
@@ -159,246 +175,13 @@
                 </div>
 
                 <div class="reviews-list" id="reviewsList">
-                    <!-- Review 1 -->
-                    <div class="review-card" data-rating="5" data-role="driver" data-date="2025-10-02">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="reviewer-avatar">
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">Carlos Mendoza</h4>
-                                    <p class="reviewer-career">Estudiante de Ingeniería</p>
-                                    <div class="review-rating">
-                                        <div class="stars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                        </div>
-                                        <span class="rating-value">5.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-meta">
-                                <span class="role-badge driver">Como Conductor/a</span>
-                                <p class="review-date">2 de octubre, 2025</p>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p class="review-text">"María es una excelente conductora. Muy puntual, amable y su auto siempre está limpio. El viaje fue muy cómodo y llegamos a tiempo a la universidad. La conversación durante el trayecto fue muy agradable y me sentí muy seguro. Definitivamente la recomiendo a otros estudiantes."</p>
-                            <div class="trip-info">
-                                <span class="trip-icon">🛣️</span>
-                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
-                            </div>
-                        </div>
-                        <div class="review-footer">
-                            <div class="review-stats">
-                                <span class="helpful-count">
-                                    <span class="helpful-icon">👍</span>
-                                    Útil (3)
-                                </span>
-                                <span class="highlight-tag">
-                                    <span class="tag-icon">🕐</span>
-                                    Puntualidad: Excelente
-                                </span>
-                            </div>
-                            <button class="reply-btn">Responder</button>
-                        </div>
-                    </div>
-
-                    <!-- Review 2 -->
-                    <div class="review-card" data-rating="5" data-role="passenger" data-date="2025-09-28">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Ana" class="reviewer-avatar">
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">Ana López</h4>
-                                    <p class="reviewer-career">Estudiante de Medicina</p>
-                                    <div class="review-rating">
-                                        <div class="stars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                        </div>
-                                        <span class="rating-value">5.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-meta">
-                                <span class="role-badge passenger">Como Pasajero/a</span>
-                                <p class="review-date">28 de septiembre, 2025</p>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p class="review-text">"Excelente pasajera. María fue muy respetuosa y puntual. La conversación fue muy agradable durante el viaje y se adaptó perfectamente a las reglas del auto. Es una persona muy educada y responsable. Sin duda la invitaría de nuevo a mis viajes."</p>
-                            <div class="trip-info">
-                                <span class="trip-icon">🛣️</span>
-                                <span class="trip-route">Miraflores → UNMSM • S/ 7</span>
-                            </div>
-                        </div>
-                        <div class="review-footer">
-                            <div class="review-stats">
-                                <span class="helpful-count">
-                                    <span class="helpful-icon">👍</span>
-                                    Útil (2)
-                                </span>
-                                <span class="highlight-tag">
-                                    <span class="tag-icon">✅</span>
-                                    Comportamiento: Excelente
-                                </span>
-                            </div>
-                            <button class="reply-btn">Responder</button>
-                        </div>
-                    </div>
-
-                    <!-- Review 3 -->
-                    <div class="review-card" data-rating="4" data-role="driver" data-date="2025-09-25">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Diego" class="reviewer-avatar">
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">Diego Martínez</h4>
-                                    <p class="reviewer-career">Estudiante de Economía</p>
-                                    <div class="review-rating">
-                                        <div class="stars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star">⭐</span>
-                                        </div>
-                                        <span class="rating-value">4.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-meta">
-                                <span class="role-badge driver">Como Conductor/a</span>
-                                <p class="review-date">25 de septiembre, 2025</p>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p class="review-text">"Buen viaje en general. María maneja con cuidado y es muy responsable. Solo llegamos un poco tarde por el tráfico intenso, pero no fue culpa suya. El auto está en buenas condiciones y la música estuvo bien. La recomiendo."</p>
-                            <div class="trip-info">
-                                <span class="trip-icon">🛣️</span>
-                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
-                            </div>
-                        </div>
-                        <div class="review-footer">
-                            <div class="review-stats">
-                                <span class="helpful-count">
-                                    <span class="helpful-icon">👍</span>
-                                    Útil (1)
-                                </span>
-                                <span class="highlight-tag">
-                                    <span class="tag-icon">🚗</span>
-                                    Manejo: Muy bueno
-                                </span>
-                            </div>
-                            <button class="reply-btn">Responder</button>
-                        </div>
-                    </div>
-
-                    <!-- Review 4 -->
-                    <div class="review-card" data-rating="5" data-role="passenger" data-date="2025-09-20">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis" class="reviewer-avatar">
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">Luis García</h4>
-                                    <p class="reviewer-career">Estudiante de Derecho</p>
-                                    <div class="review-rating">
-                                        <div class="stars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                        </div>
-                                        <span class="rating-value">5.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-meta">
-                                <span class="role-badge passenger">Como Pasajero/a</span>
-                                <p class="review-date">20 de septiembre, 2025</p>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p class="review-text">"María es una pasajera modelo. Siempre está lista a la hora acordada, es muy respetuosa con el vehículo y las reglas. Además, es muy buena compañía durante el viaje. Totalmente recomendada para otros conductores."</p>
-                            <div class="trip-info">
-                                <span class="trip-icon">🛣️</span>
-                                <span class="trip-route">Surco → UNMSM • S/ 10</span>
-                            </div>
-                        </div>
-                        <div class="review-footer">
-                            <div class="review-stats">
-                                <span class="helpful-count">
-                                    <span class="helpful-icon">👍</span>
-                                    Útil (4)
-                                </span>
-                                <span class="highlight-tag">
-                                    <span class="tag-icon">🤝</span>
-                                    Respeto: Excelente
-                                </span>
-                            </div>
-                            <button class="reply-btn">Responder</button>
-                        </div>
-                    </div>
-
-                    <!-- Review 5 -->
-                    <div class="review-card" data-rating="5" data-role="driver" data-date="2025-09-18">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Sofia" class="reviewer-avatar">
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">Sofía Ruiz</h4>
-                                    <p class="reviewer-career">Estudiante de Psicología</p>
-                                    <div class="review-rating">
-                                        <div class="stars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                        </div>
-                                        <span class="rating-value">5.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review-meta">
-                                <span class="role-badge driver">Como Conductor/a</span>
-                                <p class="review-date">18 de septiembre, 2025</p>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p class="review-text">"Increíble experiencia con María. Es súper puntual, muy amable y hace que el viaje sea muy placentero. Su auto está impecable y maneja muy bien. Me ayudó mucho durante mis primeras semanas en la universidad. ¡Gracias!"</p>
-                            <div class="trip-info">
-                                <span class="trip-icon">🛣️</span>
-                                <span class="trip-route">San Isidro → UNMSM • S/ 8</span>
-                            </div>
-                        </div>
-                        <div class="review-footer">
-                            <div class="review-stats">
-                                <span class="helpful-count">
-                                    <span class="helpful-icon">👍</span>
-                                    Útil (5)
-                                </span>
-                                <span class="highlight-tag">
-                                    <span class="tag-icon">❤️</span>
-                                    Amabilidad: Excelente
-                                </span>
-                            </div>
-                            <button class="reply-btn">Responder</button>
-                        </div>
-                    </div>
+                    <!-- Las reseñas se cargan dinámicamente -->
                 </div>
 
                 <!-- Pagination -->
                 <div class="pagination" id="pagination">
                     <button class="pagination-btn prev" disabled>
-                        <span class="pagination-icon">‹</span>
+                        <span class="material-icons">chevron_left</span>
                     </button>
                     <button class="pagination-btn active">1</button>
                     <button class="pagination-btn">2</button>
@@ -406,7 +189,7 @@
                     <span class="pagination-dots">...</span>
                     <button class="pagination-btn">5</button>
                     <button class="pagination-btn next">
-                        <span class="pagination-icon">›</span>
+                        <span class="material-icons">chevron_right</span>
                     </button>
                 </div>
             </section>
@@ -417,24 +200,24 @@
                 <div class="insights-grid">
                     <div class="insight-card positive">
                         <div class="insight-header">
-                            <div class="insight-icon positive">👍</div>
+                            <div class="insight-icon positive"><span class="material-icons">thumb_up</span></div>
                             <h3 class="insight-title">Aspectos Destacados</h3>
                         </div>
                         <ul class="insight-list">
                             <li class="insight-item">
-                                <span class="insight-check">✓</span>
+                                <span class="material-icons insight-icon-check">check_circle</span>
                                 Puntualidad (mencionado 18 veces)
                             </li>
                             <li class="insight-item">
-                                <span class="insight-check">✓</span>
+                                <span class="material-icons insight-icon-check">check_circle</span>
                                 Amabilidad (mencionado 15 veces)
                             </li>
                             <li class="insight-item">
-                                <span class="insight-check">✓</span>
+                                <span class="material-icons insight-icon-check">check_circle</span>
                                 Auto limpio (mencionado 12 veces)
                             </li>
                             <li class="insight-item">
-                                <span class="insight-check">✓</span>
+                                <span class="material-icons insight-icon-check">check_circle</span>
                                 Manejo seguro (mencionado 10 veces)
                             </li>
                         </ul>
@@ -442,7 +225,7 @@
 
                     <div class="insight-card info">
                         <div class="insight-header">
-                            <div class="insight-icon info">📊</div>
+                            <div class="insight-icon info"><span class="material-icons">insights</span></div>
                             <h3 class="insight-title">Tendencia de Reseñas</h3>
                         </div>
                         <div class="trend-stats">
@@ -452,7 +235,10 @@
                             </div>
                             <div class="trend-item">
                                 <span class="trend-label">Promedio mensual</span>
-                                <span class="trend-value">4.9★</span>
+                                <span class="trend-value">
+                                    4.9
+                                    <span class="material-icons trend-star" aria-hidden="true">star</span>
+                                </span>
                             </div>
                             <div class="trend-item">
                                 <span class="trend-label">Crecimiento</span>
@@ -463,20 +249,20 @@
 
                     <div class="insight-card warning">
                         <div class="insight-header">
-                            <div class="insight-icon warning">💡</div>
+                            <div class="insight-icon warning"><span class="material-icons">lightbulb</span></div>
                             <h3 class="insight-title">Oportunidades de Mejora</h3>
                         </div>
                         <ul class="insight-list">
                             <li class="insight-item">
-                                <span class="insight-arrow">↗</span>
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
                                 Mejorar comunicación previa al viaje
                             </li>
                             <li class="insight-item">
-                                <span class="insight-arrow">↗</span>
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
                                 Considerar rutas alternas en tráfico
                             </li>
                             <li class="insight-item">
-                                <span class="insight-arrow">↗</span>
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
                                 Actualizar playlist musical
                             </li>
                         </ul>
@@ -505,7 +291,7 @@
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
+                        <div class="logo-icon"><span class="material-icons">directions_car</span></div>
                         <span>OnePath</span>
                     </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>

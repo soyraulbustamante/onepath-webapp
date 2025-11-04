@@ -2,6 +2,21 @@
 (function() {
     'use strict';
 
+    const AVATAR_BASE_PATH = '../../assets/images/avatars/';
+
+    function getAvatarPath(filename) {
+        if (!filename) {
+            return `${AVATAR_BASE_PATH}default.svg`;
+        }
+        if (filename.startsWith('http')) {
+            return filename;
+        }
+        if (filename.includes('/')) {
+            return filename;
+        }
+        return `${AVATAR_BASE_PATH}${filename}`;
+    }
+
     // Mock user data for different users
     const mockUsers = {
         'maria.gonzalez@unmsm.edu.pe': {
@@ -13,7 +28,7 @@
             university: 'Universidad Nacional Mayor de San Marcos',
             major: 'Administración de Empresas',
             role: 'driver',
-            avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg',
+            avatar: 'default.svg',
             rating: 4.8,
             totalTrips: 23,
             totalReviews: 15,
@@ -38,7 +53,7 @@
             university: 'Universidad Nacional de Ingeniería',
             major: 'Ingeniería de Sistemas',
             role: 'driver',
-            avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
+            avatar: 'carlos.svg',
             rating: 4.9,
             totalTrips: 31,
             totalReviews: 28,
@@ -63,7 +78,7 @@
             university: 'Pontificia Universidad Católica del Perú',
             major: 'Derecho',
             role: 'passenger',
-            avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
+            avatar: 'ana.svg',
             rating: 4.7,
             totalTrips: 18,
             totalReviews: 12,
@@ -104,10 +119,21 @@
         if (!currentUser) return;
 
         // Update hero section
-        document.getElementById('profileAvatar').src = currentUser.avatar;
+        const profileAvatar = document.getElementById('profileAvatar');
+        profileAvatar.src = getAvatarPath(currentUser.avatar);
+        profileAvatar.onerror = () => {
+            profileAvatar.onerror = null;
+            profileAvatar.src = getAvatarPath('default.svg');
+        };
         document.getElementById('profileName').textContent = currentUser.name;
-        document.getElementById('profileInfo').textContent = `Estudiante de ${currentUser.major}`;
-        document.getElementById('userRating').textContent = currentUser.rating;
+        
+        // Format profile info based on role
+        const profileInfo = currentUser.role === 'driver' 
+            ? `Estudiante de ${currentUser.major}` 
+            : `Estudiante de ${currentUser.major}`;
+        document.getElementById('profileInfo').textContent = profileInfo;
+        
+        document.getElementById('userRating').textContent = currentUser.rating.toFixed(1);
         document.getElementById('totalTrips').textContent = currentUser.totalTrips;
         document.getElementById('totalReviews').textContent = currentUser.totalReviews;
 
@@ -152,23 +178,23 @@
         
         container.innerHTML = isDriver ? `
             <a href="../trips/publish.html" class="quick-action-btn primary">
-                <span>📝</span> Publicar Viaje
+                <span class="material-icons">edit_note</span> Publicar Viaje
             </a>
             <a href="../trips/my-trips.html" class="quick-action-btn secondary">
-                <span>🚗</span> Mis Viajes
+                <span class="material-icons">directions_car</span> Mis Viajes
             </a>
             <a href="../chat/messages.html" class="quick-action-btn secondary">
-                <span>💬</span> Mensajes
+                <span class="material-icons">chat</span> Mensajes
             </a>
         ` : `
             <a href="../trips/search.html" class="quick-action-btn primary">
-                <span>🔍</span> Buscar Viaje
+                <span class="material-icons">search</span> Buscar Viaje
             </a>
             <a href="../reservations/my-reservations.html" class="quick-action-btn secondary">
-                <span>📅</span> Mis Reservas
+                <span class="material-icons">calendar_today</span> Mis Reservas
             </a>
             <a href="../chat/messages.html" class="quick-action-btn secondary">
-                <span>💬</span> Mensajes
+                <span class="material-icons">chat</span> Mensajes
             </a>
         `;
     }
@@ -212,7 +238,7 @@
             <div class="trip-item">
                 <div class="trip-info">
                     <div class="trip-type-icon ${trip.type}">
-                        ${trip.type === 'driver' ? '🚗' : '👤'}
+                        <span class="material-icons">${trip.type === 'driver' ? 'directions_car' : 'person'}</span>
                     </div>
                     <div class="trip-details">
                         <h3>Como ${trip.type === 'driver' ? 'Conductora' : 'Pasajera'}</h3>
@@ -241,7 +267,7 @@
         const distributionContainer = document.getElementById('ratingDistribution');
         distributionContainer.innerHTML = distribution.map(item => `
             <div class="distribution-bar">
-                <span class="distribution-label">${item.stars}★</span>
+                <span class="distribution-label">${item.stars}<span class="material-icons" style="font-size: 0.875rem; vertical-align: middle;">star</span></span>
                 <div class="distribution-progress">
                     <div class="distribution-fill" style="width: ${item.percentage}%"></div>
                 </div>
@@ -253,7 +279,7 @@
         const mockReviews = [
             {
                 reviewer: 'Carlos M.',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
+                avatar: 'carlos.svg',
                 rating: 5,
                 text: 'María es una excelente conductora. Muy puntual, amable y su auto siempre está limpio.',
                 role: 'pasajero',
@@ -261,7 +287,7 @@
             },
             {
                 reviewer: 'Ana L.',
-                avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
+                avatar: 'ana.svg',
                 rating: 5,
                 text: 'Excelente pasajera. María fue muy respetuosa y puntual.',
                 role: 'conductora',
@@ -273,11 +299,11 @@
         reviewsContainer.innerHTML = mockReviews.map(review => `
             <div class="review-item">
                 <div class="review-header">
-                    <img src="${review.avatar}" alt="${review.reviewer}" class="reviewer-avatar">
+                    <img src="${getAvatarPath(review.avatar)}" alt="${review.reviewer}" class="reviewer-avatar">
                     <div class="reviewer-info">
                         <h4 class="reviewer-name">${review.reviewer}</h4>
                         <div class="review-stars">
-                            ${'⭐'.repeat(review.rating)}
+                            ${'<span class="material-icons">star</span>'.repeat(review.rating)}
                         </div>
                     </div>
                 </div>
@@ -316,19 +342,19 @@
                     <h4>Características</h4>
                     <div class="features-list">
                         <div class="feature-item">
-                            <span class="feature-icon">❄️</span>
+                            <span class="material-icons feature-icon">ac_unit</span>
                             <span class="feature-text">Aire Acondicionado</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">🎵</span>
+                            <span class="material-icons feature-icon">music_note</span>
                             <span class="feature-text">Sistema de Audio</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">📱</span>
+                            <span class="material-icons feature-icon">bluetooth</span>
                             <span class="feature-text">Bluetooth</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">🔌</span>
+                            <span class="material-icons feature-icon">usb</span>
                             <span class="feature-text">Cargador USB</span>
                         </div>
                     </div>
@@ -337,19 +363,19 @@
                     <h4>Documentación</h4>
                     <div class="features-list">
                         <div class="feature-item">
-                            <span class="feature-icon">✅</span>
+                            <span class="material-icons feature-icon">check_circle</span>
                             <span class="feature-text">SOAT Vigente</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">✅</span>
+                            <span class="material-icons feature-icon">check_circle</span>
                             <span class="feature-text">Revisión Técnica</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">✅</span>
+                            <span class="material-icons feature-icon">check_circle</span>
                             <span class="feature-text">Licencia de Conducir</span>
                         </div>
                         <div class="feature-item">
-                            <span class="feature-icon">✅</span>
+                            <span class="material-icons feature-icon">check_circle</span>
                             <span class="feature-text">Tarjeta de Propiedad</span>
                         </div>
                     </div>
@@ -404,17 +430,24 @@
         ];
 
         const activityContainer = document.getElementById('recentActivity');
-        activityContainer.innerHTML = activities.map(activity => `
+        activityContainer.innerHTML = activities.map(activity => {
+            let icon = 'notifications';
+            if (activity.type === 'review') icon = 'star';
+            else if (activity.type === 'trip') icon = 'directions_car';
+            else if (activity.type === 'message') icon = 'chat';
+            
+            return `
             <div class="activity-item">
                 <div class="activity-icon ${activity.type}">
-                    ${activity.type === 'review' ? '⭐' : activity.type === 'trip' ? '🚗' : '💬'}
+                    <span class="material-icons">${icon}</span>
                 </div>
                 <div class="activity-content">
                     <p class="activity-text">${activity.text}</p>
                     <div class="activity-time">${activity.time}</div>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
     function setupTabs() {

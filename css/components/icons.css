@@ -1,0 +1,19 @@
+/* Icon System */
+.icon { display: inline-block; line-height: 1; vertical-align: middle; color: var(--text-light); }
+.icon-xs { font-size: 12px; }
+.icon-sm { font-size: 14px; }
+.icon-md { font-size: 18px; }
+.icon-lg { font-size: 22px; }
+/* Ensure SVG scales with font size and inherits color */
+.icon svg { width: 1em; height: 1em; fill: currentColor; stroke: currentColor; }
+
+/* Color variants */
+.icon-primary { color: var(--primary-blue); }
+.icon-success { color: var(--success); }
+.icon-warning { color: var(--warning); }
+.icon-error { color: var(--error); }
+.icon-muted { color: var(--muted); }
+
+/* Spacing helpers */
+.icon-left { margin-right: 6px; }
+.icon-right { margin-left: 6px; }
