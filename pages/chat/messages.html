@@ -79,10 +79,52 @@
     <!-- Main Chat Container -->
     <main class="chat-main">
         <div class="container">
-            <div class="chat-container">
-                
-                <!-- Chat Messages Area -->
-                <div class="chat-messages" id="chat-messages">
+            <div class="chat-split-layout">
+                <!-- Sidebar: Established Chats -->
+                <aside class="chat-sidebar">
+                    <div class="chat-list-header">
+                        <h3>Mis Chats</h3>
+                        <button class="chat-new-btn" type="button"><span class="material-icons">add</span></button>
+                    </div>
+                    <div class="chat-list" id="chatList">
+                        <button class="chat-list-item active" data-name="Carlos M. - Ing. Sistemas" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Carlos M.</span>
+                                    <span class="chat-list-time">07:35</span>
+                                </div>
+                                <div class="chat-list-last">¡Perfecto! Ya te vi, voy caminando hacia ti…</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="María G. - Ing. Industrial" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">María G.</span>
+                                    <span class="chat-list-time">Ayer</span>
+                                </div>
+                                <div class="chat-list-last">Nos vemos en la puerta principal de la UNMSM</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="Luis P. - Ing. Mecánica" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Luis P.</span>
+                                    <span class="chat-list-time">Dom</span>
+                                </div>
+                                <div class="chat-list-last">¿Confirmas punto exacto de recojo mañana?</div>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Conversation: Right Panel -->
+                <section class="chat-conversation">
+                    <div class="chat-container">
+                        <!-- Chat Messages Area -->
+                        <div class="chat-messages" id="chat-messages">
                     
                     <!-- System Message -->
                     <div class="system-message">
@@ -193,10 +235,10 @@
                         </div>
                     </div>
 
-                </div>
+                        </div>
 
-                <!-- Message Input Area -->
-                <div class="message-input">
+                        <!-- Message Input Area -->
+                        <div class="message-input">
                     <div class="input-row">
                         <button class="btn-attachment" type="button" aria-label="Adjuntar archivo"><span class="material-icons">attach_file</span></button>
                         <div class="input-wrapper">
@@ -220,7 +262,9 @@
                             <span class="material-icons">warning</span> Reportar problema
                         </button>
                     </div>
-                </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </main>
