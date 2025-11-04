@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - OnePath</title>
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="profile.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="profile.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Profile Hero Section -->
+    <section class="profile-hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-avatar-section">
+                    <div class="avatar-container">
+                        <img id="profileAvatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Usuario" class="profile-avatar">
+                        <button class="avatar-edit-btn" id="editAvatarBtn">
+                            <span class="camera-icon">📷</span>
+                        </button>
+                    </div>
+                    <h1 id="profileName" class="profile-name">María González</h1>
+                    <p id="profileInfo" class="profile-info">Estudiante de Administración - 6to ciclo</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div id="userRating" class="stat-number">4.8</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                        <div class="stat-item">
+                            <div id="totalTrips" class="stat-number">23</div>
+                            <div class="stat-label">Viajes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div id="totalReviews" class="stat-number">15</div>
+                            <div class="stat-label">Reseñas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Navigation Tabs -->
+    <section class="profile-tabs">
+        <div class="container">
+            <nav class="tabs-nav">
+                <button class="tab-btn active" data-tab="overview">
+                    <span class="tab-icon">👤</span>Información General
+                </button>
+                <button class="tab-btn" data-tab="trips">
+                    <span class="tab-icon">🚗</span>Mis Viajes
+                </button>
+                <button class="tab-btn" data-tab="reviews">
+                    <span class="tab-icon">⭐</span>Reseñas
+                </button>
+                <button class="tab-btn" data-tab="vehicle" id="vehicleTab">
+                    <span class="tab-icon">🚙</span>Mi Vehículo
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <span class="tab-icon">⚙️</span>Configuración
+                </button>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="profile-layout">
+                
+                <!-- Main Profile Content -->
+                <div class="profile-main">
+                    
+                    <!-- Overview Tab -->
+                    <div id="overview-tab" class="tab-content active">
+                        <!-- Personal Information Card -->
+                        <div class="info-card">
+                            <div class="card-header">
+                                <h2 class="card-title">Información Personal</h2>
+                                <button class="edit-btn" id="editPersonalBtn">
+                                    <span class="edit-icon">✏️</span>Editar
+                                </button>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label class="info-label">Nombre Completo</label>
+                                    <p id="fullName" class="info-value">María González Pérez</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Email</label>
+                                    <p id="userEmail" class="info-value">maria.gonzalez@unmsm.edu.pe</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Teléfono</label>
+                                    <p id="userPhone" class="info-value">+51 987 654 321</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Fecha de Nacimiento</label>
+                                    <p id="userBirthdate" class="info-value">15 de Marzo, 1999</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Universidad</label>
+                                    <p id="userUniversity" class="info-value">Universidad Nacional Mayor de San Marcos</p>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Carrera</label>
+                                    <p id="userMajor" class="info-value">Administración de Empresas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verification Status -->
+                        <div class="info-card">
+                            <h2 class="card-title">Estado de Verificación</h2>
+                            <div class="verification-grid" id="verificationStatus">
+                                <div class="verification-item verified">
+                                    <div class="verification-icon verified">✓</div>
+                                    <div class="verification-content">
+                                        <h3 class="verification-title">Email Verificado</h3>
+                                        <p class="verification-date">Verificado el 15 Mar 2024</p>
+                                    </div>
+                                </div>
+                                <div class="verification-item verified">
+                                    <div class="verification-icon verified">📱</div>
+                                    <div class="verification-content">
+                                        <h3 class="verification-title">Teléfono Verificado</h3>
+                                        <p class="verification-date">Verificado el 16 Mar 2024</p>
+                                    </div>
+                                </div>
+                                <div class="verification-item verified">
+                                    <div class="verification-icon verified">🎓</div>
+                                    <div class="verification-content">
+                                        <h3 class="verification-title">Estudiante Verificado</h3>
+                                        <p class="verification-date">Verificado el 18 Mar 2024</p>
+                                    </div>
+                                </div>
+                                <div class="verification-item pending">
+                                    <div class="verification-icon pending">📄</div>
+                                    <div class="verification-content">
+                                        <h3 class="verification-title">Documento Pendiente</h3>
+                                        <button class="verify-btn">Verificar ahora</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Me Section -->
+                        <div class="info-card">
+                            <div class="card-header">
+                                <h2 class="card-title">Acerca de Mí</h2>
+                                <button class="edit-btn" id="editAboutBtn">
+                                    <span class="edit-icon">✏️</span>Editar
+                                </button>
+                            </div>
+                            <p id="userBio" class="user-bio">¡Hola! Soy María, estudiante de Administración en la UNMSM. Me encanta conocer gente nueva y hacer que los viajes a la universidad sean más divertidos y económicos. Siempre trato de ser puntual y mantener un ambiente agradable en mis viajes.</p>
+                            
+                            <h3 class="section-subtitle">Intereses</h3>
+                            <div class="interests-tags" id="userInterests">
+                                <span class="interest-tag">Música</span>
+                                <span class="interest-tag">Lectura</span>
+                                <span class="interest-tag">Deportes</span>
+                                <span class="interest-tag">Viajes</span>
+                            </div>
+
+                            <h3 class="section-subtitle">Preferencias de Viaje</h3>
+                            <div class="preferences-grid" id="travelPreferences">
+                                <div class="preference-item allowed">
+                                    <span class="preference-icon">🎵</span>
+                                    <span class="preference-text">Música permitida</span>
+                                </div>
+                                <div class="preference-item not-allowed">
+                                    <span class="preference-icon">🚭</span>
+                                    <span class="preference-text">No fumar</span>
+                                </div>
+                                <div class="preference-item not-allowed">
+                                    <span class="preference-icon">🐾</span>
+                                    <span class="preference-text">No mascotas</span>
+                                </div>
+                                <div class="preference-item allowed">
+                                    <span class="preference-icon">💬</span>
+                                    <span class="preference-text">Conversación bienvenida</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trips Tab -->
+                    <div id="trips-tab" class="tab-content">
+                        <!-- Trip Statistics -->
+                        <div class="stats-grid" id="tripStats">
+                            <div class="stat-card">
+                                <div class="stat-icon driver">🚗</div>
+                                <div class="stat-number" id="tripsAsDriver">12</div>
+                                <div class="stat-label">Viajes Ofrecidos</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon passenger">👥</div>
+                                <div class="stat-number" id="tripsAsPassenger">11</div>
+                                <div class="stat-label">Como Pasajero</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon punctuality">⏰</div>
+                                <div class="stat-number" id="punctualityRate">98%</div>
+                                <div class="stat-label">Puntualidad</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon savings">💰</div>
+                                <div class="stat-number" id="totalSavings">S/ 184</div>
+                                <div class="stat-label">Total Ahorrado</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Trips -->
+                        <div class="info-card">
+                            <h2 class="card-title">Viajes Recientes</h2>
+                            <div class="trips-list" id="recentTripsList">
+                                <!-- Trips will be loaded dynamically -->
+                            </div>
+                            <button class="view-all-btn" id="viewAllTripsBtn">Ver Historial Completo</button>
+                        </div>
+
+                        <!-- Upcoming Trips -->
+                        <div class="info-card">
+                            <h2 class="card-title">Próximos Viajes</h2>
+                            <div class="trips-list" id="upcomingTripsList">
+                                <!-- Upcoming trips will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div id="reviews-tab" class="tab-content">
+                        <!-- Review Summary -->
+                        <div class="info-card">
+                            <h2 class="card-title">Resumen de Reseñas</h2>
+                            <div class="review-summary">
+                                <div class="rating-overview">
+                                    <div class="overall-rating">
+                                        <div class="rating-score" id="overallRating">4.8</div>
+                                        <div class="rating-stars" id="ratingStars">
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                            <span class="star filled">⭐</span>
+                                        </div>
+                                        <div class="rating-count" id="reviewsCount">Basado en 15 reseñas</div>
+                                    </div>
+                                    <div class="rating-distribution" id="ratingDistribution">
+                                        <!-- Rating bars will be generated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Reviews -->
+                        <div class="info-card">
+                            <h2 class="card-title">Reseñas Recientes</h2>
+                            <div class="reviews-list" id="recentReviewsList">
+                                <!-- Reviews will be loaded dynamically -->
+                            </div>
+                            <button class="view-all-btn" id="viewAllReviewsBtn">Ver Todas las Reseñas</button>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Tab -->
+                    <div id="vehicle-tab" class="tab-content">
+                        <!-- Vehicle Information -->
+                        <div class="info-card" id="vehicleInfoCard">
+                            <div class="card-header">
+                                <h2 class="card-title">Mi Vehículo</h2>
+                                <button class="edit-btn" id="editVehicleBtn">
+                                    <span class="edit-icon">✏️</span>Editar
+                                </button>
+                            </div>
+                            <div id="vehicleContent">
+                                <!-- Vehicle info will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Photos -->
+                        <div class="info-card" id="vehiclePhotosCard">
+                            <div class="card-header">
+                                <h2 class="card-title">Fotos del Vehículo</h2>
+                                <button class="edit-btn" id="addPhotosBtn">
+                                    <span class="edit-icon">➕</span>Agregar Fotos
+                                </button>
+                            </div>
+                            <div class="vehicle-photos" id="vehiclePhotos">
+                                <!-- Photos will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div id="settings-tab" class="tab-content">
+                        <!-- Notification Settings -->
+                        <div class="info-card">
+                            <h2 class="card-title">Configuración de Notificaciones</h2>
+                            <div class="settings-list" id="notificationSettings">
+                                <!-- Settings will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Privacy Settings -->
+                        <div class="info-card">
+                            <h2 class="card-title">Configuración de Privacidad</h2>
+                            <div class="settings-form" id="privacySettings">
+                                <!-- Privacy settings will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Account Actions -->
+                        <div class="info-card">
+                            <h2 class="card-title">Acciones de Cuenta</h2>
+                            <div class="account-actions" id="accountActions">
+                                <!-- Account actions will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Sidebar -->
+                <aside class="profile-sidebar">
+                    <!-- Quick Actions -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Acciones Rápidas</h3>
+                        <div class="quick-actions" id="quickActions">
+                            <!-- Quick actions will be loaded dynamically based on user role -->
+                        </div>
+                    </div>
+
+                    <!-- Profile Completion -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Completar Perfil</h3>
+                        <div class="completion-progress">
+                            <div class="progress-header">
+                                <span class="progress-text">85% completado</span>
+                                <span class="progress-percent">85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="completion-tasks" id="completionTasks">
+                            <!-- Completion tasks will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Actividad Reciente</h3>
+                        <div class="activity-list" id="recentActivity">
+                            <!-- Recent activity will be loaded dynamically -->
+                        </div>
+                        <button class="view-all-btn" id="viewAllActivityBtn">Ver toda la actividad</button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🚗</div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
