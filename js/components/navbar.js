@@ -33,15 +33,8 @@
     var role = user && user.role ? user.role : null; // 'driver' | 'passenger'
     // Fallback local para el avatar del header (se reemplaza por uno aleatorio con JS)
     var fallbackAvatar = base + 'assets/images/avatars/default.svg';
-    // Encabezado del drawer con avatar y nombre (solo mobile y logueado)
-    var mobileProfileHeader = isLoggedIn
-      ? '        <div class="nav-profile">\n' +
-        '          <div class="nav-profile-avatar"><img class="js-random-avatar" data-size="48" data-variant="avataaars" src="' + fallbackAvatar + '" alt="Avatar de ' + userName + '"></div>\n' +
-        '          <div class="nav-profile-info">\n' +
-        '            <div class="nav-profile-name">' + userName + '</div>\n' +
-        '          </div>\n' +
-        '        </div>\n'
-      : '';
+    // No mostrar encabezado de perfil dentro del drawer; solo en el header
+    var mobileProfileHeader = '';
     
     var authSection = isLoggedIn
       ? '<div class="user-info">\n' +
@@ -53,7 +46,11 @@
         '  </div>\n' +
         '  <button type="button" class="user-avatar" aria-haspopup="menu" aria-expanded="false" aria-label="Abrir menú de usuario"><img class="js-random-avatar" data-size="32" data-variant="avataaars" src="' + fallbackAvatar + '" alt="Avatar de ' + userName + '"></button>\n' +
         '  <div class="user-menu" hidden role="menu" aria-label="Opciones de usuario">\n' +
+        '    <a href="' + base + 'pages/user/profile.html" class="menu-item" role="menuitem">Mi Perfil</a>\n' +
+        '    <a href="' + base + 'pages/reservations/my-reservations.html" class="menu-item" role="menuitem">Mis Reservas</a>\n' +
         '    <a href="' + base + 'pages/user/rate.html" class="menu-item" role="menuitem">Mis Reseñas</a>\n' +
+        '    <a href="' + base + 'pages/chat/messages.html" class="menu-item" role="menuitem">Chat</a>\n' +
+        '    <div class="menu-divider" role="separator" aria-hidden="true"></div>\n' +
         '    <button type="button" class="menu-item logout" role="menuitem">Cerrar sesión</button>\n' +
         '  </div>\n' +
         '</div>'
@@ -72,10 +69,8 @@
           '        <a href="' + base + 'pages/user/rate.html" class="nav-user-link" role="menuitem">Mis Reseñas</a>\n' +
           '        <button type="button" class="nav-user-link btn-logout" role="menuitem">Cerrar sesión</button>\n';
       } else {
-        // Pasajero/Estudiante: orden solicitado en drawer
+        // Pasajero/Estudiante: mover Perfil y Reservas al menú del avatar; Chat después de Reseñas
         mobileUserLinks =
-          '        <a href="' + base + 'pages/user/profile.html" class="nav-user-link" role="menuitem">Mi Perfil</a>\n' +
-          '        <a href="' + base + 'pages/reservations/my-reservations.html" class="nav-user-link" role="menuitem">Mis Reservas</a>\n' +
           '        <a href="' + base + 'pages/user/rate.html" class="nav-user-link" role="menuitem">Mis Reseñas</a>\n' +
           '        <a href="' + base + 'pages/chat/messages.html" class="nav-user-link" role="menuitem">Chat</a>\n' +
           '        <div class="nav-divider" role="separator" aria-hidden="true"></div>\n' +
@@ -98,21 +93,17 @@
         '        <a href="' + base + 'pages/auth/login.html" class="nav-user-link btn-login" role="menuitem">Iniciar Sesión</a>\n' +
         '        <a href="' + base + 'pages/auth/register.html" class="nav-user-link btn-register" role="menuitem">Registrarse</a>\n';
     } else if (role === 'driver') {
-      // Conductor
+      // Conductor: remover Chat y Mi Perfil del header
       navLinks =
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
         '        <a href="' + base + 'pages/trips/publish.html">Publicar Viaje</a>\n' +
-        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n' +
-        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+        '        <a href="' + base + 'pages/trips/my-trips.html">Mis Viajes</a>\n';
     } else {
       // Pasajero/Estudiante (role === 'passenger' u otros)
+      // Mover "Mi Perfil" y "Mis Reservas" al menú del avatar; remover Chat del header
       navLinks =
         '        <a href="' + base + 'index.html">Inicio</a>\n' +
-        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n' +
-        '        <a href="' + base + 'pages/reservations/my-reservations.html">Mis Reservas</a>\n' +
-        '        <a href="' + base + 'pages/chat/messages.html">Chat</a>\n' +
-        '        <a href="' + base + 'pages/user/profile.html">Mi Perfil</a>\n';
+        '        <a href="' + base + 'pages/trips/search.html">Buscar Viaje</a>\n';
     }
 
     return (

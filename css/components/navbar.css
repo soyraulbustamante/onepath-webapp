@@ -299,6 +299,14 @@
   text-decoration: none; /* sin subrayado al enfocar */
 }
 
+/* Divisor dentro del menú del avatar */
+.user-menu .menu-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-light);
+  margin: 6px 0;
+}
+
 .btn-logout:hover {
   background-color: var(--error);
   color: var(--white);
