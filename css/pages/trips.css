@@ -124,6 +124,10 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
+.btn-search .material-icons {
+  color: var(--white);
+}
+
 .search-icon.material-icons {
   font-size: 18px;
   line-height: 1;
@@ -258,6 +262,21 @@
   color: var(--white);
 }
 
+/* Search Map Page */
+.search-map-container {
+  width: 100%;
+}
+
+#map {
+  height: 520px;
+  border: 1.5px solid var(--border-light);
+  border-radius: 8px;
+}
+
+/* Generic Tab Panes for search page */
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
 /* Responsive */
 @media (max-width: 1024px) {
   .search-layout {
@@ -280,10 +299,13 @@
     width: 100%;
   }
 
-  .swap-button {
-    width: 100%;
-    order: 2;
-  }
+  /* Orden explícito para que swapButton quede entre Desde y Hacia */
+  .search-inputs > .search-field:has(#from) { order: 1; }
+  .search-inputs > .swap-button { order: 2; width: 100%; }
+  .search-inputs > .search-field:has(#to) { order: 3; }
+  .search-inputs > .search-field:has(#date) { order: 4; }
+  .search-inputs > .search-field:has(#seats) { order: 5; }
+  .search-inputs > .btn-search { order: 6; }
 
   .search-layout {
     grid-template-columns: 1fr;
@@ -297,7 +319,29 @@
   .results-controls {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
   }
+
+  .btn-search {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* centrado como reservar */
+    text-decoration: none;   /* sin subrayado, igual a reservar */
+  }
+
+  .sort-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-page-main { padding: 24px 0; }
+  .results-header h1 { font-size: 20px; }
+  .trips-list { gap: 16px; }
+  .results-controls { flex-direction: column; align-items: stretch; }
+  .sort-select { width: 100%; }
 }
 
 /* Publish Page Styles */
@@ -719,7 +763,7 @@ textarea[readonly]:focus {
   display: flex;
   gap: 8px;
   margin-bottom: 24px;
-  border-bottom: 2px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .tab-button {
@@ -737,6 +781,7 @@ textarea[readonly]:focus {
   align-items: center;
   gap: 8px;
   margin-bottom: -2px;
+  border-radius: 0; /* sin radio */
 }
 
 .tab-button:hover {
@@ -747,6 +792,27 @@ textarea[readonly]:focus {
 .tab-button.active {
   color: var(--primary-blue);
   border-bottom-color: var(--primary-blue);
+}
+
+/* Indicador activo visible como subrayado */
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* alineado con borde del contenedor */
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-blue);
+}
+
+/* Iconos dentro de tabs; heredan el color del estado del botón */
+.tab-button .material-icons {
+  color: currentColor;
+}
+
+.tab-button .tab-icon.material-icons {
+  font-size: 18px;
+  line-height: 1;
 }
 
 .tab-badge {
@@ -1677,4 +1743,20 @@ textarea[readonly]:focus {
     gap: 8px;
   }
 }
+  /* Tabs en móvil: scroll horizontal sólo en la barra */
+  .trips-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    padding-bottom: 2px; /* espacio para el subrayado activo */
+  }
+
+  .tab-button {
+    flex: 0 0 auto; /* impedir que se encojan y permitir scroll */
+  }
+
+  /* Usar el subrayado en lugar del borde para mejor visibilidad con scroll */
+  .tab-button.active {
+    border-bottom-color: transparent;
+  }
 

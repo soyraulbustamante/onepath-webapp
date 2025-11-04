@@ -45,6 +45,7 @@
 .footer-logo .logo-icon .material-icons {
   font-size: 18px;
   line-height: 1;
+  color: var(--white);
 }
 
 .footer-logo-section p {
