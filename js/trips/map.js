@@ -48,9 +48,9 @@
       bounds.extend([dep.lat, dep.lng]);
     });
 
-    // Ajustar vista para abarcar todos los marcadores
+    // Ajustar vista para abarcar todos los marcadores con padding y límite de zoom
     if (departures.length > 0) {
-      map.fitBounds(bounds.pad(0.2));
+      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
     } else {
       map.setView([-12.06, -77.04], 12);
     }

@@ -315,6 +315,24 @@
     gap: 12px;
   }
 
+  .driver-header {
+    grid-template-columns: 40px 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .driver-header .price-box {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+
+  .driver-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .driver-info h3 { font-size: 16px; }
+  .price-box .price-amount { font-size: 20px; }
+
   .driver-rating {
     align-items: flex-start;
   }
@@ -328,5 +346,11 @@
   .trip-price {
     align-items: flex-start;
   }
+}
+
+@media (max-width: 480px) {
+  .trip-meta-row { flex-wrap: wrap; gap: 12px; }
+  .route-time { font-size: 14px; }
+  .route-location { font-size: 13px; }
 }
 
