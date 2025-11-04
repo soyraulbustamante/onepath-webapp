@@ -36,6 +36,11 @@
   font-size: 18px;
 }
 
+/* Asegura que el span del ícono herede blanco incluso con reglas globales de span */
+.logo-icon .material-icons {
+  color: var(--white);
+}
+
 /* Fila de marca: logo centrado + hamburguesa a la derecha */
 .brand-row {
   display: flex;

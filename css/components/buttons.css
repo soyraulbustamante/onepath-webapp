@@ -15,12 +15,29 @@ button,
   line-height: 1.5;
 }
 
+/* Utility: Transparent Background for buttons */
+.bg-transparent,
+button.bg-transparent,
+.btn.bg-transparent {
+    background-color: var(--white);
+    color: var(--primary-blue);
+    border: 2px solid var(--white);
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.bg-transparent:hover { background-color: var(--light-blue); }
+
 /* Primary Button */
 .btn-primary,
 button.btn-primary {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  border: 1px solid var(--primary-dark);
+    background-color: var(--primary-blue) !important;
+    color: var(--white) !important;
 }
 
 .btn-primary:hover,

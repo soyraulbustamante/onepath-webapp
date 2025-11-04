@@ -29,18 +29,29 @@
       e.preventDefault();
       const qty = parseInt(passengersSelect.value || '1', 10);
       const total = pricePer * qty;
-      alert('Solicitud enviada. Total: S/ ' + total.toFixed(2));
+      if (typeof showNotification === 'function') {
+        showNotification(`Solicitud enviada. Total: S/ ${total.toFixed(2)}`, 'success');
+      } else {
+        alert('Solicitud enviada. Total: S/ ' + total.toFixed(2));
+      }
+      setTimeout(() => {
+        window.location.href = '../reservations/my-reservations.html';
+      }, 1500);
     });
 
     if (contactBtn) {
       contactBtn.addEventListener('click', function() {
-        alert('Abriremos el chat con el conductor pronto.');
+        window.location.href = '../chat/messages.html';
       });
     }
 
     if (favBtn) {
       favBtn.addEventListener('click', function() {
-        alert('Guardado en favoritos.');
+        if (typeof showNotification === 'function') {
+          showNotification('Guardado en favoritos.', 'info');
+        } else {
+          alert('Guardado en favoritos.');
+        }
       });
     }
 

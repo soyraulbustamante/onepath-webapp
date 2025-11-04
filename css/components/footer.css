@@ -45,6 +45,7 @@
 .footer-logo .logo-icon .material-icons {
   font-size: 18px;
   line-height: 1;
+  color: var(--white);
 }
 
 .footer-logo-section p {
@@ -64,14 +65,14 @@
 
 .footer-links a {
   font-size: 14px;
-  color: var(--primary-blue);
+  color: var(--text-light);
   text-decoration: none;
   transition: color 0.2s;
   font-weight: 500;
 }
 
 .footer-links a:hover {
-  color: var(--primary-dark);
+  color: var(--text);
   text-decoration: underline;
 }
 
