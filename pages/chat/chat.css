@@ -1,5 +1,36 @@
 /* Chat Page Styles - OnePath */
 
+/* Icon alignment improvements */
+.material-icons {
+    line-height: 1;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Ensure buttons with icons align content consistently */
+.btn-send,
+.btn-emergency,
+.btn-cancel,
+.btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Normalize icon sizing in key actions */
+.send-icon.material-icons,
+.action-buttons .material-icons,
+.quick-actions .material-icons {
+    font-size: 20px;
+}
+
+/* Quick action buttons: align icon + text */
+.quick-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Chat Header */
 .chat-header {
     background-color: var(--white);

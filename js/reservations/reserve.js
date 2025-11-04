@@ -34,7 +34,7 @@
 
     if (contactBtn) {
       contactBtn.addEventListener('click', function() {
-        alert('Abriremos el chat con el conductor pronto.');
+        window.location.href = '../chat/messages.html';
       });
     }
 
