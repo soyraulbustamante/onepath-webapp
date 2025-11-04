@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnePath - Comparte tu viaje a la universidad</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/footer.css">
     <script id="navbar-script" src="js/components/navbar.js" data-base-prefix="" defer></script>
+    <script src="js/utils/storage.js" defer></script>
+    <script src="js/auth/session.js" defer></script>
+    <script src="js/main.js" defer></script>
 </head>
 <body>
     <!-- Header (renderizado por componente) -->
@@ -65,17 +70,17 @@
             <p class="subtitle">La forma más inteligente de llegar a la universidad</p>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">💰</div>
+                    <div class="feature-icon"><span class="material-icons">payments</span></div>
                     <h3>Ahorra Dinero</h3>
                     <p>Reduce los costos de transporte compartiendo gastos de combustible con otros estudiantes.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">👥</div>
+                    <div class="feature-icon"><span class="material-icons">people</span></div>
                     <h3>Conoce Gente</h3>
                     <p>Conecta con otros estudiantes de tu universidad y crea nuevas amistades.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
+                    <div class="feature-icon"><span class="material-icons">public</span></div>
                     <h3>Cuida el Planeta</h3>
                     <p>Reduce la contaminación y el tráfico compartiendo vehículos hacia la universidad.</p>
                 </div>
@@ -215,44 +220,23 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="contacto">
+    <!-- Footer (estándar igual a páginas internas) -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">🔒</div>
-                        <span>OnePath</span>
-                    </div>
-                    <p>Conectamos estudiantes para compartir viajes seguros hacia la universidad.</p>
+                    <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
                 </div>
-                <div class="footer-section">
-                    <h4>Enlaces</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#como">Cómo Funciona</a></li>
-                        <li><a href="#seguridad">Seguridad</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
                 </div>
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#terminos">Términos y Condiciones</a></li>
-                        <li><a href="#privacidad">Política de Privacidad</a></li>
-                        <li><a href="#cookies">Política de Cookies</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li><a href="mailto:info@onepath.com">info@onepath.com</a></li>
-                        <li><a href="tel:+51123456789">+51 (1) 2345-6789</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 OnePath. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

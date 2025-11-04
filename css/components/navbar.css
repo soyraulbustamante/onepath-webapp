@@ -36,6 +36,20 @@
   font-size: 18px;
 }
 
+/* Asegura que el span del ícono herede blanco incluso con reglas globales de span */
+.logo-icon .material-icons {
+  color: var(--white);
+}
+
+/* Fila de marca: logo centrado + hamburguesa a la derecha */
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centra el logo */
+  position: relative; /* permite posicionar la hamburguesa */
+  gap: 12px;
+}
+
 .nav {
   display: flex;
   gap: 24px;
@@ -74,6 +88,7 @@
 .user-info {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .user-name {
@@ -113,8 +128,161 @@
 
 .btn-register:hover { background-color: var(--light-blue); }
 
+/* Notification Bell */
+.notification-bell {
+  position: relative;
+}
+
+/* Rating Icon */
+.rating-icon {
+  position: relative;
+}
+
+.notification-link,
+.rating-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.notification-link:hover,
+.rating-link:hover {
+  background-color: var(--primary-blue);
+  transform: scale(1.05);
+}
+
+.notification-link:hover .bell-icon,
+.rating-link:hover .star-icon {
+  filter: brightness(0) invert(1);
+}
+
+.bell-icon,
+.star-icon {
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: var(--error);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+/* Botón hamburguesa (oculto en escritorio) */
+.hamburger {
+  display: none;
+  width: 40px;
+  height: 32px; /* igual que .logo-icon */
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background-color: var(--gray-100);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--text-dark);
+  transition: transform 0.2s ease;
+}
+
+.header.menu-open .hamburger-icon {
+  transform: rotate(90deg);
+}
+
+/* Overlay para cerrar menú en móviles */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 90;
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: var(--error);
+  color: var(--white);
+  border-color: var(--error);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 768px) {
   .header-content { flex-direction: column; gap: 12px; }
+  /* La fila de marca ocupa todo el ancho para que el botón pueda anclarse a la derecha */
+  .brand-row { width: 100%; padding-right: 48px; }
+  .hamburger { display: flex; position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
   .nav { flex-direction: column; gap: 8px; margin-left: 0; width: 100%; }
+  /* Ocultar el menú por defecto en móviles; mostrar al abrir */
+  .nav { display: none; }
+  .header.menu-open .nav { display: flex; }
+  /* Asegurar que el overlay solo sea visible cuando se abre el menú (controlado por JS con atributo hidden) */
+  
+  /* Mostrar botones de auth al abrir el menú y mejorar tamaño */
+  .auth-buttons { display: none; width: 100%; }
+  .header.menu-open .auth-buttons { display: flex; flex-direction: column; gap: 12px; }
+  .auth-buttons a,
+  .btn-login,
+  .btn-register {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 15px;
+    border-radius: 12px;
+    text-align: center; /* centrar texto */
+  }
+
+  .user-info {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .notification-bell {
+    order: -1;
+  }
 }
 

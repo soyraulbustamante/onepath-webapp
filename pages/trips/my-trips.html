@@ -1,126 +1,390 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Historial de Viajes - OnePath</title>
-
-  <!-- Estilos globales y componentes -->
-  <link rel="stylesheet" href="../../css/variables.css">
-  <link rel="stylesheet" href="../../css/reset.css">
-  <link rel="stylesheet" href="../../css/global.css">
-  <link rel="stylesheet" href="../../css/components/navbar.css">
-  <link rel="stylesheet" href="../../css/components/cards.css">
-  <link rel="stylesheet" href="../../css/components/footer.css">
-  <link rel="stylesheet" href="../../css/pages/trips.css">
-
-  <!-- Navbar dinámico -->
-  <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Viajes - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/notifications.css">
+    <link rel="stylesheet" href="../../css/components/modals.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/pages/trips.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
-
 <body>
-  <!-- Navbar -->
-  <div id="navbar"></div>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
 
-  <!-- Contenido principal -->
-  <main class="search-page-main">
-    <div class="container">
-      <section class="results-section">
-        <div class="results-header">
-          <h1>Historial de viajes</h1>
-        </div>
+    <!-- Main Content -->
+    <main class="my-trips-page-main">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="../user/profile.html">Mi Perfil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">Mis Viajes</span>
+            </nav>
 
-        <!-- Mensaje si no hay viajes -->
-        <div class="no-trips-message" id="noTripsMessage" style="display: none;">
-          <p>🚘 Aún no has realizado viajes.</p>
-        </div>
-
-        <!-- Lista de viajes -->
-        <div class="trips-list" id="tripsHistoryList">
-
-          <!-- Ejemplo de viaje -->
-          <article class="trip-card">
-            <div class="trip-card-header">
-              <div class="driver-info">
-                <h3>Lucía R.</h3>
-                <span class="driver-major">Arquitectura</span>
-              </div>
-              <div class="driver-rating">
-                <span class="rating-stars">★★★★☆</span>
-                <span class="rating-value">4.8</span>
-              </div>
-            </div>
-
-            <div class="trip-route">
-              <div class="route-point departure">
-                <span class="route-dot green"></span>
-                <div class="route-details">
-                  <span class="route-time">07:10</span>
-                  <span class="route-location">Av. Angamos - Surco</span>
+            <!-- Header Section -->
+            <header class="my-trips-header">
+                <div class="my-trips-header-content">
+                    <h1 class="my-trips-title">Mis Viajes</h1>
+                    <p class="my-trips-subtitle">Gestiona todos tus viajes como conductor</p>
                 </div>
-              </div>
-              <div class="route-line"></div>
-              <div class="route-point arrival">
-                <span class="route-dot red"></span>
-                <div class="route-details">
-                  <span class="route-time">07:45</span>
-                  <span class="route-location">Facultad de Ingeniería - UNMSM</span>
+                <div class="my-trips-badges">
+                    <span class="trip-badge trip-badge--active" id="activeTripsBadge">
+                        <span class="badge-count" id="activeTripsCount">0</span> Viajes Activos
+                    </span>
+                    <span class="trip-badge trip-badge--completed" id="completedTripsBadge">
+                        <span class="badge-count" id="completedTripsCount">0</span> Viajes Completados
+                    </span>
                 </div>
-              </div>
+            </header>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Cargando tus viajes...</p>
             </div>
 
-            <div class="trip-details">
-              <div class="trip-info">
-                <span class="trip-date">📅 12 Oct 2025</span>
-                <span class="trip-duration">⏱️ 35 min</span>
-                <span class="trip-vehicle">🚗 Kia Rio - Blanco</span>
-              </div>
-              <div class="trip-price">
-                <span class="price-amount">S/7</span>
-              </div>
+            <!-- Main Content Layout -->
+            <div class="my-trips-layout" id="tripsContent" style="display: none;">
+                <!-- Left Panel: Trips List -->
+                <div class="my-trips-main">
+                    <!-- Tabs -->
+                    <div class="trips-tabs" role="tablist">
+                        <button class="tab-button" data-tab="upcoming" role="tab" aria-selected="false" id="tabUpcoming">
+                            Viajes Próximos
+                            <span class="tab-badge" id="upcomingBadge">0</span>
+                        </button>
+                        <button class="tab-button active" data-tab="history" role="tab" aria-selected="true" id="tabHistory">
+                            Historial
+                            <span class="tab-badge" id="historyBadge">0</span>
+                        </button>
+                        <button class="tab-button" data-tab="cancelled" role="tab" aria-selected="false" id="tabCancelled">
+                            Cancelados
+                            <span class="tab-badge" id="cancelledBadge">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-state-icon"><span class="material-icons">directions_car</span></div>
+                        <h2>No tienes viajes publicados</h2>
+                        <p>Aún no has publicado ningún viaje. ¡Comienza compartiendo tu primer viaje!</p>
+                        <a href="../trips/publish.html" class="btn-primary">Publicar Mi Primer Viaje</a>
+                    </div>
+
+                    <!-- Trips List -->
+                    <div class="trips-list-container" id="tripsList">
+                        <div class="trips-list" id="tripsListContent">
+                            <!-- Los viajes se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Sidebar -->
+                <aside class="my-trips-sidebar">
+                    <!-- Statistics -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Estadísticas</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total de viajes</span>
+                                <span class="stat-value" id="totalTripsStat">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Pasajeros transportados</span>
+                                <span class="stat-value" id="totalPassengersStat">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Calificación promedio</span>
+                                <span class="stat-value" id="avgRatingStat">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Ingresos totales</span>
+                                <span class="stat-value" id="totalEarningsStat">S/0</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Quick Actions -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Acciones Rápidas</h2>
+                        <div class="quick-actions">
+                            <a href="../trips/search.html" class="quick-action-btn quick-action-btn--search">
+                                <span class="action-icon material-icons">search</span>
+                                Buscar Nuevo Viaje
+                            </a>
+                            <a href="../trips/publish.html" class="quick-action-btn quick-action-btn--publish">
+                                <span class="action-icon material-icons">add</span>
+                                Publicar Viaje
+                            </a>
+                            <a href="../trips/my-trips.html" class="quick-action-btn quick-action-btn--regular">
+                                <span class="action-icon material-icons">calendar_today</span>
+                                Viajes Regulares
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Recent Activity -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">Actividad Reciente</h2>
+                        <div class="activity-list" id="recentActivity">
+                            <div class="activity-item">
+                                <span class="activity-icon material-icons">check</span>
+                                <div class="activity-content">
+                                    <p class="activity-text">Viaje publicado</p>
+                                    <span class="activity-time">Hace 2 horas</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-icon material-icons">person</span>
+                                <div class="activity-content">
+                                    <p class="activity-text">Nuevo pasajero reservó</p>
+                                    <span class="activity-time">Hace 5 horas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Help Section -->
+                    <section class="sidebar-section">
+                        <h2 class="sidebar-title">¿Necesitas Ayuda?</h2>
+                        <p class="help-text">Consulta nuestras guías o contacta con soporte si tienes alguna duda.</p>
+                        <div class="help-actions">
+                            <a href="#" class="btn-secondary btn-full btn-small">Centro de Ayuda</a>
+                            <a href="#" class="btn-text btn-full btn-small">Contactar Soporte</a>
+                        </div>
+                    </section>
+                </aside>
             </div>
-
-            <div class="trip-actions">
-              <button class="btn-view-details">Ver detalles</button>
-            </div>
-
-            <!-- 🔽 Bloque de detalles oculto -->
-            <div class="trip-extra-details" style="display: none;">
-              <p><strong>Conductor:</strong> Lucía Rodríguez</p>
-              <p><strong>Pasajero:</strong> Tú</p>
-              <p><strong>Calificación dada:</strong> ⭐⭐⭐⭐☆</p>
-              <p><strong>Comentarios:</strong> Viaje puntual y cómodo.</p>
-            </div>
-
-          </article>
-
         </div>
-      </section>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal" role="dialog" aria-labelledby="deleteModalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-content--small">
+            <div class="modal-header">
+                <h2 class="modal-title" id="deleteModalTitle">Eliminar Viaje</h2>
+                <button class="modal-close" id="closeDeleteModal" aria-label="Cerrar modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="delete-warning">
+                        <div class="warning-icon material-icons">warning</div>
+                        <p id="deleteModalMessage">¿Estás seguro de que deseas eliminar este viaje? Esta acción no se puede deshacer.</p>
+                    <div class="delete-consequences" id="deleteConsequences" style="display: none;">
+                        <p class="consequences-title">Al eliminar este viaje:</p>
+                        <ul class="consequences-list">
+                            <li>Se notificarán a todos los pasajeros reservados</li>
+                            <li>Se liberarán sus asientos automáticamente</li>
+                            <li>El viaje desaparecerá de la lista de viajes disponibles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn">Cancelar</button>
+                <button type="button" class="btn-danger" id="confirmDeleteBtn">
+                    <span class="btn-icon material-icons">delete</span>
+                    Eliminar Viaje
+                </button>
+            </div>
+        </div>
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo-section">
-          <div class="footer-logo">
-            <div class="logo-icon">🚗</div>
-            <span>OnePath</span>
-          </div>
-          <p>Conectando estudiantes universitarios con viajes seguros y económicos</p>
+    <!-- Edit Trip Modal -->
+    <div class="modal" id="editTripModal" role="dialog" aria-labelledby="editTripModalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-content--large">
+            <div class="modal-header">
+                <button class="modal-close" id="closeEditModal" aria-label="Cerrar modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Header Section -->
+                <header class="edit-modal-header">
+                    <h2 class="edit-modal-title" id="editTripModalTitle">Editar Viaje</h2>
+                    <p class="edit-modal-subtitle">Actualiza la información de tu viaje. Los pasajeros serán notificados automáticamente de los cambios.</p>
+                </header>
+                
+                <!-- Loading State -->
+                <div class="loading-state" id="editModalLoadingState" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando información del viaje...</p>
+                </div>
+
+                <!-- Error State -->
+                <div class="error-state" id="editModalErrorState" style="display: none;">
+                    <div class="error-icon material-icons">warning</div>
+                    <h3>No se puede editar este viaje</h3>
+                    <p id="editModalErrorMessage"></p>
+                </div>
+
+                <!-- Form Section -->
+                <section class="edit-modal-form-section" id="editModalFormSection" style="display: none;">
+                    <form class="edit-trip-form publish-form" id="editTripForm" novalidate>
+                        <!-- Origen -->
+                        <div class="form-group">
+                            <label class="form-label" for="editOrigin">Punto de Partida <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon material-icons" aria-hidden="true">location_on</span>
+                                <input 
+                                    type="text" 
+                                    id="editOrigin" 
+                                    name="origin" 
+                                    class="form-input" 
+                                    placeholder="Ej: San Isidro, Lima" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="editOrigin-error"
+                                >
+                            </div>
+                            <span class="error-message" id="editOrigin-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Destino -->
+                        <div class="form-group">
+                            <label class="form-label" for="editDestination">Destino (Universidad) <span class="required">*</span></label>
+                            <div class="input-with-icon">
+                                <span class="input-icon material-icons" aria-hidden="true">school</span>
+                                <input 
+                                    type="text" 
+                                    id="editDestination" 
+                                    name="destination" 
+                                    class="form-input" 
+                                    placeholder="Ej: Universidad San Marcos" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="editDestination-error"
+                                >
+                            </div>
+                            <span class="error-message" id="editDestination-error" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Fecha y Hora -->
+                        <div class="form-row">
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editDate">Fecha del Viaje <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon material-icons" aria-hidden="true">calendar_today</span>
+                                    <input 
+                                        type="date" 
+                                        id="editDate" 
+                                        name="date" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="editDate-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="editDate-error" role="alert" aria-live="polite"></span>
+                            </div>
+
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editTime">Hora de Salida <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon material-icons" aria-hidden="true">schedule</span>
+                                    <input 
+                                        type="time" 
+                                        id="editTime" 
+                                        name="time" 
+                                        class="form-input" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="editTime-error"
+                                    >
+                                </div>
+                                <span class="error-message" id="editTime-error" role="alert" aria-live="polite"></span>
+                            </div>
+                        </div>
+
+                        <!-- Información adicional (solo lectura) -->
+                        <div class="form-row">
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editSeats">Asientos Disponibles</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon material-icons" aria-hidden="true">event_seat</span>
+                                    <input 
+                                        type="number" 
+                                        id="editSeats" 
+                                        name="seats" 
+                                        class="form-input" 
+                                        readonly
+                                        aria-readonly="true"
+                                    >
+                                </div>
+                                <small class="form-hint">Los asientos no se pueden modificar</small>
+                            </div>
+
+                            <div class="form-group form-group--half">
+                                <label class="form-label" for="editPrice">Precio por Persona</label>
+                                <div class="input-prefix">
+                                    <span class="prefix">S/</span>
+                                    <input 
+                                        type="number" 
+                                        id="editPrice" 
+                                        name="price" 
+                                        class="form-input" 
+                                        readonly
+                                        aria-readonly="true"
+                                    >
+                                </div>
+                                <small class="form-hint">El precio no se puede modificar</small>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-full btn-large" id="submitEditBtn">
+                                <span class="btn-icon material-icons">save</span>
+                                Guardar Cambios
+                            </button>
+                            <button type="button" class="btn-secondary btn-full" id="cancelEditBtn">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
         </div>
-        <div class="footer-links">
-          <a href="#">Términos y Condiciones</a>
-          <a href="#">Política de Privacidad</a>
-          <a href="#">Soporte</a>
-          <a href="#">Contacto</a>
-        </div>
-      </div>
     </div>
-  </footer>
 
-  <!-- Script de comportamiento -->
-  <script src="../../js/trips/history.js" defer></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/utils/demo-seed.js" defer></script>
+    <script src="../../js/trips/edit-modal.js" defer></script>
+    <script src="../../js/trips/my-trips.js" defer></script>
 </body>
 </html>

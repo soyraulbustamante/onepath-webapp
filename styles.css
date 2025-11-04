@@ -28,6 +28,17 @@
     margin: 0 auto;
     padding: 0 20px;
   }
+
+  /* Dashboard Cards Hover Effects */
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-card[href*="rate-trip"]:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+  }
   
   /* Header */
   .header {
@@ -144,6 +155,7 @@
     font-weight: 700;
     margin-bottom: 24px;
     line-height: 1.2;
+    color: #ffffff !important;
   }
   
   .hero-text p {
@@ -151,6 +163,7 @@
     margin-bottom: 32px;
     opacity: 0.95;
     line-height: 1.6;
+    color: #ffffff !important;
   }
   
   .hero-buttons {
@@ -158,24 +171,24 @@
     gap: 16px;
   }
   
-.btn-primary {
-    background-color: var(--white);
-    color: var(--primary-blue);
-    border: none;
-    padding: 12px 32px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-  }
-  
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
+/*.btn-primary {*/
+/*    background-color: var(--primary-blue) !important;*/
+/*    color: var(--white) !important;*/
+/*    border: none;*/
+/*    padding: 12px 32px;*/
+/*    border-radius: 6px;*/
+/*    font-size: 14px;*/
+/*    font-weight: 600;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.2s, box-shadow 0.2s;*/
+/*    text-decoration: none;*/
+/*  }*/
+/*  */
+/*  .btn-primary:hover {*/
+/*      background-color: var(--primary-dark);*/
+/*      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);*/
+/*  }*/
+/*  */
 .btn-secondary {
     background-color: transparent;
     color: var(--white);
@@ -534,12 +547,14 @@
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 16px;
+    color: var(--white);
   }
   
   .cta p {
     font-size: 16px;
     margin-bottom: 32px;
     opacity: 0.95;
+    color: var(--white);
   }
   
   .cta-buttons {
@@ -571,7 +586,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 40px;
-    margin-bottom: 40px;
   }
   
   .footer-section h4 {

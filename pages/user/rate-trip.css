@@ -1,0 +1,722 @@
+/* Rate Trip Page Styles - OnePath */
+
+/* Main Content */
+.main-content {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Trip Completed Banner */
+.trip-completed-banner {
+    background-color: #f0fdf4;
+    border-bottom: 1px solid var(--success);
+    padding: 1.5rem 0;
+}
+
+.completion-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.completion-icon {
+    background-color: var(--success);
+    color: var(--white);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.completion-text {
+    text-align: center;
+}
+
+.completion-text h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--success);
+    margin: 0 0 0.25rem 0;
+}
+
+.completion-text p {
+    font-size: 0.875rem;
+    color: #166534;
+    margin: 0;
+}
+
+/* Section Styles */
+.trip-summary-section,
+.rating-section,
+.action-buttons-section,
+.thank-you-section,
+.recommendations-section {
+    margin-bottom: 2rem;
+}
+
+.trip-summary-card,
+.rating-card,
+.thank-you-card {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Trip Summary */
+.driver-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.driver-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.driver-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.driver-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 0.25rem 0;
+}
+
+.driver-career,
+.driver-vehicle {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.trip-cost {
+    text-align: right;
+}
+
+.cost-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.cost-label {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+/* Trip Stats */
+.trip-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--gray-50);
+    border-radius: 0.5rem;
+}
+
+.stat-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+/* Trip Route */
+.trip-route {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.route-point {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.route-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.start-dot {
+    background-color: var(--success);
+}
+
+.end-dot {
+    background-color: var(--error);
+}
+
+.route-line {
+    width: 2px;
+    height: 1rem;
+    background-color: var(--border-light);
+    margin-left: 5px;
+}
+
+.route-location {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.route-time {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+/* Rating Section */
+.overall-rating {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.rating-question {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: all 0.2s ease;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.star-btn:hover {
+    transform: scale(1.1);
+}
+
+.star-icon {
+    filter: grayscale(100%);
+    transition: filter 0.2s ease;
+}
+
+.star-btn.active .star-icon,
+.star-btn:hover .star-icon {
+    filter: grayscale(0%);
+}
+
+.rating-text {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+/* Detailed Ratings */
+.detailed-ratings {
+    margin-bottom: 2rem;
+}
+
+.rating-category {
+    margin-bottom: 1.5rem;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.category-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.category-stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.category-star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    padding: 0.125rem;
+    border-radius: 0.125rem;
+}
+
+.category-star .star-icon,
+.category-star {
+    filter: grayscale(100%);
+    transition: filter 0.2s ease;
+}
+
+.category-star.active,
+.category-star:hover {
+    filter: grayscale(0%);
+}
+
+.category-description {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Comment Section */
+.comment-section {
+    margin-bottom: 2rem;
+}
+
+.comment-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+}
+
+.comment-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.comment-textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.char-counter {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
+.char-counter.over-limit {
+    color: var(--error);
+}
+
+/* Feedback Tags */
+.feedback-tags {
+    margin-bottom: 2rem;
+}
+
+.tags-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.feedback-tag {
+    background-color: var(--gray-100);
+    color: var(--text-light);
+    border: 1px solid var(--border-light);
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.feedback-tag:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+.feedback-tag.selected {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary,
+.btn-secondary {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-primary:disabled {
+    background-color: var(--gray-300);
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: var(--gray-100);
+    color: var(--text-light);
+    border: 1px solid var(--border-light);
+}
+
+.btn-secondary:hover {
+    background-color: var(--gray-200);
+}
+
+.btn-primary.full-width,
+.btn-secondary.full-width {
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+
+.btn-primary.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+}
+
+.report-section {
+    text-align: center;
+}
+
+.report-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.report-btn:hover {
+    color: var(--text);
+}
+
+/* Thank You Section */
+.thank-you-card {
+    text-align: center;
+}
+
+.thank-you-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.thank-you-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+}
+
+.thank-you-text {
+    color: var(--text-light);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+}
+
+.impact-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.impact-item {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--gray-50);
+    border-radius: 0.5rem;
+}
+
+.impact-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.impact-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
+.impact-label {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.next-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Recommendations */
+.recommendations-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin: 0 0 1.5rem 0;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.recommendation-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.recommendation-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recommendation-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.recommendation-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 0.25rem 0;
+}
+
+.recommendation-career {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.recommendation-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+}
+
+.star {
+    font-size: 0.875rem;
+}
+
+.star.filled {
+    filter: grayscale(0%);
+}
+
+.star:not(.filled) {
+    filter: grayscale(100%);
+}
+
+.rating-value {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-left: 0.5rem;
+}
+
+.recommendation-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.recommendation-description {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin: 0 0 1rem 0;
+}
+
+/* Success Message */
+.success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--success);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem 0;
+    }
+
+    .completion-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .driver-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .trip-cost {
+        text-align: left;
+        align-self: stretch;
+    }
+
+    .trip-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .star-rating {
+        gap: 0.25rem;
+    }
+
+    .star-btn {
+        font-size: 1.5rem;
+    }
+
+    .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .impact-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tags-container {
+        justify-content: center;
+    }
+}

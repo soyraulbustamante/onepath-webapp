@@ -15,6 +15,11 @@
   const resultsCount = document.getElementById('resultsCount');
   const loadMoreBtn = document.getElementById('loadMoreBtn');
   const searchBarSection = document.querySelector('.search-bar-section');
+  // Tabs elements
+  const tabListBtn = document.getElementById('tabList');
+  const tabMapBtn = document.getElementById('tabMap');
+  const listTabPane = document.getElementById('listTabPane');
+  const mapTabPane = document.getElementById('mapTabPane');
 
   // Initialize
   function init() {
@@ -45,6 +50,14 @@
       loadMoreBtn.addEventListener('click', handleLoadMore);
     }
 
+    // Tabs handlers
+    if (tabListBtn && tabMapBtn && listTabPane && mapTabPane) {
+      tabListBtn.addEventListener('click', () => activateTab('list'));
+      tabMapBtn.addEventListener('click', () => activateTab('map'));
+      // Ensure default
+      activateTab('list');
+    }
+
     // Remove active filter tags
     const filterTagRemoves = document.querySelectorAll('.filter-tag-remove');
     filterTagRemoves.forEach(btn => {
@@ -53,6 +66,9 @@
 
     // Update active filters on page load
     updateActiveFilters();
+
+    // Set random avatars for driver images
+    setRandomAvatars();
   }
 
 
@@ -71,6 +87,26 @@
     if (searchForm) {
       searchForm.dispatchEvent(new Event('submit'));
     }
+  }
+
+  // --- Random avatar utilities (DiceBear v8) ---
+  function randomAvatarUrl(size, variant) {
+    const seed = Math.random().toString(36).slice(2, 10);
+    const sprite = typeof variant === 'string' && variant.length ? variant : 'avataaars';
+    const s = parseInt(size || 64, 10);
+    return `https://api.dicebear.com/8.x/${sprite}/png?seed=${seed}&size=${s}`;
+  }
+
+  function setRandomAvatars() {
+    const imgs = document.querySelectorAll('img.js-random-avatar');
+    imgs.forEach(img => {
+      const fallback = img.getAttribute('src');
+      const size = img.dataset.size || '64';
+      const variant = img.dataset.variant || 'avataaars';
+      const url = randomAvatarUrl(size, variant);
+      img.onerror = function() { img.src = fallback; };
+      img.src = url;
+    });
   }
 
   // Handle search form submission
@@ -232,5 +268,28 @@
   } else {
     init();
   }
+  // Tabs activation
+  function activateTab(name) {
+    if (!tabListBtn || !tabMapBtn || !listTabPane || !mapTabPane) return;
+
+    const isList = name === 'list';
+    tabListBtn.classList.toggle('active', isList);
+    tabMapBtn.classList.toggle('active', !isList);
+    tabListBtn.setAttribute('aria-selected', isList ? 'true' : 'false');
+    tabMapBtn.setAttribute('aria-selected', !isList ? 'true' : 'false');
+
+    listTabPane.classList.toggle('active', isList);
+    mapTabPane.classList.toggle('active', !isList);
+    mapTabPane.style.display = isList ? 'none' : 'block';
+
+    if (!isList) {
+      // Initialize or refresh map when switching to Map tab
+      if (typeof window.invalidateOnepathMap === 'function') {
+        // Small delay allows layout to settle before resize
+        setTimeout(() => window.invalidateOnepathMap(), 50);
+      }
+    }
+  }
+
 })();
 
