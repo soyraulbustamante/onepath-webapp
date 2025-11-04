@@ -20,74 +20,91 @@
     <!-- Header (renderizado por componente) -->
     <div id="navbar"></div>
 
-    <!-- Chat Header with Trip Info -->
-    <section class="chat-header">
-        <div class="container">
-            <div class="chat-header-content">
-                <div class="trip-participant">
-                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="participant-avatar">
-                    <div class="participant-info">
-                        <h2 class="participant-name">Carlos M. - Ing. Sistemas</h2>
-                        <div class="participant-details">
-                            <div class="rating">
-                                <span class="stars">★★★★★</span>
-                                <span class="rating-text">4.9 • Volkswagen Golf Gris • Placa: ABC-123</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="trip-actions">
-                    <div class="trip-time">
-                        <div class="time-label">Hoy 07:30</div>
-                        <div class="status-badge status-active">En camino</div>
-                    </div>
-                    <button class="btn-call">
-                        <span class="call-icon material-icons">phone</span>
-                        Llamar
-                    </button>
-                    <button class="btn-menu">⋮</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trip Status Bar -->
-    <section class="trip-status">
-        <div class="container">
-            <div class="status-content">
-                <div class="meeting-point">
-                    <div class="location-icon material-icons">location_on</div>
-                    <div class="location-info">
-                        <span class="location-title">Punto de encuentro: Metro San Isidro</span>
-                        <div class="location-address">Av. Javier Prado Este 4200 - Salida A</div>
-                    </div>
-                </div>
-                <div class="trip-info">
-                    <div class="arrival-time">
-                        <div class="time-label">Llegada estimada</div>
-                        <div class="time-value">07:30 AM</div>
-                    </div>
-                    <button class="btn-map">
-                        <span class="map-icon material-icons">map</span>
-                        Ver Mapa
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Main Chat Container -->
     <main class="chat-main">
         <div class="container">
-            <div class="chat-container">
-                
-                <!-- Chat Messages Area -->
-                <div class="chat-messages" id="chat-messages">
+            <div class="chat-split-layout">
+                <!-- Sidebar: Established Chats -->
+                <aside class="chat-sidebar">
+                    <div class="chat-list-header">
+                        <h3>Mis Chats</h3>
+                        <button class="chat-new-btn" type="button"><span class="material-icons">add</span></button>
+                    </div>
+                    <div class="chat-list" id="chatList">
+                        <button class="chat-list-item active" data-name="Carlos M. - Ing. Sistemas" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Carlos M.</span>
+                                    <span class="chat-list-time">07:35</span>
+                                </div>
+                                <div class="chat-list-last">¡Perfecto! Ya te vi, voy caminando hacia ti…</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="María G. - Ing. Industrial" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">María G.</span>
+                                    <span class="chat-list-time">Ayer</span>
+                                </div>
+                                <div class="chat-list-last">Nos vemos en la puerta principal de la UNMSM</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="Luis P. - Ing. Mecánica" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Luis P.</span>
+                                    <span class="chat-list-time">Dom</span>
+                                </div>
+                                <div class="chat-list-last">¿Confirmas punto exacto de recojo mañana?</div>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Conversation: Right Panel -->
+                <section class="chat-conversation">
+                    <!-- Chat Header with Trip Info -->
+                    <div class="chat-header">
+                        <div class="chat-header-content">
+                            <div class="trip-participant">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="participant-avatar">
+                                <div class="participant-info">
+                                    <h2 class="participant-name">Carlos M. - Ing. Sistemas</h2>
+                                </div>
+                            </div>
+                            <div class="trip-actions">
+                                <div class="trip-time">
+                                    <div class="time-label">Hoy 07:30</div>
+                                    <div class="status-badge status-active">En camino</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trip Status Bar -->
+                    <div class="trip-status">
+                        <div class="status-content">
+                            <div class="meeting-point">
+                                <div class="location-icon material-icons">location_on</div>
+                                <div class="location-info">
+                                    <span class="location-title">Punto de encuentro: Metro San Isidro</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-container">
+                        <!-- Chat Messages Area -->
+                        <div class="chat-messages" id="chat-messages">
                     
                     <!-- System Message -->
                     <div class="system-message">
                         <div class="system-text">
-                            Chat iniciado para el viaje del 7 de octubre, 2025
+                            Chat iniciado para el viaje de hoy
                         </div>
                     </div>
 
@@ -193,10 +210,10 @@
                         </div>
                     </div>
 
-                </div>
+                        </div>
 
-                <!-- Message Input Area -->
-                <div class="message-input">
+                        <!-- Message Input Area -->
+                        <div class="message-input">
                     <div class="input-row">
                         <button class="btn-attachment" type="button" aria-label="Adjuntar archivo"><span class="material-icons">attach_file</span></button>
                         <div class="input-wrapper">
@@ -208,7 +225,7 @@
                         </button>
                     </div>
                     
-                    <!-- Quick Actions -->
+                    <!-- Quick Actions (reducidas) -->
                     <div class="quick-actions">
                         <button class="quick-action" type="button" data-action="location">
                             <span class="material-icons">location_on</span> Compartir ubicación
@@ -216,62 +233,25 @@
                         <button class="quick-action" type="button" data-action="photo">
                             <span class="material-icons">photo_camera</span> Enviar foto
                         </button>
-                        <button class="quick-action quick-action-danger" type="button" data-action="report">
-                            <span class="material-icons">warning</span> Reportar problema
-                        </button>
                     </div>
-                </div>
+                        </div>
+                    </div>
+                    <!-- Acciones de viaje dentro del chat -->
+                    <div class="conversation-actions">
+                        <div class="action-buttons">
+                            <button class="btn-cancel" type="button">
+                                <span class="material-icons">cancel</span> Cancelar viaje
+                            </button>
+                            <button class="btn-start" type="button">
+                                <span class="material-icons">play_arrow</span> Iniciar viaje
+                            </button>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </main>
-
-    <!-- Trip Actions Panel -->
-    <section class="trip-actions-panel">
-        <div class="container">
-            <div class="actions-content">
-                <div class="trip-stats">
-                    <div class="stat-item">
-                        <span class="stat-icon material-icons">access_time</span>
-                        <span class="stat-text">Tiempo estimado: 45 min</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-icon material-icons">road</span>
-                        <span class="stat-text">Distancia: 12.5 km</span>
-                    </div>
-                    <div class="stat-item stat-success">
-                        <span class="stat-icon material-icons">check_circle</span>
-                        <span class="stat-text">Pasajero encontrado</span>
-                    </div>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-cancel" type="button">
-                        <span class="material-icons">cancel</span> Cancelar viaje
-                    </button>
-                    <button class="btn-start" type="button">
-                        <span class="material-icons">play_arrow</span> Iniciar viaje
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Emergency Contact Banner -->
-    <section class="emergency-banner">
-        <div class="container">
-            <div class="emergency-content">
-                <div class="emergency-info">
-                    <span class="emergency-icon material-icons">security</span>
-                    <div class="emergency-text">
-                        <span class="emergency-title">¿Necesitas ayuda de emergencia?</span>
-                        <span class="emergency-subtitle">Contacta con nuestro equipo de seguridad 24/7</span>
-                    </div>
-                </div>
-                <button class="btn-emergency" type="button">
-                    <span class="material-icons">phone</span> Emergencia
-                </button>
-            </div>
-        </div>
-    </section>
+                
 
     <!-- Footer -->
     <footer class="footer">

@@ -1,10 +1,46 @@
 /* Chat Page Styles - OnePath */
 
+/* Icon alignment improvements */
+.material-icons {
+    line-height: 1;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Ensure buttons with icons align content consistently */
+.btn-send,
+.btn-emergency,
+.btn-cancel,
+.btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Normalize icon sizing in key actions */
+.send-icon.material-icons,
+.action-buttons .material-icons,
+.quick-actions .material-icons {
+    font-size: 20px;
+}
+
+/* Force white icon inside send button */
+.btn-send .send-icon.material-icons {
+    color: var(--white);
+}
+
+/* Quick action buttons: align icon + text */
+.quick-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Chat Header */
 .chat-header {
     background-color: var(--white);
     border-bottom: 1px solid var(--border-light);
-    padding: 1rem 0;
+    padding: 12px 16px;
 }
 
 .chat-header-content {
@@ -122,9 +158,9 @@
 
 /* Trip Status */
 .trip-status {
-    background-color: var(--light-blue);
-    border-bottom: 1px solid var(--primary-blue);
-    padding: 0.75rem 0;
+    background-color: var(--gray-100);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 16px;
 }
 
 .status-content {
@@ -206,8 +242,8 @@
     max-width: 800px;
     margin: 0 auto;
     background-color: var(--white);
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-light);
+    border-radius: 0;
+    border: 0;
     overflow: hidden;
 }
 
@@ -295,8 +331,9 @@
 }
 
 .message-own .message-bubble {
-    background-color: var(--primary-blue);
-    color: var(--white);
+    background-color: #eaf2ff; /* azul suave para mejor legibilidad */
+    color: var(--text);
+    border: 1px solid var(--border-light);
     border-bottom-right-radius: 0.25rem;
 }
 
@@ -643,4 +680,115 @@
         align-self: stretch;
         text-align: center;
     }
+}
+
+/* Split layout for messages: left list, right conversation */
+.chat-split-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.chat-sidebar {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 220px);
+}
+
+.chat-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.chat-new-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.chat-list {
+  overflow-y: auto;
+}
+
+.chat-list-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chat-list-item.active,
+.chat-list-item:hover {
+  background: var(--gray-100);
+}
+
+.chat-list-item.active {
+  border-left: 3px solid var(--primary-blue);
+}
+
+.chat-list-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-list-info { flex: 1; }
+.chat-list-top { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.chat-list-name { font-weight:700; }
+.chat-list-last { color: var(--text-light); font-size: 0.9rem; margin-top:4px; }
+
+.chat-conversation {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.chat-container {
+  height: calc(100vh - 220px);
+  display:flex;
+  flex-direction:column;
+}
+.chat-messages { flex: 1 1 auto; padding: 1rem; overflow-y:auto; }
+.message-input { border-top: 1px solid var(--border-light); padding: 12px; background: var(--white); }
+
+/* Conversation Actions: inside chat */
+.conversation-actions {
+  border-top: 1px solid var(--border-light);
+  background: var(--white);
+  padding: 12px 16px;
+}
+.conversation-actions .action-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+.conversation-actions .btn-start {
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .chat-split-layout { grid-template-columns: 1fr; }
+  .chat-sidebar { height: auto; }
+  .chat-container { height: auto; }
 }

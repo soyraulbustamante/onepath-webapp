@@ -23,6 +23,9 @@
 
         // Auto-scroll to bottom
         scrollToBottom();
+
+        // Sidebar chat selection
+        initChatList();
     }
 
     // Bind event listeners
@@ -46,6 +49,24 @@
 
         // Other action buttons
         bindActionButtons();
+    }
+
+    function initChatList() {
+        const list = document.getElementById('chatList');
+        if (!list) return;
+        const items = list.querySelectorAll('.chat-list-item');
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                items.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const name = item.dataset.name || '';
+                const avatar = item.dataset.avatar || '';
+                const nameEl = document.querySelector('.participant-name');
+                const avatarEl = document.querySelector('.participant-avatar');
+                if (nameEl) nameEl.textContent = name;
+                if (avatarEl && avatar) avatarEl.src = avatar;
+            });
+        });
     }
 
     // Handle sending a message
