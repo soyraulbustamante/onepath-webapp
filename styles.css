@@ -374,7 +374,7 @@
     gap: 24px;
     margin-top: 48px;
   }
-  
+
   .university-logo {
     background-color: var(--gray-light);
     padding: 24px;
@@ -385,7 +385,15 @@
     font-size: 14px;
     transition: all 0.3s;
   }
-  
+
+  .university-logo img {
+    width: 100%;
+    max-height: 40px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
   .university-logo:hover {
     background-color: var(--light-blue);
     color: var(--primary-blue);
@@ -569,11 +577,11 @@
     color: var(--primary-blue);
   }
   
-  .cta .btn-secondary {
-    background-color: transparent;
-    color: var(--white);
-    border: 2px solid var(--white);
-  }
+  /*.cta .btn-secondary {*/
+  /*  background-color: transparent;*/
+  /*  color: var(--white);*/
+  /*  border: 2px solid var(--white);*/
+  /*}*/
   
   /* Footer */
   .footer {
