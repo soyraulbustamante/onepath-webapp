@@ -865,7 +865,6 @@ textarea[readonly]:focus {
 }
 
 .reservation-tab.active {
-  background-color: var(--light-blue);
   color: var(--primary-blue);
   border-bottom: none;
 }
@@ -1579,11 +1578,11 @@ textarea[readonly]:focus {
   gap: 12px;
 }
 
-.driver-avatar {
+.reservation-driver-info .driver-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  background: var(--gray-100);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1679,6 +1678,7 @@ textarea[readonly]:focus {
 }
 
 .link-cancel {
+  border: 1.5px solid var(--error);
   color: var(--error);
   text-decoration: none;
   cursor: pointer;
@@ -1689,7 +1689,7 @@ textarea[readonly]:focus {
 }
 
 .link-cancel:hover {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 
 .link-details,
