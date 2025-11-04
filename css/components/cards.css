@@ -59,17 +59,21 @@
 }
 
 .trip-route {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 12px;
+  padding: 16px;
 }
 
 .route-point {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
+  gap: 10px;
 }
 
 .route-dot {
@@ -94,21 +98,45 @@
 }
 
 .route-time {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-dark);
 }
 
 .route-location {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.route-middle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.route-middle .duration {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.route-middle .car-icon {
+  font-size: 18px;
   color: var(--text-light);
 }
 
 .route-line {
-  width: 2px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--success), var(--error));
-  flex-shrink: 0;
+  width: 120px;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--gray-300) 0px,
+    var(--gray-300) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border: none;
 }
 
 .trip-details {
@@ -131,6 +159,14 @@
 .trip-vehicle {
   font-size: 13px;
   color: var(--text-light);
+}
+
+.trip-duration .material-icons,
+.trip-seats .material-icons,
+.trip-vehicle .material-icons {
+  font-size: 14px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
 .trip-price {
@@ -181,6 +217,31 @@
     padding: 16px;
   }
 
+  .trip-route {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .route-middle {
+    order: 2;
+    flex-direction: row;
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  .route-line {
+    width: 60px;
+    height: 2px;
+  }
+
+  .route-point.departure {
+    order: 1;
+  }
+
+  .route-point.arrival {
+    order: 3;
+  }
+
   .trip-card-header {
     flex-direction: column;
     gap: 12px;
@@ -198,10 +259,6 @@
 
   .trip-price {
     align-items: flex-start;
-  }
-
-  .route-line {
-    height: 30px;
   }
 }
 

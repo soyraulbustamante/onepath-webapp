@@ -48,7 +48,8 @@
 /* Información del conductor */
 .info-columns { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .preferences-grid { list-style:none; padding:0; margin:0; display:grid; grid-template-columns: 1fr; gap:8px; }
-.preferences-grid li { font-size:14px; color: var(--text-dark); }
+.preferences-grid li { font-size:14px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+.preferences-grid li .material-icons { font-size: 18px; flex-shrink: 0; }
 
 /* Reseñas */
 .reviews .review-item { border-top: 1px solid var(--gray-100); padding-top: 12px; margin-top: 12px; }

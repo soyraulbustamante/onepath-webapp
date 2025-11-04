@@ -98,6 +98,11 @@
   color: var(--text-light);
 }
 
+.swap-icon.material-icons {
+  font-size: 18px;
+  line-height: 1;
+}
+
 .btn-search {
   padding: 10px 24px;
   background-color: var(--primary-blue);
@@ -117,6 +122,11 @@
 .btn-search:hover {
   background-color: var(--primary-dark);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.search-icon.material-icons {
+  font-size: 18px;
+  line-height: 1;
 }
 
 .search-page-main {
@@ -951,6 +961,11 @@ textarea[readonly]:focus {
   color: #b45309; /* amber-700 */
 }
 
+.status-chip--in-progress {
+  background-color: #eff6ff; /* blue-50 */
+  color: #1e40af; /* blue-800 */
+}
+
 .status-chip--cancelled {
   background-color: #fef2f2; /* red-50 */
   color: #b91c1c; /* red-700 */
@@ -1464,7 +1479,7 @@ textarea[readonly]:focus {
   color: var(--text-light);
 }
 
-.route-line {
+.reservation-route .route-line {
   width: 2px;
   flex: 1;
   min-height: 40px;

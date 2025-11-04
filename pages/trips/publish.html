@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../css/components/notifications.css">
     <link rel="stylesheet" href="../../css/components/footer.css">
     <link rel="stylesheet" href="../../css/pages/trips.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
 <body>
@@ -37,7 +38,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="origin">Punto de Partida <span class="required">*</span></label>
                                 <div class="input-with-icon">
-                                    <span class="input-icon" aria-hidden="true">📍</span>
+                                    <span class="input-icon material-icons" aria-hidden="true">location_on</span>
                                     <input 
                                         type="text" 
                                         id="origin" 
@@ -55,8 +56,8 @@
                             <div class="form-group">
                                 <label class="form-label" for="destination">Destino (Universidad) <span class="required">*</span></label>
                                 <div class="input-with-icon">
-                                    <span class="input-icon" aria-hidden="true">🎓</span>
-                                    <select id="destination" name="destination" required aria-required="true" aria-describedby="destination-error">
+                                    <span class="input-icon material-icons" aria-hidden="true">school</span>
+                                    <select id="destination" name="destination" class="form-input" required aria-required="true" aria-describedby="destination-error">
                                         <option value="" selected disabled>Selecciona tu universidad</option>
                                         <option value="PUCP">PUCP</option>
                                         <option value="UPC">UPC</option>
@@ -73,7 +74,7 @@
                                 <div class="form-group form-group--half">
                                     <label class="form-label" for="date">Fecha del Viaje <span class="required">*</span></label>
                                     <div class="input-with-icon">
-                                        <span class="input-icon" aria-hidden="true">📅</span>
+                                        <span class="input-icon material-icons" aria-hidden="true">calendar_today</span>
                                         <input type="date" id="date" name="date" class="form-input" required aria-required="true" aria-describedby="date-error">
                                     </div>
                                     <span class="error-message" id="date-error" role="alert" aria-live="polite"></span>
@@ -82,7 +83,7 @@
                                 <div class="form-group form-group--half">
                                     <label class="form-label" for="time">Hora de Salida <span class="required">*</span></label>
                                     <div class="input-with-icon">
-                                        <span class="input-icon" aria-hidden="true">🕐</span>
+                                        <span class="input-icon material-icons" aria-hidden="true">schedule</span>
                                         <input type="time" id="time" name="time" class="form-input" required aria-required="true" aria-describedby="time-error">
                                     </div>
                                     <span class="error-message" id="time-error" role="alert" aria-live="polite"></span>
@@ -94,8 +95,8 @@
                                 <div class="form-group form-group--half">
                                     <label class="form-label" for="seats">Asientos Disponibles <span class="required">*</span></label>
                                     <div class="input-with-icon">
-                                        <span class="input-icon" aria-hidden="true">💺</span>
-                                        <select id="seats" name="seats" required aria-required="true" aria-describedby="seats-error">
+                                        <span class="input-icon material-icons" aria-hidden="true">event_seat</span>
+                                        <select id="seats" name="seats" class="form-input" required aria-required="true" aria-describedby="seats-error">
                                             <option value="" disabled selected>Selecciona</option>
                                             <option value="1">1 asiento</option>
                                             <option value="2">2 asientos</option>
@@ -143,7 +144,7 @@
                             <!-- Actions -->
                             <div class="form-actions">
                                 <button type="submit" class="btn-primary btn-full btn-large" id="submitBtn">
-                                    <span class="btn-icon">🚀</span>
+                                    <span class="btn-icon material-icons">send</span>
                                     Publicar Viaje
                                 </button>
                                 <button type="button" class="btn-secondary btn-full" id="cancelBtn">
@@ -214,7 +215,7 @@
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
+                        <div class="logo-icon"><span class="material-icons">directions_car</span></div>
                         <span>OnePath</span>
                     </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>

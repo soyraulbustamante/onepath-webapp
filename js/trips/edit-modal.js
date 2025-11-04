@@ -1,22 +1,23 @@
-// Edit Trip functionality
+// Edit Trip Modal functionality
 (function() {
   'use strict';
 
   // DOM elements
-  const editForm = document.getElementById('editForm');
-  const originInput = document.getElementById('origin');
-  const destinationInput = document.getElementById('destination');
-  const dateInput = document.getElementById('date');
-  const timeInput = document.getElementById('time');
-  const seatsInput = document.getElementById('seats');
-  const priceInput = document.getElementById('price');
-  const notesTextarea = document.getElementById('notes');
-  const submitBtn = document.getElementById('submitBtn');
-  const cancelBtn = document.getElementById('cancelBtn');
-  const loadingState = document.getElementById('loadingState');
-  const errorState = document.getElementById('errorState');
-  const formSection = document.getElementById('formSection');
-  const errorMessage = document.getElementById('errorMessage');
+  const editModal = document.getElementById('editTripModal');
+  const editForm = document.getElementById('editTripForm');
+  const originInput = document.getElementById('editOrigin');
+  const destinationInput = document.getElementById('editDestination');
+  const dateInput = document.getElementById('editDate');
+  const timeInput = document.getElementById('editTime');
+  const seatsInput = document.getElementById('editSeats');
+  const priceInput = document.getElementById('editPrice');
+  const submitBtn = document.getElementById('submitEditBtn');
+  const cancelBtn = document.getElementById('cancelEditBtn');
+  const closeBtn = document.getElementById('closeEditModal');
+  const loadingState = document.getElementById('editModalLoadingState');
+  const errorState = document.getElementById('editModalErrorState');
+  const formSection = document.getElementById('editModalFormSection');
+  const errorMessage = document.getElementById('editModalErrorMessage');
 
   // Trip data
   let currentTrip = null;
@@ -38,26 +39,33 @@
 
   // Initialize
   function init() {
-    // Get trip ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    tripId = urlParams.get('id');
-
-    if (!tripId) {
-      showError('No se proporcionó un ID de viaje válido');
-      return;
-    }
-
-    // Load trip data
-    loadTrip(tripId);
-
     // Event listeners
     if (editForm) {
       editForm.addEventListener('submit', handleFormSubmit);
     }
 
     if (cancelBtn) {
-      cancelBtn.addEventListener('click', handleCancel);
+      cancelBtn.addEventListener('click', closeModal);
     }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    // Close modal when clicking overlay
+    if (editModal) {
+      const overlay = editModal.querySelector('.modal-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', closeModal);
+      }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && editModal && editModal.style.display !== 'none') {
+        closeModal();
+      }
+    });
 
     // Real-time validation
     originInput?.addEventListener('blur', () => validateField('origin'));
@@ -67,7 +75,7 @@
 
     // Remove error styling on input
     if (editForm) {
-      const inputs = editForm.querySelectorAll('input, textarea');
+      const inputs = editForm.querySelectorAll('input');
       inputs.forEach(input => {
         input.addEventListener('input', () => {
           if (input.classList.contains('error')) {
@@ -78,43 +86,115 @@
     }
   }
 
+  // Open modal with trip ID
+  function openModal(tripIdParam) {
+    tripId = tripIdParam;
+    
+    if (!editModal) return;
+
+    // Reset form
+    resetForm();
+    
+    // Show modal
+    editModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Load trip data
+    loadTrip(tripId);
+  }
+
+  // Close modal
+  function closeModal() {
+    if (!editModal) return;
+
+    editModal.style.display = 'none';
+    document.body.style.overflow = '';
+    resetForm();
+    tripId = null;
+    currentTrip = null;
+  }
+
+  // Reset form
+  function resetForm() {
+    if (editForm) {
+      editForm.reset();
+    }
+    
+    // Clear all error messages
+    const errorElements = editForm?.querySelectorAll('.error-message');
+    errorElements?.forEach(el => {
+      el.textContent = '';
+      el.style.display = 'none';
+    });
+
+    // Remove error classes
+    const inputs = editForm?.querySelectorAll('.error');
+    inputs?.forEach(input => {
+      input.classList.remove('error');
+      input.removeAttribute('aria-invalid');
+    });
+
+    // Hide all states
+    showLoading(false);
+    showError(false);
+    showForm(false);
+  }
+
   // Load trip data
   async function loadTrip(id) {
-    showLoading();
+    showLoading(true);
 
     try {
       // Get trip from storage (simulating API call)
       const trips = JSON.parse(localStorage.getItem('trips') || '[]');
-      const trip = trips.find(t => t.id === id || t.id === parseInt(id, 10));
+      const trip = trips.find(t => t.id === id || String(t.id) === String(id));
 
       if (!trip) {
         throw new Error(errorMessages.tripNotFound);
       }
 
-      // Check if user is the creator
+      // Check if user is the creator (más permisivo para maquetado)
       const currentUser = getCurrentUser();
+      
+      // Si no hay usuario, usar el conductor de demo para maquetar
       if (!currentUser) {
-        throw new Error('Debes iniciar sesión para editar un viaje');
+        // Crear usuario conductor de demo si no existe
+        const demoDriver = localStorage.getItem('demoDriver');
+        if (demoDriver) {
+          const user = JSON.parse(demoDriver);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+          const user = { id: 'driver-001', name: 'Carlos Mendoza', role: 'driver', university: 'UNMSM', major: 'Ing. Sistemas' };
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('demoDriver', JSON.stringify(user));
+        }
       }
 
-      if (trip.driverId !== currentUser.id && trip.creatorId !== currentUser.id) {
+      // Para maquetado: permitir editar si el trip tiene driverId o si no hay usuario actual
+      // (comentado temporalmente para maquetado)
+      /*
+      if (String(trip.driverId) !== String(currentUser.id) && String(trip.creatorId) !== String(currentUser.id)) {
         throw new Error(errorMessages.notCreator);
       }
+      */
 
-      // Check if trip has already started
+      // Para maquetado: permitir editar incluso si el viaje ya inició
+      // (comentado temporalmente para maquetado)
+      /*
       if (isTripStarted(trip)) {
         throw new Error(errorMessages.tripStarted);
       }
+      */
 
       currentTrip = trip;
       populateForm(trip);
-      hideLoading();
-      showForm();
+      showLoading(false);
+      showForm(true);
 
     } catch (error) {
       console.error('Error loading trip:', error);
-      hideLoading();
-      showError(error.message || errorMessages.loadError);
+      showLoading(false);
+      showError(true, error.message || errorMessages.loadError);
     }
   }
 
@@ -149,7 +229,6 @@
     if (timeInput) timeInput.value = trip.time || '';
     if (seatsInput) seatsInput.value = trip.seats || '';
     if (priceInput) priceInput.value = trip.price || '';
-    if (notesTextarea) notesTextarea.value = trip.notes || '';
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
@@ -159,33 +238,25 @@
   }
 
   // Show loading state
-  function showLoading() {
-    if (loadingState) loadingState.style.display = 'block';
-    if (errorState) errorState.style.display = 'none';
-    if (formSection) formSection.style.display = 'none';
-  }
-
-  // Hide loading state
-  function hideLoading() {
-    if (loadingState) loadingState.style.display = 'none';
+  function showLoading(show) {
+    if (loadingState) loadingState.style.display = show ? 'block' : 'none';
   }
 
   // Show error state
-  function showError(message) {
+  function showError(show, message) {
     if (errorState) {
-      errorState.style.display = 'block';
-      if (errorMessage) {
+      errorState.style.display = show ? 'block' : 'none';
+      if (errorMessage && message) {
         errorMessage.textContent = message;
       }
     }
-    if (loadingState) loadingState.style.display = 'none';
-    if (formSection) formSection.style.display = 'none';
+    if (formSection) formSection.style.display = show ? 'none' : 'block';
   }
 
   // Show form
-  function showForm() {
-    if (formSection) formSection.style.display = 'block';
-    if (errorState) errorState.style.display = 'none';
+  function showForm(show) {
+    if (formSection) formSection.style.display = show ? 'block' : 'none';
+    if (errorState && show) errorState.style.display = 'none';
   }
 
   // Handle form submission
@@ -205,14 +276,15 @@
       return;
     }
 
-    // Double-check if trip has started (in case user kept page open)
+    // Para maquetado: permitir editar incluso si el viaje ya inició
+    // (comentado temporalmente para maquetado)
+    /*
     if (isTripStarted(currentTrip)) {
-      showErrorNotification('El viaje ya ha iniciado y no se puede editar');
-      setTimeout(() => {
-        window.location.href = '../../pages/trips/my-trips.html';
-      }, 2000);
+      showNotification('El viaje ya ha iniciado y no se puede editar', 'error');
+      closeModal();
       return;
     }
+    */
 
     // Get form data
     const formData = {
@@ -230,7 +302,7 @@
       formData.time !== currentTrip.time;
 
     if (!hasChanges) {
-      showErrorNotification('No se han realizado cambios en el viaje');
+      showNotification('No se han realizado cambios en el viaje', 'error');
       return;
     }
 
@@ -245,16 +317,17 @@
       await notifyPassengers(tripId, formData);
       
       // Show success notification
-      showSuccessNotification('¡Viaje actualizado exitosamente! Los pasajeros han sido notificados de los cambios.');
+      showNotification('¡Viaje actualizado exitosamente! Los pasajeros han sido notificados de los cambios.', 'success');
       
-      // Redirect after short delay
-      setTimeout(() => {
-        window.location.href = '../../pages/trips/my-trips.html';
-      }, 2000);
+      // Close modal
+      closeModal();
+
+      // Reload trips list (trigger custom event for my-trips.js to listen)
+      window.dispatchEvent(new CustomEvent('tripUpdated'));
 
     } catch (error) {
       console.error('Error updating trip:', error);
-      showErrorNotification(error.message || 'Hubo un error al actualizar el viaje. Por favor, intenta nuevamente.');
+      showNotification(error.message || 'Hubo un error al actualizar el viaje. Por favor, intenta nuevamente.', 'error');
     } finally {
       setSubmitButtonState(false);
     }
@@ -420,7 +493,7 @@
       setTimeout(() => {
         try {
           const trips = JSON.parse(localStorage.getItem('trips') || '[]');
-          const tripIndex = trips.findIndex(t => t.id === id || t.id === parseInt(id, 10));
+          const tripIndex = trips.findIndex(t => String(t.id) === String(id));
           
           if (tripIndex === -1) {
             reject(new Error('Viaje no encontrado'));
@@ -473,7 +546,7 @@
 
         // Get trip to find passengers
         const trips = JSON.parse(localStorage.getItem('trips') || '[]');
-        const trip = trips.find(t => t.id === tripId || t.id === parseInt(tripId, 10));
+        const trip = trips.find(t => String(t.id) === String(tripId));
 
         if (trip && trip.passengers && trip.passengers.length > 0) {
           // Create notification for each passenger
@@ -517,74 +590,45 @@
     });
   }
 
-  // Show success notification
-  function showSuccessNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification notification-success';
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    notification.innerHTML = `
-      <div class="notification-content">
-        <span class="notification-icon material-icons">check</span>
-        <span class="notification-message">${message}</span>
-      </div>
-    `;
-
-    // Add to body
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
-
-    // Remove after delay
-    setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-        notification.remove();
-      }, 300);
-    }, 5000);
-  }
-
-  // Show error notification
-  function showErrorNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification notification-error';
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    notification.innerHTML = `
-      <div class="notification-content">
-        <span class="notification-icon material-icons">close</span>
-        <span class="notification-message">${message}</span>
-      </div>
-    `;
-
-    // Add to body
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
-
-    // Remove after delay
-    setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-        notification.remove();
-      }, 300);
-    }, 5000);
-  }
-
-  // Handle cancel
-  function handleCancel() {
-    if (confirm('¿Estás seguro de que quieres cancelar? Los cambios no guardados se perderán.')) {
-      window.location.href = '../../pages/trips/my-trips.html';
+  // Show notification
+  function showNotification(message, type = 'success') {
+    // Try to use existing notification system if available
+    if (window.showNotification) {
+      window.showNotification(message, type);
+      return;
     }
+
+    // Fallback: create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'assertive');
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon material-icons">${type === 'success' ? 'check' : 'close'}</span>
+        <span class="notification-message">${message}</span>
+      </div>
+    `;
+
+    // Add to body
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+      notification.classList.add('show');
+    }, 10);
+
+    // Remove after delay
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 5000);
   }
+
+  // Expose openModal function globally
+  window.openEditTripModal = openModal;
 
   // Initialize on DOM ready
   if (document.readyState === 'loading') {
@@ -593,4 +637,3 @@
     init();
   }
 })();
-

@@ -61,12 +61,22 @@ label {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 16px;
+  font-size: 20px;
   color: var(--text-light);
   pointer-events: none;
+  z-index: 1;
 }
 
-.input-with-icon input {
+.input-with-icon .input-icon.material-icons {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-with-icon input,
+.input-with-icon select {
   padding-left: 36px;
 }
 

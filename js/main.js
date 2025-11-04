@@ -93,11 +93,11 @@
         universityInfo.style.flexWrap = 'wrap';
         universityInfo.innerHTML = 
           '<div style="display:flex; align-items:center; gap:8px">' +
-          '  <span>🎓</span>' +
+          '  <span class="material-icons" style="font-size: 20px;">school</span>' +
           '  <span>' + university + '</span>' +
           '</div>' +
           '<div style="display:flex; align-items:center; gap:8px">' +
-          '  <span>📚</span>' +
+          '  <span class="material-icons" style="font-size: 20px;">menu_book</span>' +
           '  <span>' + major + '</span>' +
           '</div>';
         
@@ -159,44 +159,44 @@
 
     var passengerCards = 
       '    <a class="feature-card" href="pages/trips/search.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🔍</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">search</span></div>' +
       '      <h3 style="margin-bottom: 8px">Buscar Viaje</h3>' +
       '      <p>Encuentra viajes disponibles hacia tu universidad</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/reservations/my-reservations.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">📅</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">calendar_today</span></div>' +
       '      <h3 style="margin-bottom: 8px">Mis Reservas</h3>' +
       '      <p>Gestiona tus viajes programados</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/trips/my-trips.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🕐</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">schedule</span></div>' +
       '      <h3 style="margin-bottom: 8px">Historial</h3>' +
       '      <p>Revisa tus viajes anteriores</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/user/rate.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">⭐</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">star</span></div>' +
       '      <h3 style="margin-bottom: 8px">Calificaciones</h3>' +
       '      <p>Ve y deja reseñas de conductores</p>' +
       '    </a>';
 
     var driverCards =
       '    <a class="feature-card" href="pages/trips/publish.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">📝</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">edit</span></div>' +
       '      <h3 style="margin-bottom: 8px">Publicar Viaje</h3>' +
       '      <p>Crea un viaje para que estudiantes se unan</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/trips/my-trips.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🧭</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">explore</span></div>' +
       '      <h3 style="margin-bottom: 8px">Mis Viajes</h3>' +
       '      <p>Gestiona tus viajes publicados</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/trips/search.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">🗺️</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">map</span></div>' +
       '      <h3 style="margin-bottom: 8px">Explorar Solicitudes</h3>' +
       '      <p>Busca rutas y posibles pasajeros</p>' +
       '    </a>' +
       '    <a class="feature-card" href="pages/user/rate.html" style="text-decoration: none; display: block;">' +
-      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px">⭐</div>' +
+      '      <div class="feature-icon" style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">star</span></div>' +
       '      <h3 style="margin-bottom: 8px">Calificaciones</h3>' +
       '      <p>Revisa y mejora tu reputación</p>' +
       '    </a>';
@@ -238,19 +238,19 @@
         '  <p style="text-align: center; color: #6b7280; margin-bottom: 24px">Define origen, destino y horario para publicarlo</p>' +
         '  <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 1000px; margin: 0 auto">' +
         '    <div style="position: relative; flex: 1; min-width: 220px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">🎓</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">school</span>' +
         '      <input type="text" aria-label="Origen" placeholder="' + university + '" value="' + university + '" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px" readonly>' +
         '    </div>' +
         '    <div style="position: relative; flex: 1; min-width: 220px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">📍</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">location_on</span>' +
         '      <input type="text" aria-label="Destino" placeholder="Distrito o zona de destino" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px">' +
         '    </div>' +
         '    <div style="position: relative; flex: 0 0 160px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">⏰</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">access_time</span>' +
         '      <input type="text" aria-label="Hora" placeholder="07:30" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px">' +
         '    </div>' +
         '    <a class="btn-primary" href="pages/trips/publish.html" style="padding: 12px 24px; border-radius: 10px; text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 8px">' +
-        '      <span>📝</span> Publicar viaje' +
+        '      <span class="material-icons">edit</span> Publicar viaje' +
         '    </a>' +
         '  </div>' +
         '</div>';
@@ -262,19 +262,19 @@
         '  <p style="text-align: center; color: #6b7280; margin-bottom: 24px">Encuentra el viaje perfecto que se adapte a tu horario</p>' +
         '  <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 900px; margin: 0 auto">' +
         '    <div style="position: relative; flex: 1; min-width: 200px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">📍</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">location_on</span>' +
         '      <input type="text" aria-label="Desde" placeholder="Tu ubicación actual" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px">' +
         '    </div>' +
       '    <div style="position: relative; flex: 1; min-width: 200px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">🎓</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">school</span>' +
         '      <input type="text" aria-label="Hacia" placeholder="Universidad de Lima" value="' + university + '" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px" readonly>' +
         '    </div>' +
         '    <div style="position: relative; flex: 0 0 160px">' +
-        '      <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280">📅</span>' +
+        '      <span class="material-icons" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 20px;">calendar_today</span>' +
         '      <input type="text" aria-label="Fecha" placeholder="mm/dd/yyyy" style="width: 100%; padding: 12px 14px 12px 40px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 16px">' +
         '    </div>' +
         '    <a class="btn-primary" href="pages/trips/search.html" style="padding: 12px 24px; border-radius: 10px; text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 8px">' +
-        '      <span>🔍</span> Buscar Viajes' +
+        '      <span class="material-icons">search</span> Buscar Viajes' +
         '    </a>' +
         '  </div>' +
         '</div>';
@@ -314,17 +314,17 @@
         '        <div style="width: 48px; height: 48px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: bold">AG</div>' +
         '        <div style="flex: 1">' +
         '          <div style="font-weight: 600; color: #1f2937">Ana García</div>' +
-        '          <div style="font-size: 14px; color: #6b7280">⭐ 5.0 (18 viajes)</div>' +
+          '          <div style="font-size: 14px; color: #6b7280"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">star</span> 5.0 (18 viajes)</div>' +
         '        </div>' +
         '        <div style="font-size: 12px; font-weight: 600; color: #10b981; background: #ecfdf5; padding: 4px 8px; border-radius: 999px">Nueva</div>' +
         '      </div>' +
         '      <div style="margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 8px">' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">📍 San Miguel → Universidad de Lima</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">location_on</span> San Miguel → Universidad de Lima</div>' +
         '        <div style="font-weight: 600; margin-bottom: 4px">7:30 AM</div>' +
         '        <div style="font-size: 14px; color: #6b7280">Asientos solicitados: 1</div>' +
         '      </div>' +
         '      <div style="display: flex; gap: 8px">' +
-        '        <a href="pages/chat/messages.html" class="btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 10px; border-radius: 8px">💬 Contactar</a>' +
+        '        <a href="pages/chat/messages.html" class="btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 10px; border-radius: 8px"><span class="material-icons" style="font-size: 18px; vertical-align: middle;">chat</span> Contactar</a>' +
         '        <a href="pages/trips/my-trips.html" class="btn-primary" style="flex: 1; text-align: center; text-decoration: none; padding: 10px; border-radius: 8px">Aceptar</a>' +
         '      </div>' +
         '    </div>' +
@@ -333,12 +333,12 @@
         '        <div style="width: 48px; height: 48px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: bold">JM</div>' +
         '        <div style="flex: 1">' +
         '          <div style="font-weight: 600; color: #1f2937">José Mejía</div>' +
-        '          <div style="font-size: 14px; color: #6b7280">⭐ 4.7 (12 viajes)</div>' +
+          '          <div style="font-size: 14px; color: #6b7280"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">star</span> 4.7 (12 viajes)</div>' +
         '        </div>' +
         '        <div style="font-size: 12px; font-weight: 600; color: #f59e0b; background: #fffbeb; padding: 4px 8px; border-radius: 999px">Pendiente</div>' +
         '      </div>' +
         '      <div style="margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 8px">' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">📍 Pueblo Libre → Universidad de Lima</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">location_on</span> Pueblo Libre → Universidad de Lima</div>' +
         '        <div style="font-weight: 600; margin-bottom: 4px">7:45 AM</div>' +
         '        <div style="font-size: 14px; color: #6b7280">Asientos solicitados: 2</div>' +
         '      </div>' +
@@ -363,17 +363,17 @@
         '        <div style="width: 48px; height: 48px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: bold">CM</div>' +
         '        <div style="flex: 1">' +
         '          <div style="font-weight: 600; color: #1f2937">Carlos Mendoza</div>' +
-        '          <div style="font-size: 14px; color: #6b7280">⭐ 4.8 (23 viajes)</div>' +
+          '          <div style="font-size: 14px; color: #6b7280"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">star</span> 4.8 (23 viajes)</div>' +
         '        </div>' +
         '        <div style="font-size: 20px; font-weight: 700; color: #3b82f6">S/8</div>' +
         '      </div>' +
         '      <div style="margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 8px">' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">📍 San Miguel - Av. Brasil</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">location_on</span> San Miguel - Av. Brasil</div>' +
         '        <div style="font-weight: 600; margin-bottom: 4px">7:30 AM</div>' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">🎓 Universidad de Lima</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">school</span> Universidad de Lima</div>' +
         '        <div style="font-weight: 600">8:15 AM</div>' +
         '      </div>' +
-        '      <div style="font-size: 14px; color: #6b7280; margin-bottom: 12px">👥 2/4 asientos · 🚗 Toyota Corolla</div>' +
+        '      <div style="font-size: 14px; color: #6b7280; margin-bottom: 12px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">people</span> 2/4 asientos · <span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> Toyota Corolla</div>' +
         '      <a href="pages/reservations/reserve.html" class="btn-primary" style="width: 100%; text-align: center; display: block; padding: 10px; text-decoration: none; border-radius: 8px">Reservar</a>' +
         '    </div>' +
         '    <div class="feature-card" style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 12px">' +
@@ -381,17 +381,17 @@
         '        <div style="width: 48px; height: 48px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: bold">AR</div>' +
         '        <div style="flex: 1">' +
         '          <div style="font-weight: 600; color: #1f2937">Ana Rodríguez</div>' +
-        '          <div style="font-size: 14px; color: #6b7280">⭐ 4.9 (41 viajes)</div>' +
+          '          <div style="font-size: 14px; color: #6b7280"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">star</span> 4.9 (41 viajes)</div>' +
         '        </div>' +
         '        <div style="font-size: 20px; font-weight: 700; color: #3b82f6">S/10</div>' +
         '      </div>' +
         '      <div style="margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 8px">' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">📍 Miraflores - Av. Pardo</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">location_on</span> Miraflores - Av. Pardo</div>' +
         '        <div style="font-weight: 600; margin-bottom: 4px">7:45 AM</div>' +
-        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px">🎓 Universidad de Lima</div>' +
+        '        <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">school</span> Universidad de Lima</div>' +
         '        <div style="font-weight: 600">8:30 AM</div>' +
         '      </div>' +
-        '      <div style="font-size: 14px; color: #6b7280; margin-bottom: 12px">👥 1/3 asientos · 🚗 Honda Civic</div>' +
+        '      <div style="font-size: 14px; color: #6b7280; margin-bottom: 12px"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">people</span> 1/3 asientos · <span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> Honda Civic</div>' +
         '      <a href="pages/reservations/reserve.html" class="btn-primary" style="width: 100%; text-align: center; display: block; padding: 10px; text-decoration: none; border-radius: 8px">Reservar</a>' +
         '    </div>' +
         '  </div>' +
@@ -453,9 +453,9 @@
         '      </div>' +
         '    </div>' +
         '    <div style="display: flex; gap: 12px; flex-wrap: wrap">' +
-        '      <a href="pages/chat/messages.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px">💬 Escribir</a>' +
-        '      <a href="pages/trips/search-map.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px">🗺️ Ver ruta</a>' +
-        '      <a href="pages/trips/my-trips.html" class="btn-primary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px">⚙️ Gestionar</a>' +
+        '      <a href="pages/chat/messages.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px"><span class="material-icons">chat</span> Escribir</a>' +
+        '      <a href="pages/trips/search-map.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px"><span class="material-icons">map</span> Ver ruta</a>' +
+        '      <a href="pages/trips/my-trips.html" class="btn-primary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px"><span class="material-icons">settings</span> Gestionar</a>' +
         '    </div>' +
         '  </div>' +
         '</div>';
@@ -495,8 +495,8 @@
         '      </div>' +
         '    </div>' +
         '    <div style="display: flex; gap: 12px; flex-wrap: wrap">' +
-        '      <a href="pages/chat/messages.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px">💬 Contactar</a>' +
-        '      <a href="pages/trips/search-map.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px">🗺️ Ver ruta</a>' +
+      '      <a href="pages/chat/messages.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px"><span class="material-icons">chat</span> Contactar</a>' +
+      '      <a href="pages/trips/search-map.html" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px"><span class="material-icons">map</span> Ver ruta</a>' +
         '      <button style="padding: 8px 16px; border: 1px solid #ef4444; color: #ef4444; background: transparent; border-radius: 8px; cursor: pointer">Cancelar reserva</button>' +
         '    </div>' +
         '  </div>' +
@@ -523,27 +523,27 @@
       '  <h2 style="font-size: 28px; color: #1f2937; margin-bottom: 24px">Tu Actividad</h2>' +
       '  <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px">' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center">' +
-      '      <div style="font-size: 48px; margin-bottom: 12px">🚗</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 12px"><span class="material-icons" style="font-size: 48px;">directions_car</span></div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">24</div>' +
       '      <div style="font-size: 14px; color: #6b7280">Viajes realizados</div>' +
       '    </div>' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center">' +
-      '      <div style="font-size: 48px; margin-bottom: 12px">💰</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 12px"><span class="material-icons" style="font-size: 48px;">payments</span></div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">S/ 192</div>' +
       '      <div style="font-size: 14px; color: #6b7280">Ahorrado en transporte</div>' +
       '    </div>' +
       '    <a href="pages/user/rate.html" class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center; text-decoration: none; display: block; transition: all 0.2s ease">' +
-      '      <div style="font-size: 48px; margin-bottom: 12px">⭐</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 12px"><span class="material-icons" style="font-size: 48px;">star</span></div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">' + (user.rating || '4.9') + '</div>' +
       '      <div style="font-size: 14px; color: #6b7280">Calificación promedio</div>' +
       '    </a>' +
       '    <a href="pages/user/rate-trip.html" class="feature-card" style="padding: 24px; border: 1px solid #3b82f6; border-radius: 12px; text-align: center; text-decoration: none; display: block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; transition: all 0.2s ease">' +
-      '      <div style="font-size: 48px; margin-bottom: 12px">📝</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 12px"><span class="material-icons" style="font-size: 48px;">edit</span></div>' +
       '      <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px">Calificar</div>' +
       '      <div style="font-size: 14px; opacity: 0.9">Califica tu último viaje</div>' +
       '    </a>' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; text-align: center">' +
-      '      <div style="font-size: 48px; margin-bottom: 12px">🌿</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 12px"><span class="material-icons" style="font-size: 48px;">eco</span></div>' +
       '      <div style="font-size: 32px; font-weight: 700; color: #1f2937; margin-bottom: 4px">48kg</div>' +
       '      <div style="font-size: 14px; color: #6b7280">CO₂ reducido</div>' +
       '    </div>' +
@@ -570,7 +570,7 @@
       '  <h2 style="font-size: 28px; color: #1f2937; margin-bottom: 24px">Actividad Reciente</h2>' +
       '  <div style="display: flex; flex-direction: column; gap: 16px">' +
       '    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px">✓</div>' +
+      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px"><span class="material-icons" style="font-size: 20px;">check</span></div>' +
       '      <div style="flex: 1">' +
       '        <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px">Viaje completado</div>' +
       '        <div style="font-size: 14px; color: #6b7280">Con Ana Rodríguez - Universidad de Lima</div>' +
@@ -581,7 +581,7 @@
       '      </div>' +
       '    </div>' +
       '    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px">📅</div>' +
+      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px"><span class="material-icons" style="font-size: 20px;">calendar_today</span></div>' +
       '      <div style="flex: 1">' +
       '        <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px">Nueva reserva confirmada</div>' +
       '        <div style="font-size: 14px; color: #6b7280">Con Carlos Mendoza - Mañana 7:30 AM</div>' +
@@ -592,7 +592,7 @@
       '      </div>' +
       '    </div>' +
       '    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #f59e0b; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px">⭐</div>' +
+      '      <div style="width: 40px; height: 40px; border-radius: 50%; background: #f59e0b; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px"><span class="material-icons" style="font-size: 20px;">star</span></div>' +
       '      <div style="flex: 1">' +
       '        <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px">Calificación recibida</div>' +
       '        <div style="font-size: 14px; color: #6b7280">Ana te calificó con 5 estrellas</div>' +
@@ -624,17 +624,17 @@
       '  <h2 style="font-size: 28px; color: #1f2937; margin-bottom: 24px">Consejos de Seguridad</h2>' +
       '  <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px">' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="font-size: 48px; margin-bottom: 16px">🛡️</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">security</span></div>' +
       '      <h3 style="margin-bottom: 8px; color: #1f2937">Verifica la Identidad</h3>' +
       '      <p style="color: #6b7280; line-height: 1.6">Siempre confirma que el conductor y el vehículo coincidan con la información del perfil antes de subir.</p>' +
       '    </div>' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="font-size: 48px; margin-bottom: 16px">🔗</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">share</span></div>' +
       '      <h3 style="margin-bottom: 8px; color: #1f2937">Comparte tu Viaje</h3>' +
       '      <p style="color: #6b7280; line-height: 1.6">Informa a un familiar o amigo sobre los detalles de tu viaje, incluyendo conductor y horario.</p>' +
       '    </div>' +
       '    <div class="feature-card" style="padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px">' +
-      '      <div style="font-size: 48px; margin-bottom: 16px">💬</div>' +
+      '      <div style="font-size: 48px; margin-bottom: 16px"><span class="material-icons" style="font-size: 48px;">chat</span></div>' +
       '      <h3 style="margin-bottom: 8px; color: #1f2937">Mantén Comunicación</h3>' +
       '      <p style="color: #6b7280; line-height: 1.6">Usa el chat de la app para comunicarte con el conductor y reporta cualquier inconveniente.</p>' +
       '    </div>' +
