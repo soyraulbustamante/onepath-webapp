@@ -1,0 +1,386 @@
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1;
+  animation: modalFadeIn 0.3s ease-out;
+  margin: auto;
+}
+
+.modal-content--small {
+  max-width: 400px;
+}
+
+.modal-content--large {
+  max-width: 800px;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 24px 0 24px;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.modal-header:has(.edit-modal-header) {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+  margin: 0;
+  z-index: 10;
+  position: relative;
+}
+
+.modal-close:hover {
+  background-color: var(--gray-100);
+  color: var(--text-dark);
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-body:has(.edit-modal-header) {
+  padding: 32px 24px 24px 24px;
+}
+
+.modal-note {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+.modal-note a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+.modal-note a:hover {
+  text-decoration: underline;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+  margin-top: 24px;
+}
+
+/* Delete Modal Specific Styles */
+.delete-warning {
+  text-align: center;
+}
+
+.warning-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.delete-warning p {
+  font-size: 16px;
+  color: var(--text-dark);
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+}
+
+.delete-consequences {
+  text-align: left;
+  background-color: var(--gray-50);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.consequences-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.consequences-list {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.consequences-list li {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.consequences-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Edit Trip Modal Styles */
+.edit-modal-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-top: 8px;
+}
+
+.edit-modal-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.edit-modal-subtitle {
+  font-size: 15px;
+  color: var(--text-light);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.edit-modal-form-section {
+  background-color: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.edit-trip-form {
+  width: 100%;
+}
+
+.edit-trip-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-trip-form .form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.edit-trip-form .form-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.edit-trip-form .form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.edit-trip-form .form-group--half {
+  flex: 1;
+}
+
+.edit-trip-form input[readonly] {
+  background-color: var(--gray-50);
+  cursor: not-allowed;
+}
+
+.edit-trip-form .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.edit-trip-form .form-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.edit-trip-form .form-actions button .btn-icon {
+  font-size: 18px;
+  display: inline-block;
+}
+
+/* Loading and Error States in Modal */
+.modal-body .loading-state,
+.modal-body .error-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.modal-body .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--gray-200);
+  border-top-color: var(--primary-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.modal-body .error-state {
+  padding: 32px 20px;
+}
+
+.modal-body .error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.modal-body .error-state h3 {
+  font-size: 18px;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.modal-body .error-state p {
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 0;
+  line-height: 1.6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal {
+    padding: 16px;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 12px 12px 0 12px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-body:has(.edit-modal-header) {
+    padding: 24px 16px 16px 16px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    padding: 0 20px 20px 20px;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+
+  .warning-icon {
+    font-size: 40px;
+  }
+
+  .delete-warning p {
+    font-size: 14px;
+  }
+
+  .edit-modal-title {
+    font-size: 24px;
+  }
+
+  .edit-modal-subtitle {
+    font-size: 14px;
+  }
+
+  .edit-modal-form-section {
+    padding: 24px 20px;
+  }
+
+  .edit-trip-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .edit-trip-form .form-group--half {
+    flex: 1;
+  }
+
+  .edit-trip-form .form-actions {
+    margin-top: 24px;
+  }
+}
+

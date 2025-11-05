@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnePath - Comparte tu viaje a la universidad</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/components/navbar.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <script id="navbar-script" src="js/components/navbar.js" data-base-prefix="" defer></script>
+    <script src="js/utils/storage.js" defer></script>
+    <script src="js/auth/session.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Comparte el camino a la universidad</h1>
+                    <p>Conecta con otros estudiantes, ahorra dinero y reduce tu huella de carbono compartiendo viajes hacia la universidad.</p>
+                    <div class="hero-buttons">
+                        <a class="bg-transparent" href="pages/auth/login.html">Comenzar Ahora</a>
+                        <a class="btn-secondary" href="#como">Ver Cómo Funciona</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/images/imagen1.png" alt="Dos estudiantes en un auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">2,500+</div>
+                    <div class="stat-label">Estudiantes Registrados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">850+</div>
+                    <div class="stat-label">Viajes Compartidos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Universidades Conectadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">S/.45,000</div>
+                    <div class="stat-label">Ahorrados por Estudiantes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why OnePath Section -->
+    <section class="why-onepath">
+        <div class="container">
+            <h2>¿Por qué elegir OnePath?</h2>
+            <p class="subtitle">La forma más inteligente de llegar a la universidad</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="material-icons">payments</span></div>
+                    <h3>Ahorra Dinero</h3>
+                    <p>Reduce los costos de transporte compartiendo gastos de combustible con otros estudiantes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="material-icons">people</span></div>
+                    <h3>Conoce Gente</h3>
+                    <p>Conecta con otros estudiantes de tu universidad y crea nuevas amistades.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="material-icons">public</span></div>
+                    <h3>Cuida el Planeta</h3>
+                    <p>Reduce la contaminación y el tráfico compartiendo vehículos hacia la universidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="como">
+        <div class="container">
+            <h2>Cómo Funciona</h2>
+            <p class="subtitle">Simple, rápido y seguro</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Regístrate</h3>
+                    <p>Crea tu cuenta con tu correo universitario y completa tu perfil.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Busca o Ofrece</h3>
+                    <p>Busca viajes disponibles o crea uno para otros estudiantes hacia tu universidad.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Viaja Seguro</h3>
+                    <p>Conecta con otros estudiantes verificados y disfruta de viajes seguros.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Universities Section -->
+    <section class="universities">
+        <div class="container">
+            <h2>Universidades Participantes</h2>
+            <p class="subtitle">Conectamos estudiantes de las principales universidades del país</p>
+            <div class="universities-grid">
+                <div class="university-logo"><img src="assets/images/universities/pucp.svg" alt="Pontificia Universidad Católica del Perú (PUCP)"></div>
+                <div class="university-logo"><img src="assets/images/universities/unmsm.svg" alt="Universidad Nacional Mayor de San Marcos (UNMSM)"></div>
+                <div class="university-logo"><img src="assets/images/universities/uni.svg" alt="Universidad Nacional de Ingeniería (UNI)"></div>
+                <div class="university-logo"><img src="assets/images/universities/utec.svg" alt="Universidad de Ingeniería y Tecnología (UTEC)"></div>
+                <div class="university-logo"><img src="assets/images/universities/upc.svg" alt="Universidad Peruana de Ciencias Aplicadas (UPC)"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security" id="seguridad">
+        <div class="container">
+            <div class="security-content">
+                <div class="security-text">
+                    <h2>Tu Seguridad es Nuestra Prioridad</h2>
+                    <div class="security-items">
+                        <div class="security-item">
+                            <div class="security-check">✓</div>
+                            <div>
+                                <h4>Verificación de Identidad</h4>
+                                <p>Todos los estudiantes son verificados con correo universitario para garantizar tu seguridad.</p>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="security-check">✓</div>
+                            <div>
+                                <h4>Sistema de Calificaciones</h4>
+                                <p>Califica y sé calificado para mantener una comunidad confiable y segura.</p>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="security-check">✓</div>
+                            <div>
+                                <h4>Soporte 24/7</h4>
+                                <p>Nuestro equipo está disponible para ayudarte en cualquier momento.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="security-image">
+                    <img src="assets/images/imagen2.png" alt="Estudiantes seguros">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Lo que dicen nuestros usuarios</h2>
+            <p class="subtitle">Experiencias reales de estudiantes como tú</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">MR</div>
+                        <div>
+                            <h4>María Rosales</h4>
+                            <p>Estudiante de Ingeniería</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"OnePath me ha ayudado a ahorrar dinero en transporte. Además, he conocido gente increíble de mi universidad. ¡Muy recomendado!"</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">CM</div>
+                        <div>
+                            <h4>Carlos Mendoza</h4>
+                            <p>Estudiante de Administración</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Desde que uso OnePath, mis gastos de transporte bajaron significativamente. La plataforma es segura y fácil de usar."</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">AR</div>
+                        <div>
+                            <h4>Ana Rodríguez</h4>
+                            <p>Estudiante de Derecho</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"La plataforma es super útil del día a día y me permite ahorrar dinero y cuidar el planeta. ¡Excelente iniciativa!"</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>¿Listo para comenzar a ahorrar?</h2>
+            <p>Únete a miles de estudiantes que ya están compartiendo viajes hacia la universidad de forma segura.</p>
+            <div class="cta-buttons">
+                <a class="bg-transparent" href="pages/auth/register.html">Registrarse Gratis</a>
+                <a class="btn-secondary" href="#">Descargar App</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (estándar igual a páginas internas) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                    <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

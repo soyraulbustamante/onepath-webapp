@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="chat.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="chat.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+
+    <!-- Main Chat Container -->
+    <main class="chat-main">
+        <div class="container">
+            <div class="chat-split-layout">
+                <!-- Sidebar: Established Chats -->
+                <aside class="chat-sidebar">
+                    <div class="chat-list-header">
+                        <h3>Mis Chats</h3>
+                        <button class="chat-new-btn" type="button"><span class="material-icons">add</span></button>
+                    </div>
+                    <div class="chat-list" id="chatList">
+                        <button class="chat-list-item active" data-name="Carlos M. - Ing. Sistemas" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Carlos M.</span>
+                                    <span class="chat-list-time">07:35</span>
+                                </div>
+                                <div class="chat-list-last">¡Perfecto! Ya te vi, voy caminando hacia ti…</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="María G. - Ing. Industrial" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">María G.</span>
+                                    <span class="chat-list-time">Ayer</span>
+                                </div>
+                                <div class="chat-list-last">Nos vemos en la puerta principal de la UNMSM</div>
+                            </div>
+                        </button>
+                        <button class="chat-list-item" data-name="Luis P. - Ing. Mecánica" data-avatar="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg">
+                            <img class="chat-list-avatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="Luis">
+                            <div class="chat-list-info">
+                                <div class="chat-list-top">
+                                    <span class="chat-list-name">Luis P.</span>
+                                    <span class="chat-list-time">Dom</span>
+                                </div>
+                                <div class="chat-list-last">¿Confirmas punto exacto de recojo mañana?</div>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Conversation: Right Panel -->
+                <section class="chat-conversation">
+                    <!-- Chat Header with Trip Info -->
+                    <div class="chat-header">
+                        <div class="chat-header-content">
+                            <div class="trip-participant">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="participant-avatar">
+                                <div class="participant-info">
+                                    <h2 class="participant-name">Carlos M. - Ing. Sistemas</h2>
+                                </div>
+                            </div>
+                            <div class="trip-actions">
+                                <div class="trip-time">
+                                    <div class="time-label">Hoy 07:30</div>
+                                    <div class="status-badge status-active">En camino</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trip Status Bar -->
+                    <div class="trip-status">
+                        <div class="status-content">
+                            <div class="meeting-point">
+                                <div class="location-icon material-icons">location_on</div>
+                                <div class="location-info">
+                                    <span class="location-title">Punto de encuentro: Metro San Isidro</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-container">
+                        <!-- Chat Messages Area -->
+                        <div class="chat-messages" id="chat-messages">
+                    
+                    <!-- System Message -->
+                    <div class="system-message">
+                        <div class="system-text">
+                            Chat iniciado para el viaje de hoy
+                        </div>
+                    </div>
+
+                    <!-- Driver Message 1 -->
+                    <div class="message message-other">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>¡Hola María! Ya salí de casa, estaré llegando al punto de encuentro en 10 minutos aproximadamente.</p>
+                            </div>
+                            <div class="message-time">07:20 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- Student Message 1 -->
+                    <div class="message message-own">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>¡Perfecto! Yo ya estoy aquí en el Metro San Isidro. Te espero en la Salida A como acordamos.</p>
+                            </div>
+                            <div class="message-time">07:21 AM</div>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María" class="message-avatar">
+                    </div>
+
+                    <!-- Driver Message 2 -->
+                    <div class="message message-other">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Genial, ya estoy llegando. Voy en el Golf gris placa ABC-123. ¿Me puedes ver?</p>
+                            </div>
+                            <div class="message-time">07:28 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- Student Message 2 -->
+                    <div class="message message-own">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Hmm, no te veo aún. Estoy parada justo en la Salida A, cerca de la escalera mecánica. ¿Dónde exactamente estás?</p>
+                            </div>
+                            <div class="message-time">07:30 AM</div>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María" class="message-avatar">
+                    </div>
+
+                    <!-- Driver Message 3 -->
+                    <div class="message message-other">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Estoy en el lado de Javier Prado, pero hay mucho tráfico. Creo que estoy del otro lado de donde tú estás. ¿Puedes caminar hacia la entrada principal?</p>
+                            </div>
+                            <div class="message-time">07:31 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- Student Message 3 -->
+                    <div class="message message-own">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Ya estoy en la entrada principal pero sigo sin verte. Hay varios autos grises aquí. ¿Podrías encender las luces intermitentes o tocar la bocina para que te pueda identificar?</p>
+                            </div>
+                            <div class="message-time">07:33 AM</div>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María" class="message-avatar">
+                    </div>
+
+                    <!-- Driver Message 4 -->
+                    <div class="message message-other">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>¡Claro! Voy a encender las luces intermitentes ahora mismo. Estoy cerca del Starbucks que está en la esquina.</p>
+                            </div>
+                            <div class="message-time">07:34 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- Student Message 4 -->
+                    <div class="message message-own">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>¡Perfecto! Ya te vi, voy caminando hacia ti. Llevo una mochila azul y una casaca negra.</p>
+                            </div>
+                            <div class="message-time">07:35 AM</div>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="María" class="message-avatar">
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div class="message message-other typing-indicator" id="typing-indicator">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Carlos" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <div class="typing-dots">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        </div>
+
+                        <!-- Message Input Area -->
+                        <div class="message-input">
+                    <div class="input-row">
+                        <button class="btn-attachment" type="button" aria-label="Adjuntar archivo"><span class="material-icons">attach_file</span></button>
+                        <div class="input-wrapper">
+                            <input type="text" placeholder="Escribe tu mensaje..." class="message-text-input" id="messageInput">
+                            <button class="btn-emoji" type="button" aria-label="Emojis"><span class="material-icons">mood</span></button>
+                        </div>
+                        <button class="btn-send" type="button" id="sendButton">
+                            <span class="send-icon material-icons">send</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Actions (reducidas) -->
+                    <div class="quick-actions">
+                        <button class="quick-action" type="button" data-action="location">
+                            <span class="material-icons">location_on</span> Compartir ubicación
+                        </button>
+                        <button class="quick-action" type="button" data-action="photo">
+                            <span class="material-icons">photo_camera</span> Enviar foto
+                        </button>
+                    </div>
+                        </div>
+                    </div>
+                    <!-- Acciones de viaje dentro del chat -->
+                    <div class="conversation-actions">
+                        <div class="action-buttons">
+                            <button class="btn-cancel" type="button">
+                                <span class="material-icons">cancel</span> Cancelar viaje
+                            </button>
+                            <button class="btn-start" type="button">
+                                <span class="material-icons">play_arrow</span> Iniciar viaje
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+                
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

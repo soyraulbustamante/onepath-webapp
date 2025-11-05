@@ -1,0 +1,29 @@
+/* Reset básico y normalización ligera */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+img, picture, video, canvas, svg {
+  display: inline;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  background: none;
+}
+
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+}
+

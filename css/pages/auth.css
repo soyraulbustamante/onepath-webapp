@@ -1,0 +1,438 @@
+/* --- Compatibilidad con la maqueta provista (nombres de clases adicionales) --- */
+.login-main { min-height: calc(100vh - 200px); padding: 40px 0; background-color: #f8f9fa; }
+.login-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: stretch; }
+.login-form-section { display: flex; align-items: center; }
+.login-form { width: 100%; }
+.welcome-header { text-align: center; margin-bottom: 32px; }
+.welcome-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.login-signup-link { text-align: center; margin: 20px 0; font-size: 13px; }
+.login-signup-link span { color: var(--text-light); }
+.login-signup-link a { color: var(--primary-blue); text-decoration: none; font-weight: 600; }
+.login-signup-link a:hover { text-decoration: underline; }
+.login-divider { text-align: center; margin: 24px 0; font-size: 12px; color: var(--text-light); position: relative; }
+.login-divider::before, .login-divider::after { content: ""; position: absolute; top: 50%; width: 35%; height: 1px; background-color: var(--border-light); }
+.login-divider::before { left: 0; } .login-divider::after { right: 0; }
+.social-login { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.social-btn { padding: 10px; border: 1px solid var(--border-light); border-radius: 6px; background-color: var(--white); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.google-btn:hover, .microsoft-btn:hover { background-color: #f5f5f5; }
+.security-notice { display: flex; gap: 12px; padding: 12px; background-color: #e3f2fd; border-radius: 6px; font-size: 12px; border-left: 4px solid var(--primary-blue); }
+.security-icon { font-size: 16px; flex-shrink: 0; }
+.benefits-section { border-radius: 12px; padding: 0; color: inherit; background: transparent; box-shadow: none; border: none; }
+.benefits-content { width: 100%; }
+.impact-box { border-radius: 12px; }
+.impact-number { font-weight: 800; }
+
+@media (max-width: 1024px) {
+  .login-container { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 768px) {
+  .social-login { grid-template-columns: 1fr; }
+}
+/* Página: Auth - Login */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Navbar styles come from css/components/navbar.css to keep consistency */
+
+/* .logo uses shared navbar styles */
+
+/* .logo-icon uses shared navbar styles */
+
+/* .nav uses shared navbar styles */
+
+/* .nav a uses shared navbar styles */
+
+/* hover styles come from shared navbar */
+
+/* .nav-buttons not required; using shared .auth-buttons */
+
+/* .btn-login uses shared navbar button styles */
+
+/* hover from shared navbar */
+
+/* .btn-register uses shared navbar button styles */
+
+/* hover from shared navbar */
+
+.login-main .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 86px);
+    padding: 2rem;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.login-card {
+    background: var(--white);
+    padding: 1.75rem;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    border: 1px solid var(--gray-200);
+    max-width: 360px;
+    margin: 0 auto; /* centra la tarjeta dentro de su columna */
+}
+
+.welcome-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.welcome-subtitle {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    background: var(--white); /* evita fondo oscuro por temas del navegador */
+    color: var(--text-dark);
+}
+
+/* Input with icons */
+.input { position: relative; }
+.input--icon-left .form-input { padding-left: 2.5rem; }
+.input--action-right .form-input { padding-right: 2.5rem; }
+.input-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 1rem; }
+.input-action { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-light); cursor: pointer; padding: 0.25rem; border-radius: 6px; }
+.input-action:hover { background: #f3f4f6; }
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Placeholder y autofill consistentes */
+.form-input::placeholder { color: var(--text-light); }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px var(--white) inset !important;
+    -webkit-text-fill-color: var(--text-dark) !important;
+    caret-color: var(--text-dark);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+}
+
+.checkbox input {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: var(--primary-blue);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: var(--primary-dark);
+}
+
+.btn-session {
+    width: 100%;
+    height: 44px;
+    padding: 0 1rem;
+    background: #2f7ae5;
+    color: var(--white);
+    border: 1px solid #2a69d1;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.05s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.btn-session::after { content: "\2192"; font-weight: 700; }
+.no-account {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.no-account a {
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.no-account a:hover { color: var(--primary-dark); }
+
+
+.btn-session:hover { background: var(--primary-dark); box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25); }
+.btn-session:active { transform: translateY(1px); }
+
+/* Form messages */
+.form-message {
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    animation: slideIn 0.3s ease-out;
+}
+
+.form-message--error {
+    background-color: #fee2e2;
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+
+.form-message--success {
+    background-color: #d1fae5;
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.divider {
+    text-align: center;
+    color: #9ca3af;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gray-200);
+}
+
+.divider span {
+    background: var(--white);
+    padding: 0 0.5rem;
+    position: relative;
+}
+
+.social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+.btn-social { height: 42px; border: 1px solid var(--gray-200); background: var(--white); border-radius: 10px; cursor: pointer; font-weight: 600; transition: box-shadow 0.2s, transform 0.05s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.btn-social:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+.btn-social:active { transform: translateY(1px); }
+.social-icon { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--gray-100); color: var(--text-dark); font-size: 12px; }
+.btn-google .social-icon { border-radius: 50%; background: var(--white); border: 1px solid var(--gray-200); color: #ea4335; font-weight: 700; }
+.btn-microsoft .social-icon { border-radius: 4px; background: var(--white); border: 1px solid var(--gray-200); color: #2563eb; }
+.social-label { font-size: 0.95rem; color: var(--text-dark); }
+
+.security-info { display: flex; align-items: flex-start; gap: 12px; background: var(--gray-50); border: 1px solid var(--border-light); padding: 12px 14px; border-radius: 12px; font-size: 0.925rem; color: var(--text-dark); margin-top: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.security-badge { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--gray-100); color: var(--primary-blue); flex-shrink: 0; }
+.security-title { display: block; margin-bottom: 2px; color: var(--text); }
+.security-copy p { color: var(--text-light); font-size: 0.9rem; }
+
+.info-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    border: 1px solid var(--gray-200);
+}
+
+.info-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.info-subtitle {
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Benefits (BEM) */
+.benefits-list { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; margin: 0 0 2.5rem 0; padding: 0; }
+.benefit-item { display: flex; gap: 1rem; align-items: flex-start; padding: 0.25rem 0; }
+.benefit-icon { width: 32px; height: 32px; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-weight: 700; flex-shrink: 0; }
+.benefit-item--primary .benefit-icon { background: var(--gray-100); color: var(--primary-blue); }
+.benefit-item--accent .benefit-icon { background: var(--gray-100); color: var(--primary-blue); }
+.benefit-item--warning .benefit-icon { background: var(--gray-100); color: var(--primary-blue); }
+.benefit-title { font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+.benefit-text { color: var(--text-light); font-size: 0.95rem; line-height: 1.45; }
+
+.impact-section {
+    background: var(--white);
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-top: 1.25rem;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.04);
+}
+
+.impact-title {
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.impact-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.stat {
+    padding: 1rem;
+}
+
+.stat-number {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+/* Universities section styles are shared via styles.css to match home */
+
+.footer {
+    background: var(--white);
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border-light);
+    margin-top: 0;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo .logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1rem;
+}
+
+.footer-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    font-size: 0.9rem;
+}
+
+.footer-links a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    /* mobile nav behavior handled by shared navbar */
+    .universities-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .impact-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Header icon for login card aligned with design system */
+.login-logo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    color: var(--primary-blue);
+    font-size: 28px;
+}
+

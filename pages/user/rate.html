@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reseñas - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="rate.css">
+    <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/auth/session.js" defer></script>
+    <script src="rate.js" defer></script>
+</head>
+<body>
+    <!-- Header (renderizado por componente) -->
+    <div id="navbar"></div>
+
+    <!-- Breadcrumb Navigation -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="../user/profile.html" class="breadcrumb-link">Mi Perfil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">Mis Reseñas</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Page Header -->
+            <section class="page-header">
+                <div class="header-content">
+                    <div class="header-text">
+                        <h1>Mis Reseñas</h1>
+                        <p>Todas las reseñas que has recibido de otros usuarios</p>
+                    </div>
+                    <div class="rating-summary" id="ratingSummary">
+                        <div class="overall-rating">
+                            <div class="rating-score">4.8</div>
+                            <div class="rating-details">
+                                <div class="stars" aria-hidden="true">
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                    <span class="material-icons star filled">star</span>
+                                </div>
+                                <div class="review-count">23 reseñas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review Stats and Filters -->
+            <section class="stats-filters-section">
+                <div class="stats-filters-card">
+                    <div class="stats-filters-grid">
+                        <!-- Rating Distribution -->
+                        <div class="rating-distribution">
+                            <h3 class="section-subtitle">Distribución de Calificaciones</h3>
+                            <div class="distribution-bars">
+                                <div class="distribution-item">
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">5</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%"></div>
+                                    </div>
+                                    <span class="rating-count">20</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">4</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 13%"></div>
+                                    </div>
+                                    <span class="rating-count">3</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">3</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">2</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                                <div class="distribution-item">
+                                    <span class="rating-label" aria-hidden="true">
+                                        <span class="rating-number">1</span>
+                                        <span class="material-icons rating-star">star</span>
+                                    </span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="rating-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Filters -->
+                        <div class="review-filters">
+                            <h3 class="section-subtitle">Filtrar Reseñas</h3>
+                            <div class="filters-form">
+                                <div class="filter-group">
+                                    <label class="filter-label">Calificación</label>
+                                    <select class="filter-select" id="ratingFilter">
+                                        <option value="">Todas las calificaciones</option>
+                                        <option value="5">5 estrellas</option>
+                                        <option value="4">4 estrellas</option>
+                                        <option value="3">3 estrellas</option>
+                                        <option value="2">2 estrellas</option>
+                                        <option value="1">1 estrella</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-label">Rol en el viaje</label>
+                                    <select class="filter-select" id="roleFilter">
+                                        <option value="">Todos los roles</option>
+                                        <option value="driver">Como conductor/a</option>
+                                        <option value="passenger">Como pasajero/a</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-label">Período</label>
+                                    <select class="filter-select" id="periodFilter">
+                                        <option value="">Todos los períodos</option>
+                                        <option value="month">Último mes</option>
+                                        <option value="quarter">Últimos 3 meses</option>
+                                        <option value="year">Último año</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reviews List -->
+            <section class="reviews-list-section">
+                <div class="reviews-header">
+                    <h2 class="reviews-title">Todas las Reseñas (<span id="reviewCount">23</span>)</h2>
+                    <div class="sort-controls">
+                        <label class="sort-label">Ordenar por:</label>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="newest">Más recientes</option>
+                            <option value="oldest">Más antiguos</option>
+                            <option value="highest">Calificación más alta</option>
+                            <option value="lowest">Calificación más baja</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="reviews-list" id="reviewsList">
+                    <!-- Las reseñas se cargan dinámicamente -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <button class="pagination-btn prev" disabled>
+                        <span class="material-icons">chevron_left</span>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <span class="pagination-dots">...</span>
+                    <button class="pagination-btn">5</button>
+                    <button class="pagination-btn next">
+                        <span class="material-icons">chevron_right</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Review Insights -->
+            <section class="insights-section">
+                <h2 class="insights-title">Resumen de Comentarios</h2>
+                <div class="insights-grid">
+                    <div class="insight-card positive">
+                        <div class="insight-header">
+                            <div class="insight-icon positive"><span class="material-icons">thumb_up</span></div>
+                            <h3 class="insight-title">Aspectos Destacados</h3>
+                        </div>
+                        <ul class="insight-list">
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-check">check_circle</span>
+                                Puntualidad (mencionado 18 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-check">check_circle</span>
+                                Amabilidad (mencionado 15 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-check">check_circle</span>
+                                Auto limpio (mencionado 12 veces)
+                            </li>
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-check">check_circle</span>
+                                Manejo seguro (mencionado 10 veces)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card info">
+                        <div class="insight-header">
+                            <div class="insight-icon info"><span class="material-icons">insights</span></div>
+                            <h3 class="insight-title">Tendencia de Reseñas</h3>
+                        </div>
+                        <div class="trend-stats">
+                            <div class="trend-item">
+                                <span class="trend-label">Último mes</span>
+                                <span class="trend-value">8 reseñas</span>
+                            </div>
+                            <div class="trend-item">
+                                <span class="trend-label">Promedio mensual</span>
+                                <span class="trend-value">
+                                    4.9
+                                    <span class="material-icons trend-star" aria-hidden="true">star</span>
+                                </span>
+                            </div>
+                            <div class="trend-item">
+                                <span class="trend-label">Crecimiento</span>
+                                <span class="trend-value positive">+15%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card warning">
+                        <div class="insight-header">
+                            <div class="insight-icon warning"><span class="material-icons">lightbulb</span></div>
+                            <h3 class="insight-title">Oportunidades de Mejora</h3>
+                        </div>
+                        <ul class="insight-list">
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
+                                Mejorar comunicación previa al viaje
+                            </li>
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
+                                Considerar rutas alternas en tráfico
+                            </li>
+                            <li class="insight-item">
+                                <span class="material-icons insight-icon-arrow">trending_up</span>
+                                Actualizar playlist musical
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">¿Quieres Mejorar tu Calificación?</h2>
+                    <p class="cta-text">Sigue ofreciendo viajes de calidad y mantén una buena comunicación con otros estudiantes para seguir recibiendo reseñas positivas.</p>
+                    <div class="cta-buttons">
+                        <button class="btn-primary" id="offerTripBtn">Ofrecer Nuevo Viaje</button>
+                        <button class="btn-secondary" id="viewTipsBtn">Ver Consejos</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                        <span>OnePath</span>
+                    </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
