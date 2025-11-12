@@ -15,25 +15,29 @@
   const resultsCount = document.getElementById('resultsCount');
   const loadMoreBtn = document.getElementById('loadMoreBtn');
   const searchBarSection = document.querySelector('.search-bar-section');
-  // Tabs elements
+
   const tabListBtn = document.getElementById('tabList');
   const tabMapBtn = document.getElementById('tabMap');
   const listTabPane = document.getElementById('listTabPane');
   const mapTabPane = document.getElementById('mapTabPane');
 
+  let currentResults = [];
+
   // Initialize
   function init() {
     if (!searchForm) return;
 
-    // Set today as minimum date
+
     const today = new Date().toISOString().split('T')[0];
     if (dateInput) {
       dateInput.setAttribute('min', today);
+      try { dateInput.value = ''; } catch (_) {}
     }
 
-    // Sticky search bar is handled by CSS (position: sticky)
+    // Limpiar filtros de origen/destino para que el render inicial no descarte viajes
+    if (fromInput) { try { fromInput.value = ''; } catch (_) {} }
+    if (toInput) { try { toInput.value = ''; } catch (_) {} }
 
-    // Event listeners
     if (swapButton) {
       swapButton.addEventListener('click', handleSwapLocations);
     }
@@ -50,7 +54,6 @@
       loadMoreBtn.addEventListener('click', handleLoadMore);
     }
 
-    // Tabs handlers
     if (tabListBtn && tabMapBtn && listTabPane && mapTabPane) {
       tabListBtn.addEventListener('click', () => activateTab('list'));
       tabMapBtn.addEventListener('click', () => activateTab('map'));
@@ -58,21 +61,25 @@
       activateTab('list');
     }
 
-    // Remove active filter tags
     const filterTagRemoves = document.querySelectorAll('.filter-tag-remove');
     filterTagRemoves.forEach(btn => {
       btn.addEventListener('click', handleRemoveFilterTag);
     });
 
-    // Update active filters on page load
     updateActiveFilters();
 
-    // Set random avatars for driver images
     setRandomAvatars();
+
+    const initialFormData = {
+      from: fromInput?.value || '',
+      to: toInput?.value || '',
+      date: dateInput?.value || '',
+      seats: seatsSelect?.value || '1'
+    };
+    performSearch(initialFormData);
   }
 
 
-  // Swap from and to locations
   function handleSwapLocations(e) {
     e.preventDefault();
     if (!fromInput || !toInput) return;
@@ -83,13 +90,11 @@
     fromInput.value = toValue;
     toInput.value = fromValue;
 
-    // Trigger search
     if (searchForm) {
       searchForm.dispatchEvent(new Event('submit'));
     }
   }
 
-  // --- Random avatar utilities (DiceBear v8) ---
   function randomAvatarUrl(size, variant) {
     const seed = Math.random().toString(36).slice(2, 10);
     const sprite = typeof variant === 'string' && variant.length ? variant : 'avataaars';
@@ -109,7 +114,6 @@
     });
   }
 
-  // Handle search form submission
   function handleSearch(e) {
     e.preventDefault();
 
@@ -120,21 +124,16 @@
       seats: seatsSelect?.value || '1'
     };
 
-    // Update active filters
     updateActiveFilters(formData);
 
-    // Perform search (this would normally call an API)
     performSearch(formData);
 
-    // Update URL params (optional)
     updateURLParams(formData);
   }
 
-  // Update active filter tags
   function updateActiveFilters(formData = null) {
     if (!activeFilters) return;
 
-    // Get form data if not provided
     if (!formData) {
       formData = {
         date: dateInput?.value || '',
@@ -142,10 +141,14 @@
       };
     }
 
-    // Clear existing tags (except custom ones)
     const existingTags = activeFilters.querySelectorAll('.filter-tag');
+    existingTags.forEach(tag => {
+      const type = tag.getAttribute('data-filter');
+      if (type === 'date' || type === 'seats') {
+        tag.remove();
+      }
+    });
     
-    // Add date filter tag
     if (formData.date) {
       const dateObj = new Date(formData.date);
       const formattedDate = dateObj.toLocaleDateString('es-ES', {
@@ -163,7 +166,6 @@
       }
     }
 
-    // Add seats filter tag
     if (formData.seats) {
       const seatsText = formData.seats === '1' ? '1 pasajero' : `${formData.seats} pasajeros`;
       
@@ -177,7 +179,6 @@
     }
   }
 
-  // Create filter tag element
   function createFilterTag(filterType, text) {
     const tag = document.createElement('span');
     tag.className = 'filter-tag';
@@ -195,8 +196,8 @@
     return tag;
   }
 
-  // Handle remove filter tag
   function handleRemoveFilterTag(e) {
+    e.preventDefault();
     const filterType = e.target.getAttribute('data-filter');
     
     if (filterType === 'date' && dateInput) {
@@ -205,51 +206,31 @@
       seatsSelect.value = '1';
     }
 
-    // Remove the tag
-    const tag = e.target.closest('.filter-tag');
-    if (tag) {
-      tag.remove();
-    }
-
-    // Trigger search
     if (searchForm) {
       searchForm.dispatchEvent(new Event('submit'));
     }
   }
 
-  // Perform search (mock function - replace with API call)
   function performSearch(formData) {
-    console.log('Searching trips with:', formData);
-    
-    // In a real app, this would fetch data from an API
-    // For now, we'll just show the existing trips
-    // The results would be filtered and sorted based on formData
-
-    // Update results count (this would come from API response)
-    if (resultsCount) {
-      resultsCount.textContent = '47 viajes encontrados';
-    }
+    const allTrips = getStoredTrips();
+    currentResults = filterTrips(allTrips, formData);
+    renderTrips(currentResults);
   }
 
-  // Handle sort change
   function handleSort(e) {
     const sortValue = e.target.value;
-    console.log('Sorting by:', sortValue);
-    
-    // In a real app, this would re-fetch or re-sort the trips
-    // For now, we'll just log the sort option
+    if (!Array.isArray(currentResults) || !currentResults.length) return;
+    const sorted = sortTrips([...currentResults], sortValue);
+    currentResults = sorted;
+    renderTrips(currentResults);
   }
 
-  // Handle load more
   function handleLoadMore(e) {
     e.preventDefault();
     console.log('Loading more trips...');
-    
-    // In a real app, this would load the next page of results
-    // For now, we'll just log the action
+  
   }
 
-  // Update URL parameters
   function updateURLParams(formData) {
     const params = new URLSearchParams();
     
@@ -262,13 +243,91 @@
     window.history.pushState({}, '', newURL);
   }
 
-  // Initialize on DOM ready
+  function getStoredTrips() {
+    try {
+      const raw = localStorage.getItem('trips');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.error('Error leyendo trips de localStorage', e);
+      return [];
+    }
+  }
+
+  function filterTrips(trips, formData) {
+    const seatsNeeded = parseInt(formData?.seats || '1', 10);
+    const dateFilter = (formData?.date || '').trim();
+    const fromFilter = (formData?.from || '').trim().toLowerCase();
+    const toFilter = (formData?.to || '').trim().toLowerCase();
+
+    return (trips || []).filter(t => {
+      const seatsOk = (availableSeats(t) >= seatsNeeded);
+      const dateOk = dateFilter ? (String(t.date || '') === dateFilter) : true;
+      const fromOk = fromFilter ? String(t.origin || '').toLowerCase().includes(fromFilter) : true;
+      const toOk = toFilter ? String(t.destination || '').toLowerCase().includes(toFilter) : true;
+      return seatsOk && dateOk && fromOk && toOk;
+    });
+  }
+
+  function availableSeats(trip) {
+    const capacity = parseInt(trip?.seats || 0, 10);
+    const taken = Array.isArray(trip?.passengers) ? trip.passengers.length : 0;
+    return Math.max(0, capacity - taken);
+  }
+
+  function sortTrips(trips, sortValue) {
+    switch (sortValue) {
+      case 'price-asc':
+        return trips.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
+      case 'price-desc':
+        return trips.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+      case 'time-asc':
+        return trips.sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')));
+      case 'time-desc':
+        return trips.sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')));
+      case 'rating-desc':
+        return trips.sort((a, b) => (getDriverRating(b.driverId) - getDriverRating(a.driverId)));
+      default:
+        return trips;
+    }
+  }
+
+  function getDriverRating(driverId) {
+    try {
+      const users = (window.Storage && typeof window.Storage.getUsers === 'function')
+        ? window.Storage.getUsers()
+        : JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.id === driverId);
+      return Number(user?.rating || 0);
+    } catch {
+      return 0;
+    }
+  }
+
+  function renderTrips(trips) {
+    if (!tripsList) return;
+    tripsList.innerHTML = '';
+
+    (trips || []).forEach(trip => {
+      if (window.TripCard && typeof window.TripCard.render === 'function') {
+        const el = window.TripCard.render(trip);
+        tripsList.appendChild(el);
+      }
+    });
+
+    if (resultsCount) {
+      const count = Array.isArray(trips) ? trips.length : 0;
+      resultsCount.textContent = `${count} viajes encontrados`;
+    }
+
+    setRandomAvatars();
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
-  // Tabs activation
+
   function activateTab(name) {
     if (!tabListBtn || !tabMapBtn || !listTabPane || !mapTabPane) return;
 
@@ -283,9 +342,7 @@
     mapTabPane.style.display = isList ? 'none' : 'block';
 
     if (!isList) {
-      // Initialize or refresh map when switching to Map tab
       if (typeof window.invalidateOnepathMap === 'function') {
-        // Small delay allows layout to settle before resize
         setTimeout(() => window.invalidateOnepathMap(), 50);
       }
     }
