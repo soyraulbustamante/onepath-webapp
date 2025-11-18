@@ -99,6 +99,9 @@
     if (statsDurationEl) statsDurationEl.textContent = '45 minutos';
     if (statsDestinationEl) statsDestinationEl.textContent = (driver?.university || 'Destino');
 
+    // Guardar disponible para uso en el formulario
+    window.__availableSeatsForTrip = available;
+
     // Summary
     const summaryDateEl = document.getElementById('summaryDate');
     const summaryTimeEl = document.getElementById('summaryTime');
@@ -120,6 +123,7 @@
     const favBtn = document.getElementById('saveFavorite');
 
     if (!form || !passengersSelect || !pricePerEl || !qtyEl || !totalEl) return;
+    const submitBtn = form.querySelector('button[type="submit"]');
     // Cargar viaje por query param
     const tripId = getQueryParam('tripId');
     let currentTrip = null;
@@ -128,16 +132,46 @@
       currentTrip = trips.find(t => String(t.id) === String(tripId));
       if (currentTrip) {
         populateTripDetails(currentTrip);
+        // Configurar opciones de pasajeros según asientos disponibles
+        const max = Number.isFinite(window.__availableSeatsForTrip) ? window.__availableSeatsForTrip : 1;
+        // Reconstruir opciones 1..max (o deshabilitar si 0)
+        while (passengersSelect.firstChild) passengersSelect.removeChild(passengersSelect.firstChild);
+        if (max >= 1) {
+          for (let i = 1; i <= max; i++) {
+            const opt = document.createElement('option');
+            opt.value = String(i);
+            opt.textContent = i === 1 ? '1 pasajero' : `${i} pasajeros`;
+            passengersSelect.appendChild(opt);
+          }
+          passengersSelect.disabled = false;
+          passengersSelect.value = '1';
+          if (submitBtn) submitBtn.disabled = false;
+        } else {
+          const opt = document.createElement('option');
+          opt.value = '0';
+          opt.textContent = '0 pasajeros';
+          passengersSelect.appendChild(opt);
+          passengersSelect.disabled = true;
+          passengersSelect.value = '0';
+          if (submitBtn) submitBtn.disabled = true;
+        }
       }
     }
 
     const pricePer = typeof currentTrip?.price === 'number' ? currentTrip.price : 8; // fallback: 8
 
     function updateTotal() {
-      const qty = parseInt(passengersSelect.value || '1', 10);
+      const max = Number.isFinite(window.__availableSeatsForTrip) ? window.__availableSeatsForTrip : undefined;
+      let qty = parseInt(passengersSelect.value || '1', 10);
+      if (typeof max === 'number') {
+        qty = Math.min(Math.max(qty, 0), Math.max(0, max));
+      }
       qtyEl.textContent = String(qty);
       pricePerEl.textContent = pricePer.toFixed(2);
       totalEl.textContent = (pricePer * qty).toFixed(2);
+      // Deshabilitar submit si qty es 0
+      const submitBtn2 = form.querySelector('button[type="submit"]');
+      if (submitBtn2) submitBtn2.disabled = (qty <= 0);
     }
 
     passengersSelect.addEventListener('change', updateTotal);
@@ -146,6 +180,14 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       const qty = parseInt(passengersSelect.value || '1', 10);
+      if (qty <= 0) {
+        if (typeof showNotification === 'function') {
+          showNotification('No hay asientos disponibles para reservar.', 'warning');
+        } else {
+          alert('No hay asientos disponibles para reservar.');
+        }
+        return;
+      }
       const total = pricePer * qty;
       if (typeof showNotification === 'function') {
         showNotification(`Solicitud enviada. Total: S/ ${total.toFixed(2)}`, 'success');
