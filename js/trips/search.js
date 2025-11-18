@@ -29,6 +29,10 @@
   const emptyResults = document.getElementById('emptyResults');
   const resetSearchBtn = document.getElementById('resetSearch');
 
+  // NUEVO: botones de filtros avanzados
+  const applyFiltersBtn = document.getElementById('applyFilters');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+
   const MIN_LOCATION_LENGTH = 3;
   const MAX_LOCATION_LENGTH = 120;
   const MIN_SEATS = 1;
@@ -100,6 +104,23 @@
       btn.addEventListener('click', handleRemoveFilterTag);
     });
 
+    // NUEVO: escucha evento de filtros avanzados
+    window.addEventListener('advancedFiltersChanged', handleAdvancedFiltersChanged);
+
+    // Opcional: si los botones no emiten evento por filter.js, los enganchamos aquí
+    applyFiltersBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const filters = collectAdvancedFilters();
+      window.dispatchEvent(new CustomEvent('advancedFiltersChanged', { detail: filters }));
+    });
+    clearFiltersBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const checkboxes = document.querySelectorAll('.filter-content input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.checked = false);
+      const filters = collectAdvancedFilters();
+      window.dispatchEvent(new CustomEvent('advancedFiltersChanged', { detail: filters }));
+    });
+
     updateActiveFilters();
 
     attachFieldValidationHandlers();
@@ -145,6 +166,16 @@
     });
   }
 
+  // NUEVO: handler al aplicar/limpiar filtros avanzados
+  function handleAdvancedFiltersChanged(e) {
+    const filters = e?.detail || { rating: [], price: [], vehicle: [] };
+    const formData = collectFormData();
+    formData.filters = filters;
+    updateActiveFilters(formData);
+    performSearch(formData);
+    updateURLParams(formData);
+  }
+
   function handleSearch(e) {
     e.preventDefault();
 
@@ -173,18 +204,20 @@
     if (!formData) {
       formData = {
         date: dateInput?.value || '',
-        seats: seatsSelect?.value || '1'
+        seats: seatsSelect?.value || '1',
+        filters: collectAdvancedFilters()
       };
     }
 
+    // Elimina tags existentes de los tipos que actualizaremos
     const existingTags = activeFilters.querySelectorAll('.filter-tag');
     existingTags.forEach(tag => {
       const type = tag.getAttribute('data-filter');
-      if (type === 'date' || type === 'seats') {
+      if (type === 'date' || type === 'seats' || type === 'rating' || type === 'price' || type === 'vehicle') {
         tag.remove();
       }
     });
-    
+
     if (formData.date) {
       const dateObj = new Date(formData.date);
       const formattedDate = dateObj.toLocaleDateString('es-ES', {
@@ -204,7 +237,6 @@
 
     if (formData.seats) {
       const seatsText = formData.seats === '1' ? '1 pasajero' : `${formData.seats} pasajeros`;
-      
       let seatsTag = activeFilters.querySelector('[data-filter="seats"]');
       if (!seatsTag) {
         seatsTag = createFilterTag('seats', seatsText);
@@ -212,6 +244,28 @@
       } else {
         seatsTag.querySelector('span:first-child').textContent = seatsText;
       }
+    }
+
+    // NUEVO: tags de filtros avanzados
+    const f = formData.filters || { rating: [], price: [], vehicle: [] };
+
+    // Rating (usa umbral mínimo)
+    if (Array.isArray(f.rating) && f.rating.length) {
+      const minRating = Math.min(...f.rating.map(r => parseInt(r, 10)));
+      const ratingText = minRating === 5 ? '5 estrellas' : `${minRating}+ estrellas`;
+      activeFilters.appendChild(createFilterTag('rating', ratingText));
+    }
+
+    // Precio (múltiples rangos)
+    if (Array.isArray(f.price) && f.price.length) {
+      const priceLabels = f.price.map(rangeLabelFromValue);
+      activeFilters.appendChild(createFilterTag('price', priceLabels.join(', ')));
+    }
+
+    // Vehículo (múltiples tipos)
+    if (Array.isArray(f.vehicle) && f.vehicle.length) {
+      const vehicleLabels = f.vehicle.map(v => vehicleLabel(v));
+      activeFilters.appendChild(createFilterTag('vehicle', vehicleLabels.join(', ')));
     }
   }
 
@@ -317,12 +371,31 @@
     const fromFilter = (formData?.from || '').trim().toLowerCase();
     const toFilter = (formData?.to || '').trim().toLowerCase();
 
+    const filters = formData?.filters || { rating: [], price: [], vehicle: [] };
+    const ratingThresholds = (filters.rating || []).map(r => parseInt(r, 10)).filter(n => !Number.isNaN(n));
+    const minRating = ratingThresholds.length ? Math.min(...ratingThresholds) : null;
+    const priceRanges = Array.isArray(filters.price) ? filters.price : [];
+    const vehicleTypes = Array.isArray(filters.vehicle) ? filters.vehicle : [];
+
     return (trips || []).filter(t => {
       const seatsOk = (availableSeats(t) >= seatsNeeded);
       const dateOk = dateFilter ? (String(t.date || '') === dateFilter) : true;
       const fromOk = fromFilter ? String(t.origin || '').toLowerCase().includes(fromFilter) : true;
       const toOk = toFilter ? String(t.destination || '').toLowerCase().includes(toFilter) : true;
-      return seatsOk && dateOk && fromOk && toOk;
+
+      // Rating: usa el rating del usuario si disponible, si no, trip.driverRating
+      const driverRating = getDriverRating(t.driverId) || Number(t.driverRating || 0) || 0;
+      const ratingOk = minRating !== null ? (driverRating >= minRating) : true;
+
+      // Precio: verifica si cae en cualquiera de los rangos seleccionados
+      const priceVal = Number(t.price || 0);
+      const priceOk = priceRanges.length ? priceInRanges(priceVal, priceRanges) : true;
+
+      // Vehículo: clasifica y compara el tipo
+      const vType = classifyVehicleType(String(t.vehicle || ''));
+      const vehicleOk = vehicleTypes.length ? vehicleTypes.includes(vType) : true;
+
+      return seatsOk && dateOk && fromOk && toOk && ratingOk && priceOk && vehicleOk;
     });
   }
 
@@ -358,6 +431,58 @@
       return Number(user?.rating || 0);
     } catch {
       return 0;
+    }
+  }
+
+  // NUEVO: util de precio en rangos
+  function priceInRanges(price, ranges) {
+    return ranges.some(r => {
+      switch (r) {
+        case 'free': return price === 0;
+        case '1-5': return price >= 1 && price <= 5;
+        case '6-10': return price >= 6 && price <= 10;
+        case '11-20': return price >= 11 && price <= 20;
+        case '20+': return price >= 20;
+        default: return true;
+      }
+    });
+  }
+
+  // NUEVO: clasificación heurística de tipo de vehículo por texto
+  function classifyVehicleType(vehicleText) {
+    const v = vehicleText.toLowerCase();
+    // Reglas simples por modelos frecuentes; fallback a 'sedan' si coincide
+    if (v.includes('golf')) return 'compact';
+    if (v.includes('rio')) return 'sedan';
+    if (v.includes('corolla')) return 'sedan';
+    if (v.includes('civic')) return 'sedan';
+    if (v.includes('sentra')) return 'sedan';
+    // Si contiene 'suv' explícito
+    if (v.includes('suv')) return 'suv';
+    // Si contiene 'familiar'
+    if (v.includes('familiar')) return 'family';
+    // Fallback por ausencia de info
+    return 'sedan';
+  }
+
+  // NUEVO: labels para UI
+  function rangeLabelFromValue(val) {
+    switch (val) {
+      case 'free': return 'Gratis';
+      case '1-5': return 'S/1 - S/5';
+      case '6-10': return 'S/6 - S/10';
+      case '11-20': return 'S/11 - S/20';
+      case '20+': return 'Más de S/20';
+      default: return val;
+    }
+  }
+  function vehicleLabel(v) {
+    switch (v) {
+      case 'compact': return 'Compacto';
+      case 'sedan': return 'Sedán';
+      case 'suv': return 'SUV';
+      case 'family': return 'Familiar';
+      default: return v;
     }
   }
 
@@ -619,8 +744,32 @@
       from: sanitizeText(fromInput?.value || ''),
       to: sanitizeText(toInput?.value || ''),
       date: (dateInput?.value || '').trim(),
-      seats: seatsSelect?.value || String(MIN_SEATS)
+      seats: seatsSelect?.value || String(MIN_SEATS),
+      // NUEVO: incluye filtros avanzados
+      filters: collectAdvancedFilters()
     };
+  }
+
+  // NUEVO: colecta filtros avanzados desde el DOM
+  function collectAdvancedFilters() {
+    const collected = {
+      rating: [],
+      price: [],
+      vehicle: []
+    };
+
+    try {
+      const ratingSel = document.querySelectorAll('#filter-rating input[type="checkbox"]:checked');
+      collected.rating = Array.from(ratingSel).map(c => c.value);
+
+      const priceSel = document.querySelectorAll('#filter-price input[type="checkbox"]:checked');
+      collected.price = Array.from(priceSel).map(c => c.value);
+
+      const vehicleSel = document.querySelectorAll('#filter-vehicle input[type="checkbox"]:checked');
+      collected.vehicle = Array.from(vehicleSel).map(c => c.value);
+    } catch (_) {}
+
+    return collected;
   }
 
   function sanitizeText(value) {
