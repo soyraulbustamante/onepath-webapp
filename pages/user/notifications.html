@@ -100,6 +100,8 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="settings-summary" id="notificationSettingsSummary"></div>
                 </div>
             </section>
 
@@ -110,6 +112,11 @@
                         <span class="notifications-icon material-icons">list</span>
                         Notificaciones Recientes
                     </h2>
+
+                    <div class="notifications-filters">
+                        <button class="filter-btn active" data-filter="all" id="filterAllBtn">Todas</button>
+                        <button class="filter-btn" data-filter="unread" id="filterUnreadBtn">No leídas</button>
+                    </div>
 
                     <div class="notifications-list" id="notificationsList">
                         <!-- Notification 1 -->
