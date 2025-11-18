@@ -80,7 +80,7 @@
           ${trip.vehicle ? `<span class="trip-vehicle"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> ${escapeHtml(trip.vehicle)}</span>` : ''}
         </div>
         <div class="trip-actions">
-          <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
+          <a href="../../pages/reservations/reserve.html${trip.id ? `?tripId=${encodeURIComponent(trip.id)}` : ''}" class="btn-reserve">Reservar</a>
         </div>
       </div>
     `;
