@@ -305,6 +305,11 @@
     const allTrips = getStoredTrips();
     currentResults = filterTrips(allTrips, formData);
     renderTrips(currentResults);
+    // Notificar al mapa los resultados actuales
+    try {
+      const evt = new CustomEvent('tripsResultsUpdated', { detail: { trips: currentResults } });
+      window.dispatchEvent(evt);
+    } catch (e) { /* noop */ }
   }
 
   function handleSort(e) {
@@ -313,6 +318,11 @@
     const sorted = sortTrips([...currentResults], sortValue);
     currentResults = sorted;
     renderTrips(currentResults);
+    // Notificar al mapa los resultados ordenados
+    try {
+      const evt = new CustomEvent('tripsResultsUpdated', { detail: { trips: currentResults } });
+      window.dispatchEvent(evt);
+    } catch (e) { /* noop */ }
   }
 
   function handleLoadMore(e) {
