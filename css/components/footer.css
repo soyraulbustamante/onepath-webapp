@@ -110,7 +110,7 @@
   .footer-links {
     justify-content: center;
     flex-direction: column;
-    gap: 12px;
+    gap: 5px;
   }
 
   .footer-links a {

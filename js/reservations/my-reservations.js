@@ -201,6 +201,9 @@
       createReservationCard(reservation)
     ).join('');
 
+    // Inicializa avatares aleatorios para imágenes con clase js-random-avatar
+    setRandomAvatars();
+
     // Add event listeners for cancel buttons
     document.querySelectorAll('.link-cancel').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -208,6 +211,26 @@
         const reservationId = link.getAttribute('data-reservation-id');
         openCancelModal(reservationId);
       });
+    });
+  }
+
+  // --- Utilidades de avatar aleatorio (DiceBear v8) ---
+  function randomAvatarUrl(size, variant) {
+    const seed = Math.random().toString(36).slice(2, 10);
+    const sprite = typeof variant === 'string' && variant.length ? variant : 'avataaars';
+    const s = parseInt(size || 64, 10);
+    return `https://api.dicebear.com/8.x/${sprite}/png?seed=${seed}&size=${s}`;
+  }
+
+  function setRandomAvatars() {
+    const imgs = document.querySelectorAll('img.js-random-avatar');
+    imgs.forEach(img => {
+      const fallback = img.getAttribute('src');
+      const size = img.dataset.size || '64';
+      const variant = img.dataset.variant || 'avataaars';
+      const url = randomAvatarUrl(size, variant);
+      img.onerror = function() { img.src = fallback; };
+      img.src = url;
     });
   }
 
@@ -268,88 +291,74 @@
     const isPast = tripDate < now;
     
     return `
-      <div class="reservation-card">
-        <div class="reservation-card-header">
-          <div class="reservation-status-header">
-            <span class="reservation-status ${statusInfo.class}">
-              <span class="reservation-status-icon material-icons">${statusInfo.icon}</span>
-              ${statusInfo.text}
-            </span>
-            <span class="reservation-id">#VJ-${trip.date.replace(/-/g, '')}-${String(trip.id).slice(-3)}</span>
-          </div>
-          <div class="reservation-cost">
-            <span class="cost-amount">S/${trip.price.toFixed(2)}</span>
-            <span class="cost-label">${costLabel}</span>
-          </div>
-        </div>
-        
-        <div class="reservation-route">
-          <div class="reservation-route-point">
-            <div class="route-icon-wrapper">
-              <div class="route-dot green"></div>
-              <div class="route-car-icon"><span class="material-icons">directions_car</span></div>
+      <article class="trip-card">
+        <div class="trip-card-header driver-header">
+          <div class="driver-avatar"><img class="js-random-avatar" data-size="64" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="Avatar de ${driverName}"></div>
+          <div class="driver-info">
+            <h3>${driverName} <span class="text-muted">- ${driverMajor}</span></h3>
+            <div class="driver-meta">
+              <span class="rating-stars">${'★'.repeat(Math.round(driverRating))}${'☆'.repeat(5-Math.round(driverRating))}</span>
+              <span class="rating-value">${driverRating}</span>
             </div>
-            <div class="reservation-route-details">
-              <div class="route-time-date">${timeStr} ${dateStr}</div>
-              <div class="route-address">${trip.origin}${trip.originAddress ? ', ' + trip.originAddress : ''}</div>
+            <div class="driver-meta">
+              <span class="reservation-status ${statusInfo.class}"><span class="reservation-status-icon material-icons">${statusInfo.icon}</span> ${statusInfo.text}</span>
+              <span class="reservation-id">#VJ-${trip.date.replace(/-/g, '')}-${String(trip.id).slice(-3)}</span>
             </div>
           </div>
-          <div class="route-line"></div>
-          <div class="reservation-route-point">
-            <div class="route-icon-wrapper">
-              <div class="route-dot red"></div>
-            </div>
-            <div class="reservation-route-details">
-              <div class="route-time-date">${calculateArrivalTime(trip.time, 45)}</div>
-              <div class="route-address">${trip.destination}${trip.destinationAddress ? ', ' + trip.destinationAddress : ''}</div>
-            </div>
+          <div class="price-box">
+            <span class="price-amount">S/ ${trip.price.toFixed(2)}</span>
+            <span class="price-unit">${costLabel}</span>
           </div>
         </div>
-        
-        <div class="reservation-driver-info">
-          <div class="driver-profile">
-            <div class="driver-avatar">${driverInitials}</div>
-            <div class="driver-details">
-              <div class="driver-name">${driverName}</div>
-              <div class="driver-major">${driverMajor}</div>
-              <div class="driver-rating">
-                <span class="rating-stars">${'<span class="material-icons">star</span>'.repeat(5)}</span>
-                <span class="rating-value">${driverRating}</span>
-              </div>
-              <div class="driver-vehicle">${vehicle}</div>
+
+        <div class="trip-route">
+          <div class="route-point departure">
+            <span class="route-dot green"></span>
+            <div class="route-details">
+              <span class="route-time">${timeStr}</span>
+              <span class="route-location">${trip.origin}</span>
+              ${trip.originAddress ? `<small class="text-muted">${trip.originAddress}</small>` : ''}
             </div>
           </div>
-          <div class="driver-actions">
-            ${status === 'confirmed' 
-              ? '<button class="btn-secondary btn-small">Contactar</button>'
-              : '<button class="btn-warning btn-small" disabled>Esperando</button>'
+          <div class="route-middle">
+            <span class="duration">45 min</span>
+            <div class="route-line"></div>
+            <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
+          </div>
+          <div class="route-point arrival">
+            <span class="route-dot red"></span>
+            <div class="route-details">
+              <span class="route-time">${calculateArrivalTime(trip.time, 45)}</span>
+              <span class="route-location">${trip.destination}</span>
+              ${trip.destinationAddress ? `<small class="text-muted">${trip.destinationAddress}</small>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="trip-details">
+          <div class="trip-info">
+            <div class="trip-meta-row">
+              <span class="trip-duration"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">access_time</span> 45 min</span>
+              ${status === 'confirmed' ? `<span class="trip-seats"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">event_seat</span> 1 asiento reservado</span>` : ''}
+            </div>
+            <span class="trip-vehicle"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> ${vehicle}</span>
+          </div>
+          <div class="trip-actions" style="gap: 8px;">
+            ${status !== 'cancelled' 
+              ? `<a href="#" class="btn btn-secondary link-cancel" data-reservation-id="${reservation.reservationId}">Cancelar reserva</a>`
+              : ''
             }
+            <a href="../../pages/chat/messages.html" class="btn btn-primary">Ver conversación</a>
           </div>
         </div>
-        
-        <div class="reservation-meta">
-          <div class="reservation-meta-left">
-            ${status === 'confirmed' ? `<div class="reservation-meta-item"><span>1 pasajero reservado</span></div>` : ''}
-            ${!isPast ? `<div class="reservation-meta-item"><span>Solicitud enviada hace ${getTimeAgo(reservation.createdAt)}</span></div>` : ''}
-          </div>
-          ${!isPast && status !== 'cancelled' ? `<div class="reservation-meta-right">Faltan ${daysText}</div>` : ''}
-        </div>
+
         ${status === 'cancelled' && cancelReason ? `
-          <div class="reservation-cancel-reason" style="padding: 8px 0; border-top: 1px solid var(--gray-100); margin-top: 8px;">
+          <div style="margin-top: 12px; padding: 10px; border: 1px solid var(--gray-100); border-radius: 8px; background: var(--gray-50);">
             <span style="font-size:12px; color: var(--text-light);">Motivo de cancelación:</span>
             <p style="font-size:13px; color: var(--text-dark); margin:4px 0 0 0;">${cancelReason}</p>
           </div>
         ` : ''}
-        
-        <div class="reservation-actions">
-          ${status !== 'cancelled' 
-            ? `<a href="#" class="link-cancel" data-reservation-id="${reservation.reservationId}"><span class="material-icons">close</span> Cancelar${status === 'pending' ? ' Solicitud' : ''}</a>`
-            : ''
-          }
-          <a href="#" class="link-details">Ver Detalles</a>
-          ${status === 'pending' ? '<a href="#" class="link-message">Enviar Mensaje</a>' : ''}
-        </div>
-      </div>
+      </article>
     `;
   }
 
@@ -477,6 +486,18 @@
     const reasonInput = document.getElementById('cancelReasonInput');
     if (reasonInput) {
       reasonInput.value = '';
+      reasonInput.removeAttribute('aria-invalid');
+      const err = document.getElementById('cancelReasonError');
+      if (err) err.style.display = 'none';
+      // Validación dinámica: ocultar error cuando cumpla el mínimo
+      reasonInput.oninput = function() {
+        const len = (reasonInput.value || '').trim().length;
+        const err2 = document.getElementById('cancelReasonError');
+        if (len >= 10) {
+          if (err2) err2.style.display = 'none';
+          reasonInput.removeAttribute('aria-invalid');
+        }
+      };
     }
     if (cancelModal) cancelModal.style.display = 'flex';
   }
@@ -489,24 +510,30 @@
   function handleConfirmCancel() {
     if (!currentCancelReservation) return;
     
-    // Leer motivo (opcional)
+    // Leer motivo (OBLIGATORIO)
     const reasonInput = document.getElementById('cancelReasonInput');
     const cancelReason = reasonInput ? (reasonInput.value || '').trim() : '';
 
+    if (!cancelReason || cancelReason.length < 10) {
+      const err = document.getElementById('cancelReasonError');
+      if (err) err.style.display = 'inline';
+      if (reasonInput) {
+        reasonInput.setAttribute('aria-invalid', 'true');
+        reasonInput.focus();
+      }
+      return; // No continuar sin motivo
+    }
+
     // Update reservation status
     currentCancelReservation.status = 'cancelled';
-    if (cancelReason) {
-      currentCancelReservation.cancelReason = cancelReason;
-    }
+    currentCancelReservation.cancelReason = cancelReason;
     
     // Update in localStorage (simplified - in real app would update properly)
     const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
     const existingRes = reservations.find(r => r.id === currentCancelReservation.reservationId);
     if (existingRes) {
       existingRes.status = 'cancelled';
-      if (cancelReason) {
-        existingRes.cancelReason = cancelReason;
-      }
+      existingRes.cancelReason = cancelReason;
       localStorage.setItem('reservations', JSON.stringify(reservations));
     }
     

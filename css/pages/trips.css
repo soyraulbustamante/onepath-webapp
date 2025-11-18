@@ -16,7 +16,7 @@
 
 .search-inputs {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -24,6 +24,28 @@
 .search-field {
   flex: 1;
   min-width: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field .error-message {
+  min-height: 0;
+  margin-top: 4px;
+}
+
+.search-form__alert {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--error);
+}
+
+.search-form__alert:empty {
+  display: none;
+}
+
+.search-form__alert[data-state="success"] {
+  color: var(--success);
 }
 
 .search-field label {
@@ -86,6 +108,7 @@
   justify-content: center;
   transition: all 0.2s;
   flex-shrink: 0;
+  margin-top: 22px;
 }
 
 .swap-button:hover {
@@ -117,6 +140,8 @@
   gap: 8px;
   transition: background-color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
+  margin-top: 22px;
+  height: 40px;
 }
 
 .btn-search:hover {
@@ -243,6 +268,47 @@
 .load-more-section {
   margin-top: 32px;
   text-align: center;
+}
+
+.empty-results {
+  margin-top: 24px;
+  padding: 32px;
+  border: 1px dashed var(--border-light);
+  border-radius: 12px;
+  background-color: var(--gray-50);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-results[hidden] {
+  display: none;
+}
+
+.empty-results__icon {
+  font-size: 32px;
+  color: var(--primary-blue);
+}
+
+.empty-results__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.empty-results__description {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.empty-results__action {
+  margin-top: 12px;
+  width: auto;
+  min-width: 0;
 }
 
 .btn-load-more {
@@ -865,7 +931,6 @@ textarea[readonly]:focus {
 }
 
 .reservation-tab.active {
-  background-color: var(--light-blue);
   color: var(--primary-blue);
   border-bottom: none;
 }
@@ -1579,11 +1644,11 @@ textarea[readonly]:focus {
   gap: 12px;
 }
 
-.driver-avatar {
+.reservation-driver-info .driver-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  background: var(--gray-100);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1679,6 +1744,7 @@ textarea[readonly]:focus {
 }
 
 .link-cancel {
+  border: 1.5px solid var(--error);
   color: var(--error);
   text-decoration: none;
   cursor: pointer;
@@ -1689,7 +1755,7 @@ textarea[readonly]:focus {
 }
 
 .link-cancel:hover {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 
 .link-details,

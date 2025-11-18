@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/global.css">
@@ -25,9 +26,9 @@
             <div class="hero-content">
                 <div class="profile-avatar-section">
                     <div class="avatar-container">
-                        <img id="profileAvatar" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Usuario" class="profile-avatar">
+                        <img id="profileAvatar" src="../../assets/images/avatars/default.svg" alt="Usuario" class="profile-avatar">
                         <button class="avatar-edit-btn" id="editAvatarBtn">
-                            <span class="camera-icon">📷</span>
+                            <span class="material-icons camera-icon">camera_alt</span>
                         </button>
                     </div>
                     <h1 id="profileName" class="profile-name">María González</h1>
@@ -56,19 +57,19 @@
         <div class="container">
             <nav class="tabs-nav">
                 <button class="tab-btn active" data-tab="overview">
-                    <span class="tab-icon">👤</span>Información General
+                    <span class="material-icons tab-icon">person</span>Información General
                 </button>
                 <button class="tab-btn" data-tab="trips">
-                    <span class="tab-icon">🚗</span>Mis Viajes
+                    <span class="material-icons tab-icon">directions_car</span>Mis Viajes
                 </button>
                 <button class="tab-btn" data-tab="reviews">
-                    <span class="tab-icon">⭐</span>Reseñas
+                    <span class="material-icons tab-icon">star</span>Reseñas
                 </button>
                 <button class="tab-btn" data-tab="vehicle" id="vehicleTab">
-                    <span class="tab-icon">🚙</span>Mi Vehículo
+                    <span class="material-icons tab-icon">airport_shuttle</span>Mi Vehículo
                 </button>
                 <button class="tab-btn" data-tab="settings">
-                    <span class="tab-icon">⚙️</span>Configuración
+                    <span class="material-icons tab-icon">settings</span>Configuración
                 </button>
             </nav>
         </div>
@@ -89,7 +90,7 @@
                             <div class="card-header">
                                 <h2 class="card-title">Información Personal</h2>
                                 <button class="edit-btn" id="editPersonalBtn">
-                                    <span class="edit-icon">✏️</span>Editar
+                                    <span class="material-icons edit-icon">edit</span>Editar
                                 </button>
                             </div>
                             <div class="info-grid">
@@ -125,28 +126,36 @@
                             <h2 class="card-title">Estado de Verificación</h2>
                             <div class="verification-grid" id="verificationStatus">
                                 <div class="verification-item verified">
-                                    <div class="verification-icon verified">✓</div>
+                                    <div class="verification-icon verified">
+                                        <span class="material-icons">check_circle</span>
+                                    </div>
                                     <div class="verification-content">
                                         <h3 class="verification-title">Email Verificado</h3>
                                         <p class="verification-date">Verificado el 15 Mar 2024</p>
                                     </div>
                                 </div>
                                 <div class="verification-item verified">
-                                    <div class="verification-icon verified">📱</div>
+                                    <div class="verification-icon verified">
+                                        <span class="material-icons">phone_android</span>
+                                    </div>
                                     <div class="verification-content">
                                         <h3 class="verification-title">Teléfono Verificado</h3>
                                         <p class="verification-date">Verificado el 16 Mar 2024</p>
                                     </div>
                                 </div>
                                 <div class="verification-item verified">
-                                    <div class="verification-icon verified">🎓</div>
+                                    <div class="verification-icon verified">
+                                        <span class="material-icons">school</span>
+                                    </div>
                                     <div class="verification-content">
                                         <h3 class="verification-title">Estudiante Verificado</h3>
                                         <p class="verification-date">Verificado el 18 Mar 2024</p>
                                     </div>
                                 </div>
                                 <div class="verification-item pending">
-                                    <div class="verification-icon pending">📄</div>
+                                    <div class="verification-icon pending">
+                                        <span class="material-icons">description</span>
+                                    </div>
                                     <div class="verification-content">
                                         <h3 class="verification-title">Documento Pendiente</h3>
                                         <button class="verify-btn">Verificar ahora</button>
@@ -160,7 +169,7 @@
                             <div class="card-header">
                                 <h2 class="card-title">Acerca de Mí</h2>
                                 <button class="edit-btn" id="editAboutBtn">
-                                    <span class="edit-icon">✏️</span>Editar
+                                    <span class="material-icons edit-icon">edit</span>Editar
                                 </button>
                             </div>
                             <p id="userBio" class="user-bio">¡Hola! Soy María, estudiante de Administración en la UNMSM. Me encanta conocer gente nueva y hacer que los viajes a la universidad sean más divertidos y económicos. Siempre trato de ser puntual y mantener un ambiente agradable en mis viajes.</p>
@@ -176,19 +185,19 @@
                             <h3 class="section-subtitle">Preferencias de Viaje</h3>
                             <div class="preferences-grid" id="travelPreferences">
                                 <div class="preference-item allowed">
-                                    <span class="preference-icon">🎵</span>
+                                    <span class="material-icons preference-icon">music_note</span>
                                     <span class="preference-text">Música permitida</span>
                                 </div>
                                 <div class="preference-item not-allowed">
-                                    <span class="preference-icon">🚭</span>
+                                    <span class="material-icons preference-icon">smoke_free</span>
                                     <span class="preference-text">No fumar</span>
                                 </div>
                                 <div class="preference-item not-allowed">
-                                    <span class="preference-icon">🐾</span>
+                                    <span class="material-icons preference-icon">pets</span>
                                     <span class="preference-text">No mascotas</span>
                                 </div>
                                 <div class="preference-item allowed">
-                                    <span class="preference-icon">💬</span>
+                                    <span class="material-icons preference-icon">chat</span>
                                     <span class="preference-text">Conversación bienvenida</span>
                                 </div>
                             </div>
@@ -200,22 +209,30 @@
                         <!-- Trip Statistics -->
                         <div class="stats-grid" id="tripStats">
                             <div class="stat-card">
-                                <div class="stat-icon driver">🚗</div>
+                                <div class="stat-icon driver">
+                                    <span class="material-icons">directions_car</span>
+                                </div>
                                 <div class="stat-number" id="tripsAsDriver">12</div>
                                 <div class="stat-label">Viajes Ofrecidos</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-icon passenger">👥</div>
+                                <div class="stat-icon passenger">
+                                    <span class="material-icons">people</span>
+                                </div>
                                 <div class="stat-number" id="tripsAsPassenger">11</div>
                                 <div class="stat-label">Como Pasajero</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-icon punctuality">⏰</div>
+                                <div class="stat-icon punctuality">
+                                    <span class="material-icons">schedule</span>
+                                </div>
                                 <div class="stat-number" id="punctualityRate">98%</div>
                                 <div class="stat-label">Puntualidad</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-icon savings">💰</div>
+                                <div class="stat-icon savings">
+                                    <span class="material-icons">savings</span>
+                                </div>
                                 <div class="stat-number" id="totalSavings">S/ 184</div>
                                 <div class="stat-label">Total Ahorrado</div>
                             </div>
@@ -249,11 +266,11 @@
                                     <div class="overall-rating">
                                         <div class="rating-score" id="overallRating">4.8</div>
                                         <div class="rating-stars" id="ratingStars">
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
-                                            <span class="star filled">⭐</span>
+                                            <span class="material-icons star filled">star</span>
+                                            <span class="material-icons star filled">star</span>
+                                            <span class="material-icons star filled">star</span>
+                                            <span class="material-icons star filled">star</span>
+                                            <span class="material-icons star filled">star</span>
                                         </div>
                                         <div class="rating-count" id="reviewsCount">Basado en 15 reseñas</div>
                                     </div>
@@ -281,7 +298,7 @@
                             <div class="card-header">
                                 <h2 class="card-title">Mi Vehículo</h2>
                                 <button class="edit-btn" id="editVehicleBtn">
-                                    <span class="edit-icon">✏️</span>Editar
+                                    <span class="material-icons edit-icon">edit</span>Editar
                                 </button>
                             </div>
                             <div id="vehicleContent">
@@ -294,7 +311,7 @@
                             <div class="card-header">
                                 <h2 class="card-title">Fotos del Vehículo</h2>
                                 <button class="edit-btn" id="addPhotosBtn">
-                                    <span class="edit-icon">➕</span>Agregar Fotos
+                                    <span class="material-icons edit-icon">add_photo_alternate</span>Agregar Fotos
                                 </button>
                             </div>
                             <div class="vehicle-photos" id="vehiclePhotos">
@@ -375,11 +392,13 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">🚗</div>
-                        <span>OnePath</span>
-                    </div>
+                    <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon">
+                                <span class="material-icons">directions_car</span>
+                            </div>
+                            <span>OnePath</span>
+                        </div>
                     <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
                 </div>
                 <div class="footer-links">

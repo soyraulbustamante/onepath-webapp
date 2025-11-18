@@ -38,15 +38,16 @@
     border: 4px solid var(--white);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     object-fit: cover;
+    background-color: var(--white);
 }
 
 .avatar-edit-btn {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    bottom: 0;
+    right: 0;
     background-color: var(--white);
     color: var(--primary-blue);
-    border: none;
+    border: 3px solid var(--white);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -56,48 +57,62 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.2s;
+    z-index: 10;
 }
 
 .avatar-edit-btn:hover {
     background-color: var(--gray-50);
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .camera-icon {
-    font-size: 1rem;
+    font-size: 1.25rem;
+    color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-name {
     font-size: 2rem;
     font-weight: 700;
     margin: 0 0 0.5rem 0;
+    color: var(--white);
+    line-height: 1.2;
 }
 
 .profile-info {
     font-size: 1rem;
-    opacity: 0.9;
+    opacity: 0.95;
     margin: 0 0 2rem 0;
+    font-weight: 400;
 }
 
 .profile-stats {
     display: flex;
     gap: 3rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .stat-item {
     text-align: center;
+    min-width: 80px;
 }
 
 .stat-number {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
+    color: var(--white);
+    line-height: 1;
 }
 
 .stat-label {
     font-size: 0.875rem;
-    opacity: 0.8;
+    opacity: 0.9;
+    color: var(--white);
+    font-weight: 400;
 }
 
 /* Profile Tabs */
@@ -147,7 +162,9 @@
 }
 
 .tab-icon {
-    font-size: 1rem;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Profile Layout */
@@ -218,7 +235,9 @@
 }
 
 .edit-icon {
-    font-size: 0.875rem;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Info Grid */
@@ -275,17 +294,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
     flex-shrink: 0;
+}
+
+.verification-icon .material-icons {
+    font-size: 1.5rem;
 }
 
 .verification-icon.verified {
     background-color: #bbf7d0;
+}
+
+.verification-icon.verified .material-icons {
     color: #166534;
 }
 
 .verification-icon.pending {
     background-color: #fde68a;
+}
+
+.verification-icon.pending .material-icons {
     color: #92400e;
 }
 
@@ -370,6 +398,8 @@
 
 .preference-icon {
     font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 .preference-text {
@@ -408,26 +438,41 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 0.75rem auto;
-    font-size: 1.25rem;
+}
+
+.stat-icon .material-icons {
+    font-size: 1.5rem;
 }
 
 .stat-icon.driver {
     background-color: #dbeafe;
+}
+
+.stat-icon.driver .material-icons {
     color: #1e40af;
 }
 
 .stat-icon.passenger {
     background-color: #dcfce7;
+}
+
+.stat-icon.passenger .material-icons {
     color: #166534;
 }
 
 .stat-icon.punctuality {
     background-color: #fef3c7;
+}
+
+.stat-icon.punctuality .material-icons {
     color: #92400e;
 }
 
 .stat-icon.savings {
     background-color: #e9d5ff;
+}
+
+.stat-icon.savings .material-icons {
     color: #7c3aed;
 }
 
@@ -472,16 +517,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+}
+
+.trip-type-icon .material-icons {
+    font-size: 1.25rem;
 }
 
 .trip-type-icon.driver {
     background-color: #dcfce7;
+}
+
+.trip-type-icon.driver .material-icons {
     color: #166534;
 }
 
 .trip-type-icon.passenger {
     background-color: #dbeafe;
+}
+
+.trip-type-icon.passenger .material-icons {
     color: #1e40af;
 }
 
@@ -552,11 +606,14 @@
 }
 
 .star {
-    font-size: 1rem;
+    font-size: 1.25rem;
+    color: #fbbf24;
+    display: inline-flex;
+    align-items: center;
 }
 
 .star.filled {
-    filter: grayscale(0%);
+    color: #fbbf24;
 }
 
 .rating-count {
@@ -648,6 +705,11 @@
     gap: 0.125rem;
 }
 
+.review-stars .material-icons {
+    font-size: 1rem;
+    color: #fbbf24;
+}
+
 .review-text {
     color: var(--text-light);
     font-size: 0.875rem;
@@ -736,8 +798,10 @@
 }
 
 .feature-icon {
-    font-size: 1rem;
-    width: 1rem;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-light);
 }
 
 .feature-text {
@@ -962,6 +1026,10 @@ input:checked + .toggle-slider:before {
     border: none;
 }
 
+.quick-action-btn .material-icons {
+    font-size: 1.125rem;
+}
+
 .quick-action-btn.primary {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -1063,23 +1131,35 @@ input:checked + .toggle-slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
     flex-shrink: 0;
     margin-top: 0.125rem;
 }
 
+.activity-icon .material-icons {
+    font-size: 0.875rem;
+}
+
 .activity-icon.review {
     background-color: #dcfce7;
+}
+
+.activity-icon.review .material-icons {
     color: #166534;
 }
 
 .activity-icon.trip {
     background-color: #dbeafe;
+}
+
+.activity-icon.trip .material-icons {
     color: #1e40af;
 }
 
 .activity-icon.message {
     background-color: #fef3c7;
+}
+
+.activity-icon.message .material-icons {
     color: #92400e;
 }
 
@@ -1136,16 +1216,33 @@ input:checked + .toggle-slider:before {
         height: 96px;
     }
 
+    .avatar-edit-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .camera-icon {
+        font-size: 1rem;
+    }
+
     .profile-name {
         font-size: 1.5rem;
     }
 
+    .profile-info {
+        font-size: 0.875rem;
+    }
+
     .profile-stats {
-        gap: 2rem;
+        gap: 1.5rem;
     }
 
     .stat-number {
         font-size: 1.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
     }
 
     .tabs-nav {

@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="../../css/global.css">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/forms.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
     <link rel="stylesheet" href="../../css/pages/auth.css">
     <!-- Nota: Sin frameworks externos, CSS puro según reglas del proyecto -->
     <link rel="icon" href="../../assets/images/icons/favicon.png">
@@ -25,9 +29,9 @@
         <div class="container">
             <div class="login-container" role="main">
             <!-- Login Card -->
-            <section class="login-card login-form" aria-labelledby="login-title">
+            <section class="card login-card login-form" aria-labelledby="login-title">
                 <div style="text-align: center; margin-bottom: 2rem;">
-                    <div style="width: 3rem; height: 3rem; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; margin: 0 auto 1rem;" aria-hidden="true"><span class="material-icons">person</span></div>
+                    <div class="login-logo-icon" aria-hidden="true"><span class="material-icons">person</span></div>
                     <h1 id="login-title" class="welcome-title">Bienvenido de vuelta</h1>
                     <p class="welcome-subtitle">Inicia sesión para acceder a tu cuenta</p>
                 </div>
@@ -54,7 +58,7 @@
                         </label>
                         <a href="./recover-password.html" class="forgot-password">¿Olvidaste la contraseña?</a>
                     </div>
-                    <button type="submit" class="btn-session">Iniciar Sesión</button>
+                    <button type="submit" class="btn-primary btn-full btn-large">Iniciar Sesión</button>
                     <p class="no-account">¿No tienes cuenta? <a href="./register.html">Regístrate aquí</a></p>
                     <div class="divider" role="separator" aria-hidden="true"><span>O inicia sesión con</span></div>
                     <div class="social-buttons">
@@ -142,11 +146,11 @@
             <h2>Universidades Participantes</h2>
             <p class="subtitle">Conectamos estudiantes de las principales universidades del país</p>
             <div class="universities-grid">
-                <div class="university-logo">PUCP</div>
-                <div class="university-logo">UNMSM</div>
-                <div class="university-logo">UNI</div>
-                <div class="university-logo">UTEC</div>
-                <div class="university-logo">UPC</div>
+                <div class="university-logo"><img src="../../assets/images/universities/pucp.svg" alt="Pontificia Universidad Católica del Perú (PUCP)"></div>
+                <div class="university-logo"><img src="../../assets/images/universities/unmsm.svg" alt="Universidad Nacional Mayor de San Marcos (UNMSM)"></div>
+                <div class="university-logo"><img src="../../assets/images/universities/uni.svg" alt="Universidad Nacional de Ingeniería (UNI)"></div>
+                <div class="university-logo"><img src="../../assets/images/universities/utec.svg" alt="Universidad de Ingeniería y Tecnología (UTEC)"></div>
+                <div class="university-logo"><img src="../../assets/images/universities/upc.svg" alt="Universidad Peruana de Ciencias Aplicadas (UPC)"></div>
             </div>
         </div>
     </section>

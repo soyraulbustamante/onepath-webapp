@@ -50,11 +50,8 @@
     e.preventDefault();
 
     const filters = collectFilters();
-    console.log('Applying filters:', filters);
-
-    // In a real app, this would filter the trips
-    // For now, we'll just log the filters
-    applyFiltersToResults(filters);
+    // Dispara evento global para que search.js aplique los filtros y renderice
+    window.dispatchEvent(new CustomEvent('advancedFiltersChanged', { detail: filters }));
   }
 
   // Handle clear filters
@@ -67,9 +64,9 @@
       checkbox.checked = false;
     });
 
-    // Clear filter data and re-apply
+    // Notifica filtros vacíos
     const filters = collectFilters();
-    applyFiltersToResults(filters);
+    window.dispatchEvent(new CustomEvent('advancedFiltersChanged', { detail: filters }));
   }
 
   // Collect all active filter values
@@ -132,6 +129,11 @@
       resultsCount.textContent = '47 viajes encontrados';
     }
   }
+
+  // Exporta colector para uso opcional
+  window.AdvancedFilters = {
+    collect: collectFilters
+  };
 
   // Initialize on DOM ready
   if (document.readyState === 'loading') {

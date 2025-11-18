@@ -23,14 +23,31 @@
   let currentTrip = null;
   let tripId = null;
 
+  // Constants
+  const MIN_ORIGIN_LENGTH = 3;
+  const MAX_ORIGIN_LENGTH = 200;
+  const MIN_DESTINATION_LENGTH = 3;
+  const MAX_DESTINATION_LENGTH = 200;
+
+  // State
+  let isSubmitting = false;
+
   // Error messages
   const errorMessages = {
     origin: 'El campo Origen es obligatorio',
+    originMinLength: `El origen debe tener al menos ${MIN_ORIGIN_LENGTH} caracteres`,
+    originMaxLength: `El origen no puede exceder ${MAX_ORIGIN_LENGTH} caracteres`,
+    originInvalid: 'El origen contiene caracteres inválidos',
     destination: 'El campo Destino es obligatorio',
+    destinationMinLength: `El destino debe tener al menos ${MIN_DESTINATION_LENGTH} caracteres`,
+    destinationMaxLength: `El destino no puede exceder ${MAX_DESTINATION_LENGTH} caracteres`,
+    destinationInvalid: 'El destino contiene caracteres inválidos',
     date: 'La fecha es obligatoria',
-    time: 'La hora es obligatoria',
     datePast: 'La fecha no puede ser anterior a hoy',
     dateInvalid: 'Por favor, selecciona una fecha válida',
+    time: 'La hora es obligatoria',
+    timePast: 'La hora no puede ser anterior a la hora actual',
+    timeInvalid: 'Por favor, selecciona una hora válida',
     tripNotFound: 'El viaje no fue encontrado',
     notCreator: 'No tienes permiso para editar este viaje. Solo el creador puede modificarlo.',
     tripStarted: 'No se puede editar un viaje que ya ha iniciado',
@@ -67,13 +84,44 @@
       }
     });
 
-    // Real-time validation
+    // Set maxlength for text inputs
+    if (originInput) {
+      originInput.setAttribute('maxlength', MAX_ORIGIN_LENGTH);
+    }
+    if (destinationInput) {
+      destinationInput.setAttribute('maxlength', MAX_DESTINATION_LENGTH);
+    }
+
+    // Real-time validation on blur (after user leaves field)
     originInput?.addEventListener('blur', () => validateField('origin'));
     destinationInput?.addEventListener('blur', () => validateField('destination'));
-    dateInput?.addEventListener('change', () => validateField('date'));
+    dateInput?.addEventListener('change', () => {
+      validateField('date');
+      // Re-validate time when date changes
+      if (timeInput.value) {
+        validateField('time');
+      }
+    });
     timeInput?.addEventListener('change', () => validateField('time'));
 
-    // Remove error styling on input
+    // Real-time validation on input (as user types)
+    originInput?.addEventListener('input', () => {
+      clearFieldError(originInput);
+      // Show success state if valid
+      if (originInput.value.trim().length >= MIN_ORIGIN_LENGTH) {
+        showFieldSuccess(originInput);
+      }
+    });
+
+    destinationInput?.addEventListener('input', () => {
+      clearFieldError(destinationInput);
+      // Show success state if valid
+      if (destinationInput.value.trim().length >= MIN_DESTINATION_LENGTH) {
+        showFieldSuccess(destinationInput);
+      }
+    });
+
+    // Remove error styling on input for all fields
     if (editForm) {
       const inputs = editForm.querySelectorAll('input');
       inputs.forEach(input => {
@@ -186,8 +234,15 @@
       }
       */
 
-      currentTrip = trip;
-      populateForm(trip);
+      // Normalize trip data before storing
+      currentTrip = {
+        ...trip,
+        time: normalizeTime(trip.time || ''),
+        origin: String(trip.origin || '').trim(),
+        destination: String(trip.destination || '').trim(),
+        date: String(trip.date || '').trim()
+      };
+      populateForm(currentTrip);
       showLoading(false);
       showForm(true);
 
@@ -221,12 +276,34 @@
     return null;
   }
 
+  // Normalize time format (HH:MM)
+  function normalizeTime(timeStr) {
+    if (!timeStr) return '';
+    const trimmed = String(timeStr).trim();
+    // If already in HH:MM format, return as is
+    if (/^\d{2}:\d{2}$/.test(trimmed)) {
+      return trimmed;
+    }
+    // Try to parse and format
+    const parts = trimmed.split(':');
+    if (parts.length === 2) {
+      const hours = String(parseInt(parts[0], 10) || 0).padStart(2, '0');
+      const minutes = String(parseInt(parts[1], 10) || 0).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+    return trimmed;
+  }
+
   // Populate form with trip data
   function populateForm(trip) {
     if (originInput) originInput.value = trip.origin || '';
     if (destinationInput) destinationInput.value = trip.destination || '';
     if (dateInput) dateInput.value = trip.date || '';
-    if (timeInput) timeInput.value = trip.time || '';
+    if (timeInput) {
+      // Normalize time before setting
+      const normalizedTime = normalizeTime(trip.time || '');
+      timeInput.value = normalizedTime;
+    }
     if (seatsInput) seatsInput.value = trip.seats || '';
     if (priceInput) priceInput.value = trip.price || '';
 
@@ -263,6 +340,11 @@
   async function handleFormSubmit(e) {
     e.preventDefault();
 
+    // Prevent multiple submissions
+    if (isSubmitting) {
+      return;
+    }
+
     // Validate all fields
     const isValid = validateForm();
 
@@ -273,6 +355,8 @@
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      // Show error notification
+      showNotification('Por favor, corrige los errores en el formulario antes de continuar.', 'error');
       return;
     }
 
@@ -286,27 +370,28 @@
     }
     */
 
-    // Get form data
+    // Sanitize and get form data
     const formData = {
-      origin: originInput.value.trim(),
-      destination: destinationInput.value.trim(),
-      date: dateInput.value,
-      time: timeInput.value
+      origin: sanitizeInput(originInput.value.trim()),
+      destination: sanitizeInput(destinationInput.value.trim()),
+      date: dateInput.value ? dateInput.value.trim() : '',
+      time: normalizeTime(timeInput.value)
     };
 
-    // Check if anything changed
+    // Check if anything changed (currentTrip is already normalized when loaded)
     const hasChanges = 
-      formData.origin !== currentTrip.origin ||
-      formData.destination !== currentTrip.destination ||
-      formData.date !== currentTrip.date ||
-      formData.time !== currentTrip.time;
+      formData.origin !== (currentTrip.origin || '') ||
+      formData.destination !== (currentTrip.destination || '') ||
+      formData.date !== (currentTrip.date || '') ||
+      formData.time !== (currentTrip.time || '');
 
     if (!hasChanges) {
       showNotification('No se han realizado cambios en el viaje', 'error');
       return;
     }
 
-    // Disable submit button
+    // Set submitting state
+    isSubmitting = true;
     setSubmitButtonState(true);
 
     try {
@@ -329,6 +414,7 @@
       console.error('Error updating trip:', error);
       showNotification(error.message || 'Hubo un error al actualizar el viaje. Por favor, intenta nuevamente.', 'error');
     } finally {
+      isSubmitting = false;
       setSubmitButtonState(false);
     }
   }
@@ -350,19 +436,45 @@
   function validateField(fieldName) {
     let isValid = true;
     let errorMsg = '';
+    const field = getFieldElement(fieldName);
+
+    if (!field) return false;
 
     switch (fieldName) {
       case 'origin':
-        if (!originInput.value.trim()) {
+        const originValue = originInput.value.trim();
+        if (!originValue) {
           isValid = false;
           errorMsg = errorMessages.origin;
+        } else if (originValue.length < MIN_ORIGIN_LENGTH) {
+          isValid = false;
+          errorMsg = errorMessages.originMinLength;
+        } else if (originValue.length > MAX_ORIGIN_LENGTH) {
+          isValid = false;
+          errorMsg = errorMessages.originMaxLength;
+        } else if (!isValidText(originValue)) {
+          isValid = false;
+          errorMsg = errorMessages.originInvalid;
         }
         break;
 
       case 'destination':
-        if (!destinationInput.value.trim()) {
+        const destinationValue = destinationInput.value.trim();
+        if (!destinationValue) {
           isValid = false;
           errorMsg = errorMessages.destination;
+        } else if (destinationValue.length < MIN_DESTINATION_LENGTH) {
+          isValid = false;
+          errorMsg = errorMessages.destinationMinLength;
+        } else if (destinationValue.length > MAX_DESTINATION_LENGTH) {
+          isValid = false;
+          errorMsg = errorMessages.destinationMaxLength;
+        } else if (!isValidText(destinationValue)) {
+          isValid = false;
+          errorMsg = errorMessages.destinationInvalid;
+        } else if (originInput && originInput.value.trim().toLowerCase() === destinationValue.toLowerCase()) {
+          isValid = false;
+          errorMsg = 'El origen y el destino no pueden ser iguales';
         }
         break;
 
@@ -371,11 +483,22 @@
           isValid = false;
           errorMsg = errorMessages.date;
         } else {
-          const selectedDate = new Date(dateInput.value);
+          // Parse date correctly in local timezone
+          const dateParts = dateInput.value.split('-');
+          const selectedDate = new Date(
+            parseInt(dateParts[0], 10),
+            parseInt(dateParts[1], 10) - 1,
+            parseInt(dateParts[2], 10),
+            0, 0, 0, 0
+          );
+          
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           
-          if (selectedDate < today) {
+          if (isNaN(selectedDate.getTime())) {
+            isValid = false;
+            errorMsg = errorMessages.dateInvalid;
+          } else if (selectedDate < today) {
             isValid = false;
             errorMsg = errorMessages.datePast;
           }
@@ -387,30 +510,79 @@
           isValid = false;
           errorMsg = errorMessages.time;
         } else {
-          // Validate time for today's date
-          if (dateInput.value) {
-            const selectedDate = new Date(dateInput.value);
+          // Validate time format
+          const timePattern = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
+          if (!timePattern.test(timeInput.value)) {
+            isValid = false;
+            errorMsg = errorMessages.timeInvalid;
+          } else if (dateInput.value) {
+            // Validate time for today's date only
+            const dateParts = dateInput.value.split('-');
+            const selectedDate = new Date(
+              parseInt(dateParts[0], 10),
+              parseInt(dateParts[1], 10) - 1,
+              parseInt(dateParts[2], 10),
+              0, 0, 0, 0
+            );
+            
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const selectedDateTime = new Date(dateInput.value + 'T' + timeInput.value);
             
-            if (selectedDate.getTime() === today.getTime() && selectedDateTime < new Date()) {
-              isValid = false;
-              errorMsg = 'La hora no puede ser anterior a la hora actual';
+            // Only validate if it's today
+            if (selectedDate.getTime() === today.getTime()) {
+              const timeParts = timeInput.value.split(':');
+              const selectedDateTime = new Date(
+                parseInt(dateParts[0], 10),
+                parseInt(dateParts[1], 10) - 1,
+                parseInt(dateParts[2], 10),
+                parseInt(timeParts[0], 10),
+                parseInt(timeParts[1], 10),
+                0, 0
+              );
+              const now = new Date();
+              
+              // Al editar, solo validar si NO es la hora original del viaje
+              const isOriginalDateTime = currentTrip && 
+                                        dateInput.value === currentTrip.date && 
+                                        normalizeTime(timeInput.value) === currentTrip.time;
+              
+              if (!isOriginalDateTime && selectedDateTime < now) {
+                isValid = false;
+                errorMsg = errorMessages.timePast;
+              }
             }
           }
         }
         break;
     }
 
-    // Show or clear error
+    // Show or clear error/success
     if (isValid) {
-      clearFieldError(getFieldElement(fieldName));
+      clearFieldError(field);
+      // Show success state for required fields that are valid
+      if (['origin', 'destination', 'date', 'time'].includes(fieldName)) {
+        showFieldSuccess(field);
+      }
     } else {
-      showFieldError(getFieldElement(fieldName), errorMsg);
+      showFieldError(field, errorMsg);
     }
 
     return isValid;
+  }
+
+  // Validate text input (allows letters, numbers, spaces, and common punctuation)
+  function isValidText(str) {
+    // Allow letters, numbers, spaces, and common punctuation for addresses
+    const textPattern = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,;:()\-'"]+$/;
+    return textPattern.test(str);
+  }
+
+  // Sanitize input to prevent XSS
+  function sanitizeInput(str) {
+    // Use textContent to escape HTML and return the safe text
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.textContent || div.innerText || '';
   }
 
   // Get field element
@@ -432,13 +604,26 @@
     field.classList.add('error');
     field.classList.remove('success');
     field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', field.id + '-error');
 
     // Show error message
     const errorElement = document.getElementById(field.id + '-error');
     if (errorElement) {
       errorElement.textContent = message;
       errorElement.style.display = 'block';
+      errorElement.setAttribute('role', 'alert');
     }
+  }
+
+  // Show field success state
+  function showFieldSuccess(field) {
+    if (!field) return;
+
+    // Add success class
+    field.classList.add('success');
+    field.classList.remove('error');
+    field.removeAttribute('aria-invalid');
+    field.setAttribute('aria-invalid', 'false');
   }
 
   // Clear field error
@@ -454,6 +639,7 @@
     if (errorElement) {
       errorElement.textContent = '';
       errorElement.style.display = 'none';
+      errorElement.removeAttribute('role');
     }
   }
 
@@ -464,9 +650,11 @@
       if (disabled) {
         submitBtn.innerHTML = '<span class="btn-icon material-icons">hourglass_empty</span> Guardando...';
         submitBtn.classList.add('disabled');
+        submitBtn.setAttribute('aria-busy', 'true');
       } else {
         submitBtn.innerHTML = '<span class="btn-icon material-icons">save</span> Guardar Cambios';
         submitBtn.classList.remove('disabled');
+        submitBtn.removeAttribute('aria-busy');
       }
     }
   }

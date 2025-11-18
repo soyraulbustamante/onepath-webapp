@@ -43,10 +43,10 @@
                     <div class="driver-summary-header">
                         <div class="driver-avatar"><img class="js-random-avatar" data-size="128" data-variant="avataaars" src="../../assets/images/avatars/carlos.svg" alt="Avatar de Carlos M."></div>
                         <div class="driver-main">
-                            <h3>Carlos M. - Ing. Sistemas</h3>
+                            <h3 id="driverName">Carlos M. - Ing. Sistemas</h3>
                             <div class="driver-meta">
-                                <span class="rating-stars">★★★★★</span>
-                                <span class="rating-value">4.9</span>
+                                <span class="rating-stars" id="driverStars">★★★★★</span>
+                                <span class="rating-value" id="driverRating">4.9</span>
                                 <span class="rating-count">(23 reseñas)</span>
                             </div>
                             <div class="driver-meta">
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="price-box">
-                            <span class="price-amount">S/ 8</span>
+                            <span class="price-amount" id="priceAmount">S/ 8</span>
                             <span class="price-unit">por persona</span>
                         </div>
                     </div>
@@ -68,9 +68,9 @@
                         <div class="route-point departure">
                             <span class="route-dot green"></span>
                             <div class="route-details">
-                                <span class="route-time">07:30</span>
-                                <span class="route-location">Metro San Isidro</span>
-                                <small class="text-muted">Av. Javier Prado 4200</small>
+                                <span class="route-time" id="departureTime">07:30</span>
+                                <span class="route-location" id="originName">Metro San Isidro</span>
+                                <small class="text-muted" id="originAddress">Av. Javier Prado 4200</small>
                             </div>
                         </div>
                         <div class="route-middle">
@@ -81,9 +81,9 @@
                         <div class="route-point arrival">
                             <span class="route-dot red"></span>
                             <div class="route-details">
-                                <span class="route-time">08:15</span>
-                                <span class="route-location">Puerta Principal UNMSM</span>
-                                <small class="text-muted">Av. Venezuela s/n, Lima</small>
+                                <span class="route-time" id="arrivalTime">08:15</span>
+                                <span class="route-location" id="destinationName">Puerta Principal UNMSM</span>
+                                <small class="text-muted" id="destinationAddress">Av. Venezuela s/n, Lima</small>
                             </div>
                         </div>
                     </div>
@@ -93,28 +93,28 @@
                         <div class="stat">
                             <div class="stat-icon material-icons">confirmation_number</div>
                             <div class="stat-text">
-                                <strong>2 asientos</strong>
+                                <strong id="statsSeats">2 asientos</strong>
                                 <small class="text-muted">disponibles</small>
                             </div>
                         </div>
                         <div class="stat">
                             <div class="stat-icon material-icons">directions_car</div>
                             <div class="stat-text">
-                                <strong>Volkswagen Golf</strong>
+                                <strong id="statsVehicleName">Volkswagen Golf</strong>
                                 <small class="text-muted">2019 - Gris</small>
                             </div>
                         </div>
                         <div class="stat">
                             <div class="stat-icon material-icons">access_time</div>
                             <div class="stat-text">
-                                <strong>45 minutos</strong>
+                                <strong id="statsDuration">45 minutos</strong>
                                 <small class="text-muted">duración</small>
                             </div>
                         </div>
                         <div class="stat">
                             <div class="stat-icon material-icons">school</div>
                             <div class="stat-text">
-                                <strong>UNMSM</strong>
+                                <strong id="statsDestination">UNMSM</strong>
                                 <small class="text-muted">destino</small>
                             </div>
                         </div>
@@ -182,14 +182,14 @@
 
                     <div class="trip-summary">
                         <div class="summary-row">
-                            <span class="text-muted">Lunes, 7 Oct 2025</span>
-                            <strong>07:30</strong>
+                            <span class="text-muted" id="summaryDate">Lunes, 7 Oct 2025</span>
+                            <strong id="summaryTime">07:30</strong>
                         </div>
                         <div class="summary-row">
-                            <span>Metro San Isidro</span>
+                            <span id="summaryOrigin">Metro San Isidro</span>
                         </div>
                         <div class="summary-row">
-                            <span>Puerta Principal UNMSM</span>
+                            <span id="summaryDestination">Puerta Principal UNMSM</span>
                         </div>
                     </div>
 
