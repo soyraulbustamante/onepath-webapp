@@ -178,8 +178,9 @@
                     <p id="cancelModalMessage">¿Estás seguro de que deseas cancelar esta reserva?</p>
                 </div>
                 <div class="form-group">
-                    <label for="cancelReasonInput">Motivo de la cancelación (opcional)</label>
-                    <textarea id="cancelReasonInput" rows="3" placeholder="Cuéntanos el motivo"></textarea>
+                    <label for="cancelReasonInput">Motivo de la cancelación (obligatorio, mínimo 10 caracteres)</label>
+                    <textarea id="cancelReasonInput" rows="3" minlength="10" placeholder="Cuéntanos el motivo" aria-required="true"></textarea>
+                    <small id="cancelReasonError" style="color: var(--danger); display: none;">El motivo es obligatorio y debe tener al menos 10 caracteres.</small>
                 </div>
                 <p class="modal-note" style="font-size: 12px; color: var(--text-light); margin-top: 8px;">
                     Antes de cancelar, revisa nuestras <a href="#" id="cancelPoliciesLink">políticas de cancelación</a>.
