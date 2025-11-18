@@ -11,6 +11,7 @@
         period: ''
     };
     let currentSort = 'newest';
+    let reputationView = 'all';
 
     const ICON_MAP = {
         '🕐': 'schedule',
@@ -60,6 +61,7 @@
     // DOM elements
     let reviewsList, reviewCount, ratingFilter, roleFilter, periodFilter, sortSelect;
     let ratingSummary, offerTripBtn, viewTipsBtn;
+    let repAllBtn, repDriverBtn, repPassengerBtn, reputationLabelEl;
 
     // Initialize reviews system
     function initReviews() {
@@ -73,6 +75,10 @@
         ratingSummary = document.getElementById('ratingSummary');
         offerTripBtn = document.getElementById('offerTripBtn');
         viewTipsBtn = document.getElementById('viewTipsBtn');
+        repAllBtn = document.getElementById('repAllBtn');
+        repDriverBtn = document.getElementById('repDriverBtn');
+        repPassengerBtn = document.getElementById('repPassengerBtn');
+        reputationLabelEl = document.getElementById('reputationLabel');
 
         // Load reviews data
         loadReviewsData();
@@ -144,6 +150,17 @@
             });
         }
 
+        // Reputation view buttons
+        if (repAllBtn) {
+            repAllBtn.addEventListener('click', () => changeReputationView('all'));
+        }
+        if (repDriverBtn) {
+            repDriverBtn.addEventListener('click', () => changeReputationView('driver'));
+        }
+        if (repPassengerBtn) {
+            repPassengerBtn.addEventListener('click', () => changeReputationView('passenger'));
+        }
+
         // Reply buttons (delegated event handling)
         document.addEventListener('click', function(e) {
             if (e.target.matches('.reply-btn')) {
@@ -159,12 +176,23 @@
         });
     }
 
+    // Handle reputation view changes
+    function changeReputationView(view) {
+        reputationView = view;
+
+        if (repAllBtn && repDriverBtn && repPassengerBtn) {
+            repAllBtn.classList.toggle('active', view === 'all');
+            repDriverBtn.classList.toggle('active', view === 'driver');
+            repPassengerBtn.classList.toggle('active', view === 'passenger');
+        }
+
+        updateRatingSummary();
+    }
+
     // Handle filter changes
     function handleFilterChange(e) {
         const filterType = e.target.id.replace('Filter', '').toLowerCase();
         currentFilters[filterType] = e.target.value;
-        console.log('Filter changed:', filterType, '=', e.target.value);
-        console.log('Current filters:', currentFilters);
         applyFiltersAndSort();
     }
 
@@ -178,8 +206,6 @@
     function applyFiltersAndSort() {
         // Start with all reviews
         filteredReviews = [...reviewsData];
-        
-        console.log('Total reviews before filter:', filteredReviews.length);
 
         // Apply rating filter
         if (currentFilters.rating && currentFilters.rating !== '') {
@@ -188,7 +214,6 @@
                 const reviewRating = parseInt(review.rating) || 0;
                 return reviewRating === ratingValue;
             });
-            console.log('After rating filter:', filteredReviews.length);
         }
 
         // Apply role filter
@@ -196,7 +221,6 @@
             filteredReviews = filteredReviews.filter(review => 
                 review.role === currentFilters.role
             );
-            console.log('After role filter:', filteredReviews.length);
         }
 
         // Apply period filter
@@ -220,7 +244,6 @@
                 const reviewDate = new Date(review.date);
                 return reviewDate >= filterDate;
             });
-            console.log('After period filter:', filteredReviews.length);
         }
 
         // Apply sorting
@@ -238,8 +261,6 @@
                     return 0;
             }
         });
-
-        console.log('Final filtered reviews:', filteredReviews.length);
 
         // Update UI
         renderReviews();
@@ -296,7 +317,7 @@
                             <p class="reviewer-career">${review.career}</p>
                             <div class="review-rating">
                                 <div class="stars">${starsHTML}</div>
-                                    <span class="rating-value">${ratingDisplay}</span>
+                                <span class="rating-value">${ratingDisplay}</span>
                             </div>
                         </div>
                     </div>
@@ -333,13 +354,49 @@
         }
     }
 
-    // Update rating summary
+    // Update rating summary (reputación)
     function updateRatingSummary() {
-        if (!ratingSummary || reviewsData.length === 0) return;
+        if (!ratingSummary || reviewsData.length === 0) {
+            if (reputationLabelEl) {
+                reputationLabelEl.textContent = 'Aún no tienes reseñas suficientes para calcular tu reputación.';
+            }
+            return;
+        }
 
-        const totalRating = reviewsData.reduce((sum, review) => sum + review.rating, 0);
-        const averageRating = (totalRating / reviewsData.length).toFixed(1);
-        const totalReviews = reviewsData.length;
+        let dataForView = reviewsData;
+        if (reputationView === 'driver') {
+            dataForView = reviewsData.filter(r => r.role === 'driver');
+        } else if (reputationView === 'passenger') {
+            dataForView = reviewsData.filter(r => r.role === 'passenger');
+        }
+
+        if (dataForView.length === 0) {
+            if (reputationLabelEl) {
+                if (reputationView === 'driver') {
+                    reputationLabelEl.textContent = 'Aún no tienes reseñas como conductor/a.';
+                } else if (reputationView === 'passenger') {
+                    reputationLabelEl.textContent = 'Aún no tienes reseñas como pasajero/a.';
+                } else {
+                    reputationLabelEl.textContent = 'Aún no tienes reseñas.';
+                }
+            }
+            const ratingScoreEmpty = ratingSummary.querySelector('.rating-score');
+            const reviewCountEmpty = ratingSummary.querySelector('.review-count');
+            const starsContainerEmpty = ratingSummary.querySelector('.stars');
+
+            if (ratingScoreEmpty) ratingScoreEmpty.textContent = '0.0';
+            if (reviewCountEmpty) reviewCountEmpty.textContent = '0 reseñas';
+            if (starsContainerEmpty) {
+                starsContainerEmpty.innerHTML = Array.from({ length: 5 }, () =>
+                    '<span class="material-icons star">star_outline</span>'
+                ).join('');
+            }
+            return;
+        }
+
+        const totalRating = dataForView.reduce((sum, review) => sum + review.rating, 0);
+        const averageRating = (totalRating / dataForView.length).toFixed(1);
+        const totalReviews = dataForView.length;
 
         const ratingScore = ratingSummary.querySelector('.rating-score');
         const reviewCountEl = ratingSummary.querySelector('.review-count');
@@ -360,6 +417,31 @@
                 const iconName = filled ? 'star' : 'star_outline';
                 return `<span class="material-icons star ${filled ? 'filled' : ''}">${iconName}</span>`;
             }).join('');
+        }
+
+        if (reputationLabelEl) {
+            const avgNum = parseFloat(averageRating);
+            let nivel = 'Reputación general';
+            if (reputationView === 'driver') {
+                nivel = 'Reputación como conductor/a';
+            } else if (reputationView === 'passenger') {
+                nivel = 'Reputación como pasajero/a';
+            }
+
+            let textoCalidad = '';
+            if (avgNum >= 4.8) {
+                textoCalidad = 'Excelente';
+            } else if (avgNum >= 4.5) {
+                textoCalidad = 'Muy buena';
+            } else if (avgNum >= 4.0) {
+                textoCalidad = 'Buena';
+            } else if (avgNum >= 3.0) {
+                textoCalidad = 'Aceptable';
+            } else {
+                textoCalidad = 'En proceso de mejora';
+            }
+
+            reputationLabelEl.textContent = `${nivel}: ${textoCalidad}`;
         }
     }
 
@@ -808,6 +890,34 @@
             .no-reviews p {
                 margin: 0;
             }
+
+            .reputation-view-toggle {
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0.75rem;
+            }
+
+            .rep-view-btn {
+                border: 1px solid var(--border-light);
+                background-color: white;
+                border-radius: 999px;
+                padding: 0.25rem 0.75rem;
+                font-size: 0.8rem;
+                cursor: pointer;
+                color: var(--text-light);
+            }
+
+            .rep-view-btn.active {
+                background-color: var(--primary-blue);
+                border-color: var(--primary-blue);
+                color: #fff;
+            }
+
+            .reputation-label {
+                margin-top: 0.5rem;
+                font-size: 0.9rem;
+                color: var(--text-light);
+            }
         `;
         document.head.appendChild(style);
     }
@@ -826,7 +936,7 @@
     // Export functions for external use
     window.OnepathReviews = {
         addReview: function(reviewData) {
-            reviewsData.unshift(reviewData);
+            reviewsData.unshift(normalizeReviewEntry(reviewData));
             saveReviewsData();
             applyFiltersAndSort();
             updateRatingSummary();

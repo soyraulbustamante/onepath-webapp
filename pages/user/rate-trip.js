@@ -29,7 +29,7 @@
     // DOM elements
     let overallStars, categoryStars, feedbackTags, commentTextarea, charCounter;
     let submitBtn, rateLaterBtn, reportBtn;
-    let ratingText, thankYouSection;
+    let ratingText, thankYouSection, ratingError;
 
     // Initialize rating system
     function initRating() {
@@ -44,6 +44,7 @@
         reportBtn = document.getElementById('reportBtn');
         ratingText = document.getElementById('ratingText');
         thankYouSection = document.getElementById('thankYouSection');
+        ratingError = document.getElementById('ratingError');
 
         // Load trip data from URL params or localStorage
         loadTripData();
@@ -152,6 +153,7 @@
             ratingText.textContent = ratingTexts[rating];
         }
 
+        clearRatingError();
         saveRatingData();
         updateSubmitButton();
     }
@@ -166,6 +168,7 @@
         const categoryButtons = document.querySelectorAll(`[data-category="${category}"]`);
         highlightStars(categoryButtons, rating);
         
+        clearRatingError();
         saveRatingData();
     }
 
@@ -200,6 +203,7 @@
     function handleCommentInput(e) {
         ratingData.comment = e.target.value;
         updateCharCounter();
+        clearRatingError();
         saveRatingData();
     }
 
@@ -234,7 +238,10 @@
 
     // Handle submit rating
     function handleSubmitRating() {
+        clearRatingError();
+
         if (ratingData.overall === 0) {
+            setRatingError('Debes seleccionar una calificación general antes de enviar.');
             showMessage('Por favor selecciona una calificación general antes de enviar.', 'error');
             return;
         }
@@ -278,6 +285,7 @@
     // Validate rating data
     function validateRating() {
         if (ratingData.overall === 0) {
+            setRatingError('Debes seleccionar una calificación general.');
             showMessage('Debes seleccionar una calificación general.', 'error');
             return false;
         }
@@ -285,6 +293,7 @@
         // Check if at least one category is rated
         const hasCategories = Object.values(ratingData.categories).some(rating => rating > 0);
         if (!hasCategories) {
+            setRatingError('Por favor califica al menos un aspecto específico del viaje.');
             showMessage('Por favor califica al menos un aspecto específico del viaje.', 'warning');
         }
 
@@ -447,6 +456,18 @@
                 }
             }, 300);
         }, 4000);
+    }
+
+    function setRatingError(message) {
+        if (!ratingError) return;
+        ratingError.textContent = message;
+        ratingError.style.display = 'block';
+    }
+
+    function clearRatingError() {
+        if (!ratingError) return;
+        ratingError.textContent = '';
+        ratingError.style.display = 'none';
     }
 
     // Initialize when DOM is ready

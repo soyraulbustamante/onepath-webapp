@@ -3,7 +3,10 @@
     'use strict';
 
     // DOM elements
-    let chatMessages, messageInput, sendButton, typingIndicator;
+    let chatMessages, messageInput, sendButton, typingIndicator, messageError;
+
+    // State
+    const MESSAGE_MAX_LENGTH = 280;
 
     // Initialize chat functionality
     function initChat() {
@@ -12,6 +15,7 @@
         messageInput = document.getElementById('messageInput');
         sendButton = document.getElementById('sendButton');
         typingIndicator = document.getElementById('typing-indicator');
+        messageError = document.getElementById('messageError');
 
         if (!chatMessages || !messageInput || !sendButton) {
             console.error('Required chat elements not found');
@@ -20,6 +24,9 @@
 
         // Bind events
         bindEvents();
+
+        // Validación inicial del input
+        validateMessageInput();
 
         // Auto-scroll to bottom
         scrollToBottom();
@@ -32,6 +39,9 @@
     function bindEvents() {
         // Send message on button click
         sendButton.addEventListener('click', handleSendMessage);
+
+        // Validate on input
+        messageInput.addEventListener('input', validateMessageInput);
 
         // Send message on Enter key
         messageInput.addEventListener('keypress', function(e) {
@@ -72,7 +82,17 @@
     // Handle sending a message
     function handleSendMessage() {
         const message = messageInput.value.trim();
-        if (!message) return;
+        if (!message) {
+            setMessageError('El mensaje no puede estar vacío.');
+            return;
+        }
+
+        if (message.length > MESSAGE_MAX_LENGTH) {
+            setMessageError('El mensaje es demasiado largo.');
+            return;
+        }
+
+        clearMessageError();
 
         // Create message element
         const messageElement = createMessageElement(message, true);
@@ -86,6 +106,7 @@
 
         // Clear input
         messageInput.value = '';
+        validateMessageInput();
 
         // Scroll to bottom
         scrollToBottom();
@@ -155,6 +176,7 @@
         if (message) {
             messageInput.value = message;
             messageInput.focus();
+            validateMessageInput();
         }
     }
 
@@ -243,6 +265,39 @@
         if (chatMessages) {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+    }
+
+    function validateMessageInput() {
+        if (!messageInput || !sendButton) return;
+        const value = messageInput.value;
+        const trimmed = value.trim();
+
+        if (!trimmed) {
+            setMessageError('Escribe un mensaje para poder enviarlo.');
+            sendButton.disabled = true;
+            return;
+        }
+
+        if (trimmed.length > MESSAGE_MAX_LENGTH) {
+            setMessageError('El mensaje no puede superar los ' + MESSAGE_MAX_LENGTH + ' caracteres.');
+            sendButton.disabled = true;
+            return;
+        }
+
+        clearMessageError();
+        sendButton.disabled = false;
+    }
+
+    function setMessageError(message) {
+        if (!messageError) return;
+        messageError.textContent = message;
+        messageError.style.display = 'block';
+    }
+
+    function clearMessageError() {
+        if (!messageError) return;
+        messageError.textContent = '';
+        messageError.style.display = 'none';
     }
 
     // Escape HTML to prevent XSS

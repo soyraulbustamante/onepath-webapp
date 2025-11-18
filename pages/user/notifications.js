@@ -10,9 +10,10 @@
         emailNotifications: false,
         pushNotifications: true
     };
+    let notificationFilter = 'all';
 
     // DOM elements
-    let notificationsList, loadMoreBtn, markAllReadBtn, clearAllBtn;
+    let notificationsList, loadMoreBtn, markAllReadBtn, clearAllBtn, settingsSummary, filterAllBtn, filterUnreadBtn;
 
     // Initialize notifications system
     function initNotifications() {
@@ -21,6 +22,9 @@
         loadMoreBtn = document.getElementById('loadMoreBtn');
         markAllReadBtn = document.getElementById('markAllReadBtn');
         clearAllBtn = document.getElementById('clearAllBtn');
+        settingsSummary = document.getElementById('notificationSettingsSummary');
+        filterAllBtn = document.getElementById('filterAllBtn');
+        filterUnreadBtn = document.getElementById('filterUnreadBtn');
 
         if (!notificationsList) {
             console.error('Notifications list element not found');
@@ -41,6 +45,8 @@
 
         // Update notification count in navbar
         updateNotificationCount();
+
+        applyNotificationFilter(notificationFilter);
     }
 
     // Bind event listeners
@@ -69,6 +75,20 @@
 
         if (clearAllBtn) {
             clearAllBtn.addEventListener('click', clearAllNotifications);
+        }
+
+        if (filterAllBtn) {
+            filterAllBtn.addEventListener('click', function() {
+                notificationFilter = 'all';
+                applyNotificationFilter(notificationFilter);
+            });
+        }
+
+        if (filterUnreadBtn) {
+            filterUnreadBtn.addEventListener('click', function() {
+                notificationFilter = 'unread';
+                applyNotificationFilter(notificationFilter);
+            });
         }
     }
 
@@ -108,6 +128,7 @@
             
             // Update toggle switches
             updateSettingsUI();
+            updateSettingsSummary();
         } catch (e) {
             console.error('Error loading settings:', e);
         }
@@ -146,6 +167,7 @@
             
             // Show feedback
             showToast(`Configuración ${e.target.checked ? 'activada' : 'desactivada'}`);
+            updateSettingsSummary();
         }
     }
 
@@ -174,6 +196,7 @@
             updateNotificationUI(id);
             updateNotificationCount();
             showToast('Notificación marcada como leída');
+            applyNotificationFilter(notificationFilter);
         }
     }
 
@@ -186,6 +209,7 @@
             updateNotificationUI(id);
             updateNotificationCount();
             showToast('Notificación marcada como no leída');
+            applyNotificationFilter(notificationFilter);
         }
     }
 
@@ -228,6 +252,7 @@
         
         updateNotificationCount();
         showToast('Todas las notificaciones marcadas como leídas');
+        applyNotificationFilter(notificationFilter);
     }
 
     // Clear all notifications
@@ -238,6 +263,7 @@
             notificationsList.innerHTML = '<div class="no-notifications"><p>No tienes notificaciones</p></div>';
             updateNotificationCount();
             showToast('Todas las notificaciones eliminadas');
+            applyNotificationFilter(notificationFilter);
         }
     }
 
@@ -254,6 +280,7 @@
         });
         
         showToast('Más notificaciones cargadas');
+        applyNotificationFilter(notificationFilter);
     }
 
     // Create notification element
@@ -314,6 +341,8 @@
         if (notificationSettings.pushNotifications && 'Notification' in window) {
             showBrowserNotification(notification);
         }
+
+        applyNotificationFilter(notificationFilter);
     }
 
     // Show browser notification
@@ -348,6 +377,57 @@
             } else {
                 badge.style.display = 'none';
             }
+        }
+    }
+
+    function applyNotificationFilter(filter) {
+        const items = document.querySelectorAll('.notification-item');
+        items.forEach(item => {
+            const id = item.dataset.id;
+            const notification = notifications.find(n => n.id == id);
+            const isRead = notification ? notification.read : item.classList.contains('read');
+
+            if (filter === 'unread' && isRead) {
+                item.style.display = 'none';
+            } else {
+                item.style.display = '';
+            }
+        });
+
+        if (filterAllBtn && filterUnreadBtn) {
+            if (filter === 'all') {
+                filterAllBtn.classList.add('active');
+                filterUnreadBtn.classList.remove('active');
+            } else {
+                filterUnreadBtn.classList.add('active');
+                filterAllBtn.classList.remove('active');
+            }
+        }
+    }
+
+    function updateSettingsSummary() {
+        if (!settingsSummary) return;
+        const enabled = [];
+
+        if (notificationSettings.tripChanges) {
+            enabled.push('cambios en viajes');
+        }
+        if (notificationSettings.tripReminders) {
+            enabled.push('recordatorios de viaje');
+        }
+        if (notificationSettings.emailNotifications) {
+            enabled.push('notificaciones por email');
+        }
+        if (notificationSettings.pushNotifications) {
+            enabled.push('notificaciones push');
+        }
+
+        if (!enabled.length) {
+            settingsSummary.textContent = 'Has desactivado todas las notificaciones. Es posible que no recibas alertas importantes sobre tus viajes.';
+            settingsSummary.classList.add('settings-summary-warning');
+        } else {
+            settingsSummary.textContent = 'Notificaciones activas: ' + enabled.join(', ') + '.';
+            settingsSummary.classList.remove('settings-summary-warning');
         }
     }
 
@@ -489,6 +569,31 @@
             }
         ];
     }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const btnAbrir = document.getElementById("abrir-identificacion");
+    const modal = document.getElementById("modal-identificacion");
+    const btnCerrar = document.querySelector(".id-close");
+
+    if (btnAbrir) {
+        btnAbrir.addEventListener("click", () => {
+            modal.classList.remove("hidden");
+        });
+    }
+
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => {
+            modal.classList.add("hidden");
+        });
+    }
+
+    modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.add("hidden");
+    });
+});
+
 
     // Show toast notification
     function showToast(message) {
