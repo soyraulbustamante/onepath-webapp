@@ -29,7 +29,7 @@
     <!-- Search Bar Section -->
     <section class="search-bar-section">
         <div class="container">
-            <form class="search-form" id="searchForm">
+            <form class="search-form" id="searchForm" novalidate>
                 <div class="search-inputs">
                     <div class="search-field">
                         <label for="from">Desde</label>
@@ -37,6 +37,7 @@
                             <span class="input-icon material-icons" aria-hidden="true">location_on</span>
                             <input type="text" id="from" name="from" placeholder="San Isidro, Lima" value="San Isidro, Lima">
                         </div>
+                        <span class="error-message" id="from-error" role="alert" aria-live="polite"></span>
                     </div>
 
                     <button type="button" class="swap-button" id="swapButton" aria-label="Intercambiar origen y destino">
@@ -49,6 +50,7 @@
                             <span class="input-icon material-icons" aria-hidden="true">school</span>
                             <input type="text" id="to" name="to" placeholder="Universidad San Marcos" value="Universidad San Marcos">
                         </div>
+                        <span class="error-message" id="to-error" role="alert" aria-live="polite"></span>
                     </div>
 
                     <div class="search-field">
@@ -57,6 +59,7 @@
                             <span class="input-icon material-icons" aria-hidden="true">calendar_today</span>
                             <input type="date" id="date" name="date" value="2025-10-07">
                         </div>
+                        <span class="error-message" id="date-error" role="alert" aria-live="polite"></span>
                     </div>
 
                     <div class="search-field">
@@ -69,6 +72,7 @@
                                 <option value="4">4</option>
                             </select>
                         </div>
+                        <span class="error-message" id="seats-error" role="alert" aria-live="polite"></span>
                     </div>
 
                     <button type="submit" class="btn-search" id="searchButton">
@@ -76,6 +80,7 @@
                         Buscar
                     </button>
                 </div>
+                <p class="search-form__alert" id="searchFormAlert" role="alert" aria-live="polite"></p>
             </form>
         </div>
     </section>
@@ -438,6 +443,12 @@
                                 </div>
                             </div>
                         </article>
+                    </div>
+                    <div class="empty-results" id="emptyResults" hidden>
+                        <span class="material-icons empty-results__icon" aria-hidden="true">travel_explore</span>
+                        <p class="empty-results__title">No encontramos viajes para tu búsqueda</p>
+                        <p class="empty-results__description">Verifica los datos ingresados o intenta con otros filtros.</p>
+                        <button type="button" class="btn-clear-filters empty-results__action" id="resetSearch">Limpiar búsqueda</button>
                     </div>
 
                     <div class="load-more-section">
