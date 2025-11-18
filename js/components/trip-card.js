@@ -7,10 +7,10 @@
         ? window.Storage.getUsers()
         : JSON.parse(localStorage.getItem('users') || '[]');
       const user = users.find(u => u.id === driverId);
-      if (!user) return { name: 'Conductor', major: '', rating: 4.5 };
-      return { name: user.name || 'Conductor', major: user.major || '', rating: user.rating || 4.5 };
+      if (!user) return { name: 'Conductor', major: '', rating: null };
+      return { name: user.name || 'Conductor', major: user.major || '', rating: (typeof user.rating === 'number' ? user.rating : null) };
     } catch (e) {
-      return { name: 'Conductor', major: '', rating: 4.5 };
+      return { name: 'Conductor', major: '', rating: null };
     }
   }
 
@@ -21,6 +21,7 @@
 
   function createTripCard(trip) {
     const driver = getDriverInfo(trip.driverId);
+    const rating = (typeof driver.rating === 'number' ? driver.rating : (typeof trip.driverRating === 'number' ? trip.driverRating : 0));
     const capacity = parseInt(trip?.seats || 0, 10);
     const taken = Array.isArray(trip?.passengers) ? trip.passengers.length : 0;
     const remaining = Math.max(0, capacity - taken);
@@ -36,8 +37,8 @@
         <div class="driver-info">
           <h3>${escapeHtml(driver.name)}${driver.major ? ` <span class="text-muted">- ${escapeHtml(driver.major)}</span>` : ''}</h3>
           <div class="driver-meta">
-            <span class="rating-stars">${starString(driver.rating)}</span>
-            <span class="rating-value">${Number(driver.rating || 0).toFixed(1)}</span>
+            <span class="rating-stars">${starString(rating)}</span>
+            <span class="rating-value">${Number(rating || 0).toFixed(1)}</span>
           </div>
         </div>
         <div class="price-box">
