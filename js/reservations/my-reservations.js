@@ -486,6 +486,18 @@
     const reasonInput = document.getElementById('cancelReasonInput');
     if (reasonInput) {
       reasonInput.value = '';
+      reasonInput.removeAttribute('aria-invalid');
+      const err = document.getElementById('cancelReasonError');
+      if (err) err.style.display = 'none';
+      // Validación dinámica: ocultar error cuando cumpla el mínimo
+      reasonInput.oninput = function() {
+        const len = (reasonInput.value || '').trim().length;
+        const err2 = document.getElementById('cancelReasonError');
+        if (len >= 10) {
+          if (err2) err2.style.display = 'none';
+          reasonInput.removeAttribute('aria-invalid');
+        }
+      };
     }
     if (cancelModal) cancelModal.style.display = 'flex';
   }
@@ -498,24 +510,30 @@
   function handleConfirmCancel() {
     if (!currentCancelReservation) return;
     
-    // Leer motivo (opcional)
+    // Leer motivo (OBLIGATORIO)
     const reasonInput = document.getElementById('cancelReasonInput');
     const cancelReason = reasonInput ? (reasonInput.value || '').trim() : '';
 
+    if (!cancelReason || cancelReason.length < 10) {
+      const err = document.getElementById('cancelReasonError');
+      if (err) err.style.display = 'inline';
+      if (reasonInput) {
+        reasonInput.setAttribute('aria-invalid', 'true');
+        reasonInput.focus();
+      }
+      return; // No continuar sin motivo
+    }
+
     // Update reservation status
     currentCancelReservation.status = 'cancelled';
-    if (cancelReason) {
-      currentCancelReservation.cancelReason = cancelReason;
-    }
+    currentCancelReservation.cancelReason = cancelReason;
     
     // Update in localStorage (simplified - in real app would update properly)
     const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
     const existingRes = reservations.find(r => r.id === currentCancelReservation.reservationId);
     if (existingRes) {
       existingRes.status = 'cancelled';
-      if (cancelReason) {
-        existingRes.cancelReason = cancelReason;
-      }
+      existingRes.cancelReason = cancelReason;
       localStorage.setItem('reservations', JSON.stringify(reservations));
     }
     
