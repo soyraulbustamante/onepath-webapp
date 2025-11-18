@@ -490,6 +490,31 @@
         ];
     }
 
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const btnAbrir = document.getElementById("abrir-identificacion");
+    const modal = document.getElementById("modal-identificacion");
+    const btnCerrar = document.querySelector(".id-close");
+
+    if (btnAbrir) {
+        btnAbrir.addEventListener("click", () => {
+            modal.classList.remove("hidden");
+        });
+    }
+
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => {
+            modal.classList.add("hidden");
+        });
+    }
+
+    modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.add("hidden");
+    });
+});
+
+
     // Show toast notification
     function showToast(message) {
         // Create toast element
