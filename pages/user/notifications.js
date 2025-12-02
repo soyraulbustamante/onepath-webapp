@@ -526,6 +526,8 @@
         return notificationEl;
     }
 
+    
+
     // Add new notification with enhanced features
     function addNotification(notification) {
         // Generate unique ID if not provided
@@ -548,6 +550,7 @@
 
         // Save to storage
         saveNotifications();
+        
 
         // Update UI
         renderNotifications();
@@ -1015,6 +1018,9 @@
 
 
     document.addEventListener("DOMContentLoaded", () => {
+
+    const el = createNotificationElement(verif);
+    notificationsList.prepend(el);
 
     const btnAbrir = document.getElementById("abrir-identificacion");
     const modal = document.getElementById("modal-identificacion");
