@@ -266,7 +266,7 @@
       const total = pricePer * qty;
 
       // Mostrar popup de confirmación tipo burbuja
-      showTripConfirmationPopup(total);
+      showReservationConfirmationPopup(total);
 
       setTimeout(() => {
         window.location.href = '../reservations/my-reservations.html';
@@ -316,10 +316,10 @@
   }
 
   /**
-   * Muestra un popup tipo burbuja de confirmación cuando se envía la solicitud de viaje
+   * Muestra un popup de confirmación cuando se envía la solicitud de reserva
    * @param {number} total - Total a pagar
    */
-  function showTripConfirmationPopup(total) {
+  function showReservationConfirmationPopup(total) {
     // Eliminar popup existente si hay uno
     const existingPopup = document.querySelector('.trip-confirmation-popup');
     if (existingPopup) {
@@ -333,9 +333,9 @@
       <div class="trip-confirmation-popup__icon">
         <span class="material-icons">check_circle</span>
       </div>
-      <h3 class="trip-confirmation-popup__title">¡Viaje Publicado!</h3>
+      <h3 class="trip-confirmation-popup__title">¡Reserva Creada!</h3>
       <p class="trip-confirmation-popup__message">
-        Tu solicitud de viaje ha sido enviada correctamente.<br>
+        Tu solicitud de reserva ha sido enviada correctamente.<br>
         Total: S/ ${total.toFixed(2)}
       </p>
     `;
