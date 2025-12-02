@@ -2,7 +2,8 @@
 .header {
   background-color: var(--white);
   border-bottom: 1px solid var(--border-light);
-  padding: 8px 0; /* compact header */
+  padding: 8px 0;
+  /* compact header */
   position: sticky;
   top: 0;
   z-index: 100;
@@ -22,7 +23,8 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--text-dark);
-  text-decoration: none; /* evitar subrayado si es <a> */
+  text-decoration: none;
+  /* evitar subrayado si es <a> */
 }
 
 .logo-icon {
@@ -46,8 +48,10 @@
 .brand-row {
   display: flex;
   align-items: center;
-  justify-content: center; /* centra el logo */
-  position: relative; /* permite posicionar la hamburguesa */
+  justify-content: center;
+  /* centra el logo */
+  position: relative;
+  /* permite posicionar la hamburguesa */
   gap: 12px;
 }
 
@@ -56,7 +60,8 @@
   gap: 24px;
   flex: 1;
   margin-left: 0;
-  justify-content: center; /* centra links entre logo y botones */
+  justify-content: center;
+  /* centra links entre logo y botones */
 }
 
 .nav a {
@@ -67,7 +72,9 @@
   transition: color 0.3s;
 }
 
-.nav a:hover { color: var(--primary-blue); }
+.nav a:hover {
+  color: var(--primary-blue);
+}
 
 .nav a.active {
   color: var(--primary-blue);
@@ -82,15 +89,21 @@
 /* Asegura que los botones no tengan subrayado */
 .auth-buttons a,
 .btn-login,
-.btn-register { text-decoration: none; }
+.btn-register {
+  text-decoration: none;
+}
+
 .btn-login:hover,
-.btn-register:hover { text-decoration: none; }
+.btn-register:hover {
+  text-decoration: none;
+}
 
 .user-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  position: relative; /* ancla el menú desplegable */
+  position: relative;
+  /* ancla el menú desplegable */
 }
 
 /* Avatar del usuario en el header */
@@ -133,7 +146,10 @@
   transition: background-color 0.2s, box-shadow 0.2s;
 }
 
-.btn-login:hover { background-color: var(--primary-dark); box-shadow: 0 6px 14px rgba(37,99,235,0.25); }
+.btn-login:hover {
+  background-color: var(--primary-dark);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
 
 .btn-register {
   background-color: transparent;
@@ -147,7 +163,9 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.btn-register:hover { background-color: var(--light-blue); }
+.btn-register:hover {
+  background-color: var(--light-blue);
+}
 
 /* Notification Bell */
 .notification-bell {
@@ -213,7 +231,8 @@
 .hamburger {
   display: none;
   width: 40px;
-  height: 32px; /* igual que .logo-icon */
+  height: 32px;
+  /* igual que .logo-icon */
   border: 1px solid var(--border-light);
   border-radius: 8px;
   background-color: var(--gray-100);
@@ -236,7 +255,8 @@
 
 /* Campana en brand-row (visible solo en mobile) */
 .brand-notification {
-  display: none; /* por defecto oculta en escritorio */
+  display: none;
+  /* por defecto oculta en escritorio */
   position: absolute;
 }
 
@@ -264,14 +284,16 @@
 .user-menu {
   position: absolute;
   right: 0;
-  top: 44px; /* debajo del avatar */
+  top: 44px;
+  /* debajo del avatar */
   background: var(--white);
   border: 1px solid var(--border-light);
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   min-width: 160px;
   padding: 8px;
-  z-index: 110; /* por encima del header */
+  z-index: 110;
+  /* por encima del header */
 }
 
 .user-menu .menu-item {
@@ -283,20 +305,25 @@
   padding: 10px 12px;
   border-radius: 8px;
   font-size: 13px;
-  font-weight: 400; /* no en negrita */
+  font-weight: 400;
+  /* no en negrita */
   cursor: pointer;
-  text-decoration: none; /* sin subrayado para <a> */
-  display: block; /* que ocupe todo el ancho */
+  text-decoration: none;
+  /* sin subrayado para <a> */
+  display: block;
+  /* que ocupe todo el ancho */
 }
 
 .user-menu .menu-item:hover {
   background: var(--gray-50);
-  text-decoration: none; /* mantener sin subrayado en hover */
+  text-decoration: none;
+  /* mantener sin subrayado en hover */
 }
 
 .user-menu .menu-item:focus {
   outline: none;
-  text-decoration: none; /* sin subrayado al enfocar */
+  text-decoration: none;
+  /* sin subrayado al enfocar */
 }
 
 /* Divisor dentro del menú del avatar */
@@ -317,20 +344,44 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
+
   100% {
     transform: scale(1);
   }
 }
 
 @media (max-width: 768px) {
-  .header-content { flex-direction: column; gap: 12px; }
+  .header-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
   /* La fila de marca ocupa todo el ancho para que el botón pueda anclarse a la derecha */
-  .brand-row { width: 100%; padding-right: 0; justify-content: center; }
-  .hamburger { display: flex; position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
-  .brand-notification { display: flex; right: 48px; top: 50%; transform: translateY(-50%); }
+  .brand-row {
+    width: 100%;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .hamburger {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .brand-notification {
+    display: flex;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   /* Drawer móvil: panel fijo desde la derecha */
   .nav {
     position: fixed;
@@ -340,24 +391,35 @@
     width: 80%;
     max-width: 320px;
     background: var(--white);
-    box-shadow: -2px 0 16px rgba(0,0,0,0.12);
+    box-shadow: -2px 0 16px rgba(0, 0, 0, 0.12);
     padding: 16px;
     overflow-y: auto;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    z-index: 120; /* por encima del overlay */
+    z-index: 120;
+    /* por encima del overlay */
     display: flex;
     flex-direction: column;
     gap: 12px;
-    justify-content: flex-start; /* contenido pegado al top */
-    align-items: stretch; /* ocupar todo el ancho disponible */
+    justify-content: flex-start;
+    /* contenido pegado al top */
+    align-items: stretch;
+    /* ocupar todo el ancho disponible */
     margin-left: 0;
   }
-  .header.menu-open .nav { transform: translateX(0); }
+
+  .header.menu-open .nav {
+    transform: translateX(0);
+  }
+
   /* Asegurar que el overlay solo sea visible cuando se abre el menú (controlado por JS con atributo hidden) */
-  
+
   /* Ocultar botones de auth del header en mobile; usaremos los del drawer */
-  .auth-buttons { display: none !important; width: 100%; }
+  .auth-buttons {
+    display: none !important;
+    width: 100%;
+  }
+
   /* Botones de auth estilo drawer */
   .btn-login,
   .btn-register {
@@ -365,22 +427,41 @@
     padding: 12px 20px;
     font-size: 15px;
     border-radius: 12px;
-    text-align: center; /* centrar texto */
+    text-align: center;
+    /* centrar texto */
   }
-  .btn-login { background: var(--primary-blue); color: var(--white); border: none; }
-  .btn-login:hover { filter: brightness(1.05); }
-  .btn-register { background: transparent; color: var(--primary-blue); border: 1.5px solid var(--primary-blue); }
-  .btn-register:hover { background: var(--light-blue); }
+
+  .btn-login {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+  }
+
+  .btn-login:hover {
+    filter: brightness(1.05);
+  }
+
+  .btn-register {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 1.5px solid var(--primary-blue);
+  }
+
+  .btn-register:hover {
+    background: var(--light-blue);
+  }
 
   .user-info {
     flex-direction: row;
     justify-content: center;
     width: 100%;
   }
-  
+
   /* Ocultar la campana del bloque user-info en mobile para evitar duplicado */
-  .user-info .notification-bell { display: none; }
-  
+  .user-info .notification-bell {
+    display: none;
+  }
+
   /* Uniformidad de ítems del drawer */
   /* Encabezado de perfil en el drawer */
   .nav-profile {
@@ -391,16 +472,19 @@
     border-radius: 12px;
     background: var(--gray-50);
   }
+
   .nav-profile-avatar img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
   }
+
   .nav-profile-name {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-dark);
   }
+
   .nav a,
   .nav .nav-user-link {
     display: block;
@@ -413,32 +497,48 @@
     text-decoration: none;
     text-align: left;
   }
+
   .nav a:hover,
-  .nav .nav-user-link:hover { 
-    background: var(--gray-50); 
-    color: var(--primary-blue); 
+  .nav .nav-user-link:hover {
+    background: var(--gray-50);
+    color: var(--primary-blue);
     text-decoration: none;
   }
+
   /* Botones auth en drawer: mantener estilo de botones del header */
   .nav .nav-user-link.btn-login,
   .nav .nav-user-link.btn-register {
-    padding: 12px 20px; /* igual a botones */
-    text-align: center; /* centrar texto como botón */
+    padding: 12px 20px;
+    /* igual a botones */
+    text-align: center;
+    /* centrar texto como botón */
   }
+
   .nav .nav-user-link.btn-login {
     background: var(--primary-blue);
     color: var(--white);
     border: none;
   }
+
   .nav .nav-user-link.btn-register {
     background: transparent;
     color: var(--primary-blue);
     border: 1.5px solid var(--primary-blue);
   }
-  .nav .nav-user-link.btn-login:hover { filter: brightness(1.05); }
-  .nav .nav-user-link.btn-register:hover { background: var(--light-blue); }
+
+  .nav .nav-user-link.btn-login:hover {
+    filter: brightness(1.05);
+  }
+
+  .nav .nav-user-link.btn-register:hover {
+    background: var(--light-blue);
+  }
+
   /* En mobile, mostrar solo los enlaces del drawer custom */
-  .nav a:not(.nav-user-link) { display: none; }
+  .nav a:not(.nav-user-link) {
+    display: none;
+  }
+
   /* Estilo del divisor del drawer */
   .nav-divider {
     height: 1px;
@@ -447,6 +547,7 @@
     width: 100%;
   }
 }
+
 .nav .nav-user-link {
   display: inline-block;
   background: transparent;
@@ -454,22 +555,31 @@
   color: var(--text-light);
   font-size: 13px;
   font-weight: 500;
-  text-decoration: none; /* sin subrayado */
+  text-decoration: none;
+  /* sin subrayado */
   padding: 0;
   cursor: pointer;
 }
 
-.nav .nav-user-link:hover { color: var(--primary-blue); }
+.nav .nav-user-link:hover {
+  color: var(--primary-blue);
+}
 
 /* Ocultar los links de usuario del nav en escritorio */
 @media (min-width: 769px) {
-  .nav .nav-user-link { display: none; }
+  .nav .nav-user-link {
+    display: none;
+  }
+
   /* Ocultar la campana de brand en escritorio */
-  .brand-notification { display: none; }
+  .brand-notification {
+    display: none;
+  }
 }
 
 /* En mobile: ocultar solo el avatar del header (mostrar campana) */
 @media (max-width: 768px) {
-  .user-info .user-avatar { display: none; }
+  .user-info .user-avatar {
+    display: none;
+  }
 }
-
