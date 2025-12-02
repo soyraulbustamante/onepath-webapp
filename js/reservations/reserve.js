@@ -189,14 +189,13 @@
         return;
       }
       const total = pricePer * qty;
-      if (typeof showNotification === 'function') {
-        showNotification(`Solicitud enviada. Total: S/ ${total.toFixed(2)}`, 'success');
-      } else {
-        alert('Solicitud enviada. Total: S/ ' + total.toFixed(2));
-      }
+      
+      // Mostrar popup de confirmación tipo burbuja
+      showTripConfirmationPopup(total);
+      
       setTimeout(() => {
         window.location.href = '../reservations/my-reservations.html';
-      }, 1500);
+      }, 3000);
     });
 
     if (contactBtn) {
@@ -239,6 +238,53 @@
       img.onerror = function() { img.src = fallback; };
       img.src = url;
     });
+  }
+
+  /**
+   * Muestra un popup tipo burbuja de confirmación cuando se envía la solicitud de viaje
+   * @param {number} total - Total a pagar
+   */
+  function showTripConfirmationPopup(total) {
+    // Eliminar popup existente si hay uno
+    const existingPopup = document.querySelector('.trip-confirmation-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+
+    // Crear el popup
+    const popup = document.createElement('div');
+    popup.className = 'trip-confirmation-popup';
+    popup.innerHTML = `
+      <div class="trip-confirmation-popup__icon">
+        <span class="material-icons">check_circle</span>
+      </div>
+      <h3 class="trip-confirmation-popup__title">¡Viaje Publicado!</h3>
+      <p class="trip-confirmation-popup__message">
+        Tu solicitud de viaje ha sido enviada correctamente.<br>
+        Total: S/ ${total.toFixed(2)}
+      </p>
+    `;
+
+    // Añadir al body
+    document.body.appendChild(popup);
+
+    // Mostrar con animación
+    requestAnimationFrame(() => {
+      popup.classList.add('show');
+    });
+
+    // Ocultar después de 2.5 segundos
+    setTimeout(() => {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+      
+      // Eliminar del DOM después de la animación
+      setTimeout(() => {
+        if (popup.parentNode) {
+          popup.parentNode.removeChild(popup);
+        }
+      }, 400);
+    }, 2500);
   }
 
   if (document.readyState === 'loading') {
