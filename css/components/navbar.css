@@ -328,7 +328,7 @@
 @media (max-width: 768px) {
   .header-content { flex-direction: column; gap: 12px; }
   /* La fila de marca ocupa todo el ancho para que el botón pueda anclarse a la derecha */
-  .brand-row { width: 100%; padding-right: 48px; justify-content: flex-start; }
+  .brand-row { width: 100%; padding-right: 0; justify-content: center; }
   .hamburger { display: flex; position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
   .brand-notification { display: flex; right: 48px; top: 50%; transform: translateY(-50%); }
   /* Drawer móvil: panel fijo desde la derecha */
