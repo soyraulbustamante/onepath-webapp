@@ -1,5 +1,5 @@
 // Mapa de salidas para la búsqueda de viajes
-(function() {
+(function () {
   'use strict';
 
   // Mapeo heurístico de ubicaciones de origen a coordenadas (aprox Lima)
@@ -26,27 +26,102 @@
     return null; // sin aleatoriedad: requerimos coordenadas explícitas o mapeadas
   }
 
+  function getDriverRating(driverId) {
+    try {
+      const users = (window.Storage && typeof window.Storage.getUsers === 'function')
+        ? window.Storage.getUsers()
+        : JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.id === driverId);
+      return Number(user?.rating || 0);
+    } catch {
+      return 0;
+    }
+  }
+
+  function getDriverName(driverId) {
+    try {
+      const users = (window.Storage && typeof window.Storage.getUsers === 'function')
+        ? window.Storage.getUsers()
+        : JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.id === driverId);
+      return user?.name || null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getDriverMajor(driverId) {
+    try {
+      const users = (window.Storage && typeof window.Storage.getUsers === 'function')
+        ? window.Storage.getUsers()
+        : JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.id === driverId);
+      return user?.major || '';
+    } catch {
+      return '';
+    }
+  }
+
+  function getAvatarUrl(seedName) {
+    const seed = seedName ? seedName.replace(/\s+/g, '') : 'default';
+    return `https://api.dicebear.com/8.x/avataaars/png?seed=${encodeURIComponent(seed)}&size=64`;
+  }
+
   function buildPopup(trip) {
     const priceStr = typeof trip.price === 'number' ? trip.price.toFixed(2) : (trip.price || '0');
-    const driverName = trip.driverName || 'Conductor';
+    const driverName = getDriverName(trip.driverId) || trip.driverName || 'Conductor';
+    const driverMajor = getDriverMajor(trip.driverId);
     const reserveUrl = `../reservations/reserve.html${trip.id ? `?tripId=${encodeURIComponent(trip.id)}` : ''}`;
     const origin = String(trip.origin || '');
     const time = String(trip.time || '');
+
+    const rating = getDriverRating(trip.driverId) || Number(trip.driverRating || 0) || 0;
+    const avatarUrl = getAvatarUrl(driverName);
+
+    const capacity = parseInt(trip.seats || 0, 10);
+    const taken = Array.isArray(trip.passengers) ? trip.passengers.length : 0;
+    const available = Math.max(0, capacity - taken);
+
     return `
-      <div class="map-popup" style="min-width:220px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+      <div class="map-popup" style="min-width:240px; font-family: 'Inter', sans-serif;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; border-bottom:1px solid #e5e7eb; padding-bottom:12px;">
+          <img src="${avatarUrl}" style="width:40px; height:40px; border-radius:50%; object-fit:cover; background:#f3f4f6;" alt="${driverName}">
           <div>
-            <strong>${origin}</strong><br/>
-            <div style="color:#6b7280; font-size:12px;">Salida ${time}</div>
-            <div style="color:#6b7280; font-size:12px;">Conductor: ${driverName}</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="color:#3498db; font-weight:700;">S/${priceStr}</div>
-            <div style="color:#6b7280; font-size:11px;">por persona</div>
+            <div style="font-weight:600; font-size:14px; color:#111827;">${driverName}</div>
+            ${driverMajor ? `<div style="font-size:11px; color:#6b7280; margin-bottom:2px;">${driverMajor}</div>` : ''}
+            <div style="display:flex; align-items:center; gap:4px;">
+              <span style="color:#f59e0b; font-size:12px;">★</span>
+              <span style="color:#4b5563; font-size:12px; font-weight:500;">${rating.toFixed(1)}</span>
+            </div>
           </div>
         </div>
-        <div style="margin-top:10px; text-align:right;">
-          <a href="${reserveUrl}" class="btn btn-primary btn-small" style="text-decoration:none;">Reservar</a>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+          <div>
+            <div style="font-weight:600; font-size:13px; color:#374151; margin-bottom:2px;">${origin}</div>
+            <div style="color:#6b7280; font-size:12px;">Salida ${time}</div>
+            <div style="color:#6b7280; font-size:12px; margin-top:4px; display:flex; align-items:center; gap:4px;">
+              <span style="font-size:14px;">💺</span> ${available} asientos
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:#2563eb; font-weight:700; font-size:14px;">S/ ${priceStr}</div>
+            <div style="color:#9ca3af; font-size:11px;">por persona</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px; text-align:right;">
+          <a href="${reserveUrl}" class="btn btn-primary btn-small" style="
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+          ">Reservar</a>
         </div>
       </div>
     `;
@@ -68,14 +143,14 @@
     const markersLayer = L.layerGroup().addTo(map);
     window.tripMarkersLayer = markersLayer;
 
-    window.invalidateOnepathMap = function() {
+    window.invalidateOnepathMap = function () {
       if (window.onepathMap) {
         window.onepathMap.invalidateSize();
       }
     };
 
     // API para actualizar marcadores desde resultados de búsqueda
-    window.updateTripsOnMap = function(trips) {
+    window.updateTripsOnMap = function (trips) {
       if (!Array.isArray(trips)) return;
       markersLayer.clearLayers();
       const bounds = L.latLngBounds([]);
