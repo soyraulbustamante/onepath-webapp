@@ -382,6 +382,12 @@
     min-width: 280px;
     max-width: 90%;
     padding: 1.5rem 2rem;
+    /* Forzar centrado respecto al viewport en mobile */
+    left: 50vw !important;
+    top: 50vh !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) scale(0.9);
   }
 
   .trip-confirmation-popup__title {
@@ -447,3 +453,8 @@
   }
 }
 
+  /* Refuerza el centrado cuando se muestra */
+  .trip-confirmation-popup.show {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
