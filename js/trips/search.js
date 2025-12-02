@@ -526,6 +526,11 @@
     if (hasTrips) {
       setRandomAvatars();
     }
+
+    // Actualiza conteos de tipos de vehículo en filtros
+    try {
+      updateVehicleFilterCounts(trips || []);
+    } catch (_) { /* noop */ }
   }
 
   function attachFieldValidationHandlers() {
@@ -538,6 +543,26 @@
 
     dateInput?.addEventListener('change', () => validateField('date'));
     seatsSelect?.addEventListener('change', () => validateField('seats'));
+  }
+
+  // Conteo de viajes por tipo de vehículo para el filtro
+  function updateVehicleFilterCounts(trips) {
+    const counts = { compact: 0, sedan: 0, suv: 0, family: 0 };
+    (trips || []).forEach(t => {
+      try {
+        const vType = classifyVehicleType(String(t.vehicle || ''));
+        if (counts[vType] !== undefined) counts[vType]++;
+      } catch (_) { /* noop */ }
+    });
+
+    Object.keys(counts).forEach(key => {
+      const el = document.querySelector(`.filter-count[data-count-for="${key}"]`);
+      if (el) {
+        const n = counts[key];
+        el.textContent = n ? `(${n})` : '';
+        el.setAttribute('aria-label', `Cantidad de viajes ${key}: ${n}`);
+      }
+    });
   }
 
   function handleFieldInput(fieldName) {
@@ -823,4 +848,3 @@
   }
 
 })();
-
