@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   // Silent demo seeding for UI previews. Ensures up to 10 diverse trips.
@@ -33,15 +33,10 @@
         localStorage.setItem('users', JSON.stringify(users));
       }
 
-      // Seed trips; if existing, top-up to 10 with diverse entries
-      let trips = [];
-      if (hasTrips) {
-        try { trips = JSON.parse(localStorage.getItem('trips') || '[]') || []; } catch { trips = []; }
-      }
-
+      // Seed trips; always refresh to ensure latest data structure and volume
       const baseTrips = [
         {
-          id: 'trip-001', driverId: 'driver-001', creatorId: 'driver-001',
+          id: 'trip-001', driverId: 'driver-001', driverName: 'Carlos Mendoza', creatorId: 'driver-001',
           origin: 'Metro San Isidro', originAddress: 'Av. Javier Prado Este 4200',
           originLat: -12.0978, originLng: -77.0365,
           destination: 'Puerta Principal UNMSM', destinationAddress: 'Av. Venezuela s/n, Lima',
@@ -50,7 +45,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-002', driverId: 'driver-002', creatorId: 'driver-002',
+          id: 'trip-002', driverId: 'driver-002', driverName: 'Ana López', creatorId: 'driver-002',
           origin: 'Jockey Plaza', originAddress: 'Av. Javier Prado Este 4200',
           originLat: -12.0932, originLng: -76.9726,
           destination: 'Facultad de Medicina', destinationAddress: 'Ciudad Universitaria',
@@ -59,7 +54,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-003', driverId: 'driver-003', creatorId: 'driver-003',
+          id: 'trip-003', driverId: 'driver-003', driverName: 'Juan Pérez', creatorId: 'driver-003',
           origin: 'Miraflores Centro', originAddress: 'Av. Larco',
           originLat: -12.1211, originLng: -77.0306,
           destination: 'Biblioteca Central', destinationAddress: 'Ciudad Universitaria',
@@ -68,7 +63,7 @@
           createdAt: minusDays(6).toISOString()
         },
         {
-          id: 'trip-004', driverId: 'driver-004', creatorId: 'driver-004',
+          id: 'trip-004', driverId: 'driver-004', driverName: 'Lucía Ramos', creatorId: 'driver-004',
           origin: 'San Borja', originAddress: 'Av. San Borja Sur 500',
           originLat: -12.1079, originLng: -77.0010,
           destination: 'UNMSM - Puerta Principal', destinationAddress: 'Av. Venezuela s/n, Lima',
@@ -77,7 +72,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-005', driverId: 'driver-005', creatorId: 'driver-005',
+          id: 'trip-005', driverId: 'driver-005', driverName: 'Miguel Rojas', creatorId: 'driver-005',
           origin: 'La Molina', originAddress: 'Av. La Molina 1200',
           originLat: -12.0891, originLng: -76.9397,
           destination: 'UNI - Puerta 3', destinationAddress: 'Av. Túpac Amaru s/n',
@@ -86,7 +81,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-006', driverId: 'driver-006', creatorId: 'driver-006',
+          id: 'trip-006', driverId: 'driver-006', driverName: 'Sofía Castro', creatorId: 'driver-006',
           origin: 'Barranco', originAddress: 'Parque Municipal',
           originLat: -12.1456, originLng: -77.0219,
           destination: 'UNMSM - Biblioteca Central', destinationAddress: 'Ciudad Universitaria',
@@ -95,7 +90,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-007', driverId: 'driver-007', creatorId: 'driver-007',
+          id: 'trip-007', driverId: 'driver-007', driverName: 'Pedro Silva', creatorId: 'driver-007',
           origin: 'Jesús María', originAddress: 'Av. Salaverry 1500',
           originLat: -12.0725, originLng: -77.0435,
           destination: 'UNI - Biblioteca Central', destinationAddress: 'Av. Túpac Amaru s/n',
@@ -104,7 +99,7 @@
           createdAt: minusDays(3).toISOString()
         },
         {
-          id: 'trip-008', driverId: 'driver-008', creatorId: 'driver-008',
+          id: 'trip-008', driverId: 'driver-008', driverName: 'Valeria Díaz', creatorId: 'driver-008',
           origin: 'Surco', originAddress: 'Av. Caminos del Inca',
           originLat: -12.1550, originLng: -76.9910,
           destination: 'PUCP - Puerta Principal', destinationAddress: 'Av. Universitaria',
@@ -113,7 +108,7 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-009', driverId: 'driver-002', creatorId: 'driver-002',
+          id: 'trip-009', driverId: 'driver-002', driverName: 'Ana López', creatorId: 'driver-002',
           origin: 'Chorrillos', originAddress: 'Av. Defensores del Morro',
           originLat: -12.1749, originLng: -77.0260,
           destination: 'UNMSM - Facultad de Ingeniería', destinationAddress: 'Ciudad Universitaria',
@@ -122,26 +117,109 @@
           createdAt: now.toISOString()
         },
         {
-          id: 'trip-010', driverId: 'driver-003', creatorId: 'driver-003',
+          id: 'trip-010', driverId: 'driver-003', driverName: 'Juan Pérez', creatorId: 'driver-003',
           origin: 'Magdalena', originAddress: 'Av. Brasil',
           originLat: -12.0869, originLng: -77.0731,
           destination: 'UNMSM - Facultad de Derecho', destinationAddress: 'Ciudad Universitaria',
           date: formatDate(plusDays(3)), time: '07:50',
           driverRating: 3.8, seats: 2, price: 11.00, passengers: [], vehicle: 'Toyota Familiar Verso',
           createdAt: now.toISOString()
+        },
+        // Nuevos viajes para aumentar volumen
+        {
+          id: 'trip-011', driverId: 'driver-001', driverName: 'Carlos Mendoza', creatorId: 'driver-001',
+          origin: 'San Miguel', originAddress: 'Av. La Marina 2000',
+          originLat: -12.0768, originLng: -77.0936,
+          destination: 'UPC - Campus San Miguel', destinationAddress: 'Av. La Marina 2810',
+          date: formatDate(plusDays(1)), time: '08:15',
+          driverRating: 4.9, seats: 3, price: 5.00, passengers: [], vehicle: 'Volkswagen Golf Gris',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-012', driverId: 'driver-004', driverName: 'Lucía Ramos', creatorId: 'driver-004',
+          origin: 'Lince', originAddress: 'Av. Arequipa 2000',
+          originLat: -12.0863, originLng: -77.0351,
+          destination: 'UPC - Campus San Isidro', destinationAddress: 'Av. Salaverry 2255',
+          date: formatDate(plusDays(2)), time: '09:30',
+          driverRating: 5.0, seats: 4, price: 7.50, passengers: [], vehicle: 'Minivan Familiar Gris',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-013', driverId: 'driver-006', driverName: 'Sofía Castro', creatorId: 'driver-006',
+          origin: 'Pueblo Libre', originAddress: 'Av. Sucre 500',
+          originLat: -12.0762, originLng: -77.0643,
+          destination: 'PUCP - Puerta Principal', destinationAddress: 'Av. Universitaria',
+          date: formatDate(plusDays(1)), time: '07:40',
+          driverRating: 4.2, seats: 2, price: 6.00, passengers: [], vehicle: 'Kia Rio Negro',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-014', driverId: 'driver-008', driverName: 'Valeria Díaz', creatorId: 'driver-008',
+          origin: 'Surquillo', originAddress: 'Av. Angamos 1500',
+          originLat: -12.1132, originLng: -77.0117,
+          destination: 'ULima', destinationAddress: 'Av. Javier Prado Este',
+          date: formatDate(plusDays(3)), time: '08:45',
+          driverRating: 4.5, seats: 3, price: 9.00, passengers: [], vehicle: 'Volkswagen Golf Blanco',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-015', driverId: 'driver-005', driverName: 'Miguel Rojas', creatorId: 'driver-005',
+          origin: 'Ate', originAddress: 'Av. La Molina',
+          originLat: -12.0553, originLng: -76.9423,
+          destination: 'USIL - Campus 1', destinationAddress: 'Av. La Fontana',
+          date: formatDate(plusDays(2)), time: '07:00',
+          driverRating: 2.9, seats: 4, price: 4.00, passengers: [], vehicle: 'Ford Explorer SUV Negro',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-016', driverId: 'driver-007', driverName: 'Pedro Silva', creatorId: 'driver-007',
+          origin: 'Breña', originAddress: 'Av. Venezuela 800',
+          originLat: -12.0564, originLng: -77.0526,
+          destination: 'UNMSM', destinationAddress: 'Ciudad Universitaria',
+          date: formatDate(plusDays(1)), time: '07:20',
+          driverRating: 3.1, seats: 2, price: 3.00, passengers: [], vehicle: 'Nissan Sentra Gris',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-017', driverId: 'driver-001', driverName: 'Carlos Mendoza', creatorId: 'driver-001',
+          origin: 'San Isidro', originAddress: 'Av. Camino Real',
+          originLat: -12.0978, originLng: -77.0365,
+          destination: 'UPC - Monterrico', destinationAddress: 'Av. Primavera',
+          date: formatDate(plusDays(4)), time: '18:00',
+          driverRating: 4.9, seats: 3, price: 12.00, passengers: [], vehicle: 'Volkswagen Golf Gris',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-018', driverId: 'driver-003', driverName: 'Juan Pérez', creatorId: 'driver-003',
+          origin: 'Miraflores', originAddress: 'Parque Kennedy',
+          originLat: -12.1211, originLng: -77.0306,
+          destination: 'UTEC', destinationAddress: 'Jr. Medrano Silva',
+          date: formatDate(plusDays(2)), time: '08:10',
+          driverRating: 3.8, seats: 2, price: 5.50, passengers: [], vehicle: 'Honda Civic Azul',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-019', driverId: 'driver-002', driverName: 'Ana López', creatorId: 'driver-002',
+          origin: 'La Victoria', originAddress: 'Av. Canadá',
+          originLat: -12.0838, originLng: -77.0135,
+          destination: 'UNMSM', destinationAddress: 'Ciudad Universitaria',
+          date: formatDate(plusDays(1)), time: '07:55',
+          driverRating: 4.7, seats: 4, price: 6.50, passengers: [], vehicle: 'Toyota Corolla Blanco',
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'trip-020', driverId: 'driver-004', driverName: 'Lucía Ramos', creatorId: 'driver-004',
+          origin: 'San Borja', originAddress: 'Av. Aviación',
+          originLat: -12.1079, originLng: -77.0010,
+          destination: 'ULima', destinationAddress: 'Av. Javier Prado',
+          date: formatDate(plusDays(5)), time: '10:00',
+          driverRating: 5.0, seats: 3, price: 8.00, passengers: [], vehicle: 'Minivan Familiar Gris',
+          createdAt: now.toISOString()
         }
       ];
 
-      if (!hasTrips) {
-        trips = baseTrips;
-      } else {
-        // Top up to 10, avoiding ID collisions
-        const existingIds = new Set(trips.map(t => String(t.id)));
-        baseTrips.forEach(t => { if (!existingIds.has(String(t.id))) trips.push(t); });
-        if (trips.length > 10) trips = trips.slice(0, 10);
-      }
-
-      localStorage.setItem('trips', JSON.stringify(trips));
+      // Always overwrite trips to ensure data quality for demo
+      localStorage.setItem('trips', JSON.stringify(baseTrips));
 
       // Seed minimal reservations if missing
       if (!hasReservations) {
