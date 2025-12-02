@@ -1,0 +1,107 @@
+/* Verification.css - Estilos para verificación de identidad OnePath */
+
+.verification-section {
+    padding: 40px 0;
+}
+
+.verification-section h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+/* Tarjeta principal */
+.verification-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 40px;
+}
+
+.verification-card h2 {
+    margin-bottom: 20px;
+}
+
+/* Formulario */
+.verification-form .form-group {
+    margin-bottom: 20px;
+}
+
+.verification-form label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.verification-form input[type="file"] {
+    padding: 10px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    width: 100%;
+}
+
+/* Vista previa */
+.preview-area {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.preview-area img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--primary-blue);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Mensajes */
+.verification-message {
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+.verification-message.error {
+    color: #d32f2f;
+}
+
+.verification-message.success {
+    color: #2e7d32;
+}
+
+/* Vista del perfil */
+.profile-view h2 {
+    margin-bottom: 15px;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+}
+
+.profile-photo {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--primary-blue);
+}
+
+.profile-info span {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
