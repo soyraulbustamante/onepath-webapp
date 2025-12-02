@@ -11,12 +11,14 @@
 .notification {
   background-color: #fff;
   color: #333;
-  padding: 15px 20px;
-  border-radius: 5px;
+  padding: 8px 14px;
+  border-radius: 9999px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transform: translateX(100%);
   opacity: 0;
+  font-size: 0.875rem;
+  max-width: 320px;
 }
 
 .notification.show {

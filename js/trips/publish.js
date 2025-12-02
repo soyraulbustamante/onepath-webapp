@@ -590,64 +590,24 @@
 
   // Show success notification
   function showSuccessNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification notification-success';
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    notification.innerHTML = `
-      <div class="notification-content">
-        <span class="notification-icon material-icons">check</span>
-        <span class="notification-message">${message}</span>
-      </div>
-    `;
+    if (typeof showNotification === 'function') {
+      showNotification(message, 'success');
+      return;
+    }
 
-    // Add to body
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
-
-    // Remove after delay
-    setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-        notification.remove();
-      }, 300);
-    }, 5000);
+    // Fallback simple notification if global helper is not available
+    alert(message);
   }
 
   // Show error notification
   function showErrorNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification notification-error';
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    notification.innerHTML = `
-      <div class="notification-content">
-        <span class="notification-icon material-icons">close</span>
-        <span class="notification-message">${message}</span>
-      </div>
-    `;
+    if (typeof showNotification === 'function') {
+      showNotification(message, 'error');
+      return;
+    }
 
-    // Add to body
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
-
-    // Remove after delay
-    setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-        notification.remove();
-      }, 300);
-    }, 5000);
+    // Fallback simple notification if global helper is not available
+    alert(message);
   }
 
   // Handle cancel
