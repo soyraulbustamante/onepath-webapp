@@ -12,6 +12,21 @@
     };
     let currentSort = 'newest';
     let reputationView = 'all';
+    
+    // Advanced reputation features state
+    let reputationHistory = [];
+    let verificationData = {
+        identity: false,
+        drivingLicense: false,
+        firstAid: false,
+        defensiveDriving: false,
+        socialMedia: false,
+        university: false
+    };
+    let securityHistory = [];
+    let reputationPrediction = null;
+    let dashboardMetrics = {};
+    let chartInstances = {};
 
     const ICON_MAP = {
         '🕐': 'schedule',
@@ -62,6 +77,11 @@
     let reviewsList, reviewCount, ratingFilter, roleFilter, periodFilter, sortSelect;
     let ratingSummary, offerTripBtn, viewTipsBtn;
     let repAllBtn, repDriverBtn, repPassengerBtn, reputationLabelEl;
+    
+    // Advanced dashboard elements
+    let dashboardContainer, metricsContainer, chartsContainer, verificationContainer;
+    let predictionContainer, historyContainer, securityContainer, certificationsContainer;
+    let reputationChart, trendsChart, comparisonChart, predictionChart;
 
     // Initialize reviews system
     function initReviews() {
@@ -86,9 +106,16 @@
         // Bind events
         bindEvents();
 
+        // Initialize advanced features
+        initAdvancedDashboard();
+        loadAdvancedData();
+        
         // Initial render
         applyFiltersAndSort();
         updateRatingSummary();
+        updateAdvancedMetrics();
+        renderVerificationStatus();
+        generateReputationPrediction();
     }
 
     // Load reviews data from localStorage or use mock data
@@ -922,6 +949,352 @@
         document.head.appendChild(style);
     }
 
+    // Advanced Dashboard Functions
+    
+    // Initialize advanced dashboard components
+    function initAdvancedDashboard() {
+        // Get advanced dashboard elements
+        dashboardContainer = document.getElementById('advancedDashboard');
+        metricsContainer = document.getElementById('metricsContainer');
+        chartsContainer = document.getElementById('chartsContainer');
+        verificationContainer = document.getElementById('verificationContainer');
+        predictionContainer = document.getElementById('predictionContainer');
+        historyContainer = document.getElementById('historyContainer');
+        securityContainer = document.getElementById('securityContainer');
+        certificationsContainer = document.getElementById('certificationsContainer');
+        
+        // Create dashboard if it doesn't exist
+        if (!dashboardContainer) {
+            createAdvancedDashboard();
+        }
+        
+        // Initialize charts
+        initializeCharts();
+        
+        // Bind advanced events
+        bindAdvancedEvents();
+    }
+    
+    // Load advanced data from localStorage or generate mock data
+    function loadAdvancedData() {
+        try {
+            // Load reputation history
+            const storedHistory = localStorage.getItem('onepath_reputation_history');
+            if (storedHistory) {
+                reputationHistory = JSON.parse(storedHistory);
+            } else {
+                reputationHistory = generateMockReputationHistory();
+                localStorage.setItem('onepath_reputation_history', JSON.stringify(reputationHistory));
+            }
+            
+            // Load verification data
+            const storedVerification = localStorage.getItem('onepath_verification_data');
+            if (storedVerification) {
+                verificationData = { ...verificationData, ...JSON.parse(storedVerification) };
+            } else {
+                verificationData = generateMockVerificationData();
+                localStorage.setItem('onepath_verification_data', JSON.stringify(verificationData));
+            }
+            
+            // Load security history
+            const storedSecurity = localStorage.getItem('onepath_security_history');
+            if (storedSecurity) {
+                securityHistory = JSON.parse(storedSecurity);
+            } else {
+                securityHistory = generateMockSecurityHistory();
+                localStorage.setItem('onepath_security_history', JSON.stringify(securityHistory));
+            }
+            
+        } catch (error) {
+            console.error('Error loading advanced data:', error);
+            // Generate mock data as fallback
+            reputationHistory = generateMockReputationHistory();
+            verificationData = generateMockVerificationData();
+            securityHistory = generateMockSecurityHistory();
+        }
+    }
+    
+    // Create advanced dashboard HTML structure
+    function createAdvancedDashboard() {
+        const mainContent = document.querySelector('.main-content .container');
+        if (!mainContent) return;
+        
+        const dashboardHTML = `
+            <section class="advanced-dashboard" id="advancedDashboard">
+                <div class="dashboard-header">
+                    <h2>Dashboard de Reputación Avanzado</h2>
+                    <div class="dashboard-controls">
+                        <button class="dashboard-toggle" id="toggleDashboard" title="Mostrar/Ocultar Dashboard">
+                            <span class="material-icons">dashboard</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-content" id="dashboardContent">
+                    <!-- Metrics Overview -->
+                    <div class="metrics-section" id="metricsContainer">
+                        <h3>Métricas Detalladas</h3>
+                        <div class="metrics-grid" id="metricsGrid">
+                            <!-- Metrics will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Charts -->
+                    <div class="charts-section" id="chartsContainer">
+                        <h3>Análisis Visual</h3>
+                        <div class="charts-grid">
+                            <div class="chart-container">
+                                <h4>Evolución de Reputación</h4>
+                                <canvas id="reputationChart" width="400" height="200"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h4>Tendencias por Período</h4>
+                                <canvas id="trendsChart" width="400" height="200"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h4>Comparación Temporal</h4>
+                                <canvas id="comparisonChart" width="400" height="200"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h4>Predicción de Reputación</h4>
+                                <canvas id="predictionChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Verification and Trust System -->
+                    <div class="verification-section" id="verificationContainer">
+                        <h3>Sistema de Verificación y Confianza</h3>
+                        <div class="verification-grid">
+                            <div class="verification-card" id="identityVerification">
+                                <h4>Verificación de Identidad</h4>
+                                <div class="verification-content" id="identityContent">
+                                    <!-- Content populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="verification-card" id="certificationsCard">
+                                <h4>Certificaciones</h4>
+                                <div class="certifications-content" id="certificationsContent">
+                                    <!-- Content populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="verification-card" id="securityCard">
+                                <h4>Historial de Seguridad</h4>
+                                <div class="security-content" id="securityContent">
+                                    <!-- Content populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reputation Prediction -->
+                    <div class="prediction-section" id="predictionContainer">
+                        <h3>Predicción de Reputación</h3>
+                        <div class="prediction-content" id="predictionContent">
+                            <!-- Content populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        // Insert dashboard after the page header
+        const pageHeader = mainContent.querySelector('.page-header');
+        if (pageHeader) {
+            pageHeader.insertAdjacentHTML('afterend', dashboardHTML);
+        }
+    }
+    
+    // Initialize charts using Chart.js simulation (mock implementation)
+    function initializeCharts() {
+        // Simulate Chart.js initialization
+        // In a real implementation, you would use Chart.js library
+        console.log('Initializing charts...');
+        
+        // Create mock chart canvases
+        setTimeout(() => {
+            createMockCharts();
+        }, 100);
+    }
+    
+    // Create mock charts with canvas drawing
+    function createMockCharts() {
+        const chartIds = ['reputationChart', 'trendsChart', 'comparisonChart', 'predictionChart'];
+        
+        chartIds.forEach(chartId => {
+            const canvas = document.getElementById(chartId);
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                drawMockChart(ctx, canvas.width, canvas.height, chartId);
+            }
+        });
+    }
+    
+    // Draw mock chart data
+    function drawMockChart(ctx, width, height, chartType) {
+        ctx.clearRect(0, 0, width, height);
+        
+        // Set up chart styling
+        ctx.fillStyle = '#f8f9fa';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Draw chart based on type
+        switch (chartType) {
+            case 'reputationChart':
+                drawReputationEvolution(ctx, width, height);
+                break;
+            case 'trendsChart':
+                drawTrendsChart(ctx, width, height);
+                break;
+            case 'comparisonChart':
+                drawComparisonChart(ctx, width, height);
+                break;
+            case 'predictionChart':
+                drawPredictionChart(ctx, width, height);
+                break;
+        }
+    }
+    
+    // Draw reputation evolution chart
+    function drawReputationEvolution(ctx, width, height) {
+        const data = reputationHistory.slice(-12); // Last 12 months
+        if (data.length === 0) return;
+        
+        ctx.strokeStyle = '#007bff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        const stepX = width / (data.length - 1);
+        const maxRating = 5;
+        
+        data.forEach((point, index) => {
+            const x = index * stepX;
+            const y = height - (point.rating / maxRating) * (height - 40) - 20;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+            
+            // Draw data points
+            ctx.fillStyle = '#007bff';
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+        
+        ctx.stroke();
+        
+        // Add labels
+        ctx.fillStyle = '#666';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        
+        data.forEach((point, index) => {
+            const x = index * stepX;
+            ctx.fillText(point.rating.toFixed(1), x, height - 5);
+        });
+    }
+    
+    // Draw trends chart
+    function drawTrendsChart(ctx, width, height) {
+        const periods = ['1M', '3M', '6M', '1A'];
+        const values = [4.8, 4.7, 4.6, 4.5];
+        
+        ctx.fillStyle = '#28a745';
+        const barWidth = width / periods.length - 20;
+        
+        periods.forEach((period, index) => {
+            const x = index * (width / periods.length) + 10;
+            const barHeight = (values[index] / 5) * (height - 40);
+            const y = height - barHeight - 20;
+            
+            ctx.fillRect(x, y, barWidth, barHeight);
+            
+            // Labels
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(period, x + barWidth / 2, height - 5);
+            ctx.fillText(values[index].toFixed(1), x + barWidth / 2, y - 5);
+            
+            ctx.fillStyle = '#28a745';
+        });
+    }
+    
+    // Draw comparison chart
+    function drawComparisonChart(ctx, width, height) {
+        const categories = ['Conductor', 'Pasajero', 'General'];
+        const currentValues = [4.9, 4.7, 4.8];
+        const previousValues = [4.6, 4.5, 4.5];
+        
+        const barWidth = (width / categories.length) / 3;
+        
+        categories.forEach((category, index) => {
+            const baseX = index * (width / categories.length) + 20;
+            
+            // Current period bar
+            ctx.fillStyle = '#007bff';
+            const currentHeight = (currentValues[index] / 5) * (height - 40);
+            ctx.fillRect(baseX, height - currentHeight - 20, barWidth, currentHeight);
+            
+            // Previous period bar
+            ctx.fillStyle = '#6c757d';
+            const previousHeight = (previousValues[index] / 5) * (height - 40);
+            ctx.fillRect(baseX + barWidth + 5, height - previousHeight - 20, barWidth, previousHeight);
+            
+            // Labels
+            ctx.fillStyle = '#666';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(category, baseX + barWidth, height - 5);
+        });
+    }
+    
+    // Draw prediction chart
+    function drawPredictionChart(ctx, width, height) {
+        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+        const historical = [4.5, 4.6, 4.7, 4.8];
+        const predicted = [4.8, 4.9, 5.0];
+        
+        const stepX = width / (months.length - 1);
+        
+        // Historical data
+        ctx.strokeStyle = '#007bff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        
+        historical.forEach((value, index) => {
+            const x = index * stepX;
+            const y = height - (value / 5) * (height - 40) - 20;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+        ctx.stroke();
+        
+        // Predicted data (dashed line)
+        ctx.strokeStyle = '#ffc107';
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        
+        const startX = (historical.length - 1) * stepX;
+        const startY = height - (historical[historical.length - 1] / 5) * (height - 40) - 20;
+        ctx.moveTo(startX, startY);
+        
+        predicted.forEach((value, index) => {
+            const x = (historical.length + index) * stepX;
+            const y = height - (value / 5) * (height - 40) - 20;
+            ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+    
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
@@ -933,16 +1306,78 @@
         initReviews();
     }
 
+    // Mock data generation functions
+    
+    // Generate mock reputation history
+    function generateMockReputationHistory() {
+        const history = [];
+        const currentDate = new Date();
+        
+        for (let i = 11; i >= 0; i--) {
+            const date = new Date(currentDate);
+            date.setMonth(date.getMonth() - i);
+            
+            // Generate realistic rating progression
+            const baseRating = 4.2 + (Math.random() * 0.6);
+            const progressionFactor = (11 - i) * 0.02; // Gradual improvement
+            const rating = Math.min(5.0, baseRating + progressionFactor + (Math.random() * 0.2 - 0.1));
+            
+            history.push({
+                date: date.toISOString(),
+                rating: parseFloat(rating.toFixed(1)),
+                reviewCount: Math.floor(Math.random() * 5) + 1,
+                period: date.toLocaleDateString('es-PE', { month: 'short', year: 'numeric' })
+            });
+        }
+        
+        return history;
+    }
+    
+    // Generate mock verification data
+    function generateMockVerificationData() {
+        // Simulate partial verification for realistic scenario
+        return {
+            identity: Math.random() > 0.3, // 70% chance verified
+            drivingLicense: Math.random() > 0.4, // 60% chance verified
+            firstAid: Math.random() > 0.7, // 30% chance verified
+            defensiveDriving: Math.random() > 0.8, // 20% chance verified
+            socialMedia: Math.random() > 0.5, // 50% chance verified
+            university: Math.random() > 0.2 // 80% chance verified
+        };
+    }
+    
+    // Generate mock security history
+    function generateMockSecurityHistory() {
+        // Most users should have clean history
+        if (Math.random() > 0.8) {
+            return []; // 80% chance of clean history
+        }
+        
+        const incidents = [];
+        const incidentTypes = [
+            { type: 'Reporte de Retraso', severity: 'Bajo' },
+            { type: 'Queja de Comportamiento', severity: 'Medio' },
+            { type: 'Problema de Comunicación', severity: 'Bajo' },
+            { type: 'Incidente de Tráfico Menor', severity: 'Medio' }
+        ];
+        
+        const numIncidents = Math.floor(Math.random() * 2) + 1; // 1-2 incidents
+        
+        for (let i = 0; i < numIncidents; i++) {
+            const incident = incidentTypes[Math.floor(Math.random() * incidentTypes.length)];
+            const date = new Date();
+            date.setMonth(date.getMonth() - Math.floor(Math.random() * 12));
+            
+            incidents.push({
+                ...incident,
+                date: date.toISOString(),
+                status: Math.random() > 0.3 ? 'Resuelto' : 'En Revisión',
+                id: `INC-${Date.now()}-${i}`
+            });
+        }
+        
+        return incidents;
+    }
+    
     // Export functions for external use
-    window.OnepathReviews = {
-        addReview: function(reviewData) {
-            reviewsData.unshift(normalizeReviewEntry(reviewData));
-            saveReviewsData();
-            applyFiltersAndSort();
-            updateRatingSummary();
-        },
-        getReviews: () => reviewsData,
-        refreshReviews: applyFiltersAndSort
-    };
-
 })();
