@@ -27,6 +27,26 @@
     let reputationPrediction = null;
     let dashboardMetrics = {};
     let chartInstances = {};
+    
+    // US15 - Advanced Rating System state
+    let granularRatings = {};
+    let gamificationData = {
+        badges: [],
+        points: 0,
+        level: 1,
+        achievements: [],
+        monthlyRanking: 0,
+        improvementGoals: []
+    };
+    let ratingCriteria = {
+        punctuality: 0,
+        cleanliness: 0,
+        communication: 0,
+        driving: 0,
+        friendliness: 0
+    };
+    let anonymousMode = false;
+    let ratingModal = null;
 
     const ICON_MAP = {
         '🕐': 'schedule',
@@ -109,6 +129,7 @@
         // Initialize advanced features
         initAdvancedDashboard();
         loadAdvancedData();
+        initAdvancedRatingSystem();
         
         // Initial render
         applyFiltersAndSort();
@@ -116,6 +137,7 @@
         updateAdvancedMetrics();
         renderVerificationStatus();
         generateReputationPrediction();
+        renderGamificationElements();
     }
 
     // Load reviews data from localStorage or use mock data
@@ -1306,6 +1328,893 @@
         initReviews();
     }
 
+    // US15 - Advanced Rating System Functions
+    
+    // Initialize advanced rating system
+    function initAdvancedRatingSystem() {
+        loadGamificationData();
+        createAdvancedRatingModal();
+        bindAdvancedRatingEvents();
+        createGamificationPanel();
+    }
+    
+    // Load gamification data from localStorage
+    function loadGamificationData() {
+        try {
+            const storedGamification = localStorage.getItem('onepath_gamification_data');
+            if (storedGamification) {
+                gamificationData = { ...gamificationData, ...JSON.parse(storedGamification) };
+            } else {
+                gamificationData = generateMockGamificationData();
+                localStorage.setItem('onepath_gamification_data', JSON.stringify(gamificationData));
+            }
+            
+            const storedCriteria = localStorage.getItem('onepath_rating_criteria');
+            if (storedCriteria) {
+                granularRatings = JSON.parse(storedCriteria);
+            }
+        } catch (error) {
+            console.error('Error loading gamification data:', error);
+            gamificationData = generateMockGamificationData();
+        }
+    }
+    
+    // Create advanced rating modal
+    function createAdvancedRatingModal() {
+        const modalHTML = `
+            <div class="advanced-rating-modal" id="advancedRatingModal">
+                <div class="modal-overlay" id="ratingModalOverlay"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Calificar Usuario</h3>
+                        <button class="modal-close" id="closeRatingModal">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <!-- User Info -->
+                        <div class="rating-user-info" id="ratingUserInfo">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                        
+                        <!-- Rating Type Toggle -->
+                        <div class="rating-type-toggle">
+                            <button class="rating-type-btn active" data-type="driver">Como Conductor</button>
+                            <button class="rating-type-btn" data-type="passenger">Como Pasajero</button>
+                        </div>
+                        
+                        <!-- Granular Rating Criteria -->
+                        <div class="granular-rating-section">
+                            <h4>Calificación por Criterios</h4>
+                            <div class="criteria-grid">
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <span class="material-icons">schedule</span>
+                                        <span class="criteria-label">Puntualidad</span>
+                                    </div>
+                                    <div class="star-rating" data-criteria="punctuality">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <span class="material-icons">cleaning_services</span>
+                                        <span class="criteria-label">Limpieza</span>
+                                    </div>
+                                    <div class="star-rating" data-criteria="cleanliness">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <span class="material-icons">chat</span>
+                                        <span class="criteria-label">Comunicación</span>
+                                    </div>
+                                    <div class="star-rating" data-criteria="communication">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <span class="material-icons">drive_eta</span>
+                                        <span class="criteria-label">Conducción</span>
+                                    </div>
+                                    <div class="star-rating" data-criteria="driving">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <span class="material-icons">sentiment_satisfied</span>
+                                        <span class="criteria-label">Amabilidad</span>
+                                    </div>
+                                    <div class="star-rating" data-criteria="friendliness">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Structured Comments -->
+                        <div class="structured-comments-section">
+                            <h4>Comentarios Estructurados</h4>
+                            <div class="comment-fields">
+                                <div class="comment-field">
+                                    <label>Aspectos Positivos</label>
+                                    <textarea id="positiveComments" placeholder="¿Qué fue lo mejor del viaje?"></textarea>
+                                </div>
+                                <div class="comment-field">
+                                    <label>Sugerencias de Mejora</label>
+                                    <textarea id="improvementComments" placeholder="¿Qué podría mejorar?"></textarea>
+                                </div>
+                                <div class="comment-field">
+                                    <label>Comentario General</label>
+                                    <textarea id="generalComments" placeholder="Comentario adicional (opcional)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Anonymous Option -->
+                        <div class="anonymous-option">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="anonymousRating">
+                                <span class="checkmark"></span>
+                                <span class="label-text">Calificar de forma anónima</span>
+                            </label>
+                            <p class="anonymous-info">Tu nombre no será visible para el usuario calificado</p>
+                        </div>
+                        
+                        <!-- Overall Rating Display -->
+                        <div class="overall-rating-display">
+                            <div class="overall-label">Calificación General:</div>
+                            <div class="overall-stars" id="overallStars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <div class="overall-value" id="overallValue">0.0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn-secondary" id="cancelRating">Cancelar</button>
+                        <button class="btn-primary" id="submitRating">Enviar Calificación</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        ratingModal = document.getElementById('advancedRatingModal');
+    }
+    
+    // Create gamification panel
+    function createGamificationPanel() {
+        const mainContent = document.querySelector('.main-content .container');
+        if (!mainContent) return;
+        
+        const gamificationHTML = `
+            <section class="gamification-panel" id="gamificationPanel">
+                <div class="panel-header">
+                    <h2>Sistema de Recompensas</h2>
+                    <div class="panel-controls">
+                        <button class="panel-toggle" id="toggleGamification" title="Mostrar/Ocultar Panel">
+                            <span class="material-icons">emoji_events</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="panel-content" id="gamificationContent">
+                    <!-- User Level and Points -->
+                    <div class="user-level-section">
+                        <div class="level-info">
+                            <div class="level-badge">
+                                <span class="material-icons">star</span>
+                                <span class="level-number" id="userLevel">1</span>
+                            </div>
+                            <div class="level-details">
+                                <h3>Nivel <span id="levelNumber">1</span></h3>
+                                <div class="points-info">
+                                    <span id="userPoints">0</span> puntos
+                                </div>
+                                <div class="level-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="levelProgress"></div>
+                                    </div>
+                                    <span class="progress-text" id="progressText">0/100 para siguiente nivel</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Badges Section -->
+                    <div class="badges-section">
+                        <h3>Insignias Obtenidas</h3>
+                        <div class="badges-grid" id="badgesGrid">
+                            <!-- Badges populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Monthly Ranking -->
+                    <div class="ranking-section">
+                        <h3>Ranking Mensual</h3>
+                        <div class="ranking-info" id="rankingInfo">
+                            <!-- Ranking populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Improvement Goals -->
+                    <div class="goals-section">
+                        <h3>Metas de Mejora</h3>
+                        <div class="goals-list" id="goalsList">
+                            <!-- Goals populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        // Insert after advanced dashboard or page header
+        const advancedDashboard = mainContent.querySelector('.advanced-dashboard');
+        const pageHeader = mainContent.querySelector('.page-header');
+        
+        if (advancedDashboard) {
+            advancedDashboard.insertAdjacentHTML('afterend', gamificationHTML);
+        } else if (pageHeader) {
+            pageHeader.insertAdjacentHTML('afterend', gamificationHTML);
+        }
+    }
+    
+    // Bind advanced rating events
+    function bindAdvancedRatingEvents() {
+        // Star rating interactions
+        document.addEventListener('click', handleStarRating);
+        
+        // Modal events
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'closeRatingModal' || e.target.id === 'ratingModalOverlay' || e.target.id === 'cancelRating') {
+                closeAdvancedRatingModal();
+            }
+            
+            if (e.target.id === 'submitRating') {
+                submitAdvancedRating();
+            }
+            
+            if (e.target.classList.contains('rating-type-btn')) {
+                switchRatingType(e.target.dataset.type);
+            }
+            
+            if (e.target.id === 'toggleGamification') {
+                toggleGamificationPanel();
+            }
+        });
+        
+        // Update overall rating when criteria change
+        document.addEventListener('input', updateOverallRating);
+    }
+    
+    // Handle star rating clicks
+    function handleStarRating(e) {
+        if (e.target.classList.contains('star')) {
+            const starContainer = e.target.parentElement;
+            const criteria = starContainer.dataset.criteria;
+            const value = parseInt(e.target.dataset.value);
+            
+            if (criteria) {
+                ratingCriteria[criteria] = value;
+                updateStarDisplay(starContainer, value);
+                updateOverallRating();
+            }
+        }
+    }
+    
+    // Update star display
+    function updateStarDisplay(container, rating) {
+        const stars = container.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('filled');
+            } else {
+                star.classList.remove('filled');
+            }
+        });
+    }
+    
+    // Update overall rating
+    function updateOverallRating() {
+        const criteriaValues = Object.values(ratingCriteria).filter(v => v > 0);
+        if (criteriaValues.length === 0) {
+            updateOverallDisplay(0);
+            return;
+        }
+        
+        const average = criteriaValues.reduce((sum, val) => sum + val, 0) / criteriaValues.length;
+        updateOverallDisplay(average);
+    }
+    
+    // Update overall display
+    function updateOverallDisplay(rating) {
+        const overallStars = document.getElementById('overallStars');
+        const overallValue = document.getElementById('overallValue');
+        
+        if (overallStars) {
+            const stars = overallStars.querySelectorAll('.star');
+            const filledStars = Math.round(rating);
+            
+            stars.forEach((star, index) => {
+                if (index < filledStars) {
+                    star.classList.add('filled');
+                } else {
+                    star.classList.remove('filled');
+                }
+            });
+        }
+        
+        if (overallValue) {
+            overallValue.textContent = rating.toFixed(1);
+        }
+    }
+    
+    // Switch rating type (driver/passenger)
+    function switchRatingType(type) {
+        const buttons = document.querySelectorAll('.rating-type-btn');
+        buttons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.type === type);
+        });
+        
+        // Reset criteria
+        Object.keys(ratingCriteria).forEach(key => {
+            ratingCriteria[key] = 0;
+        });
+        
+        // Update star displays
+        document.querySelectorAll('.star-rating').forEach(container => {
+            updateStarDisplay(container, 0);
+        });
+        
+        updateOverallRating();
+    }
+    
+    // Open advanced rating modal
+    function openAdvancedRatingModal(userData) {
+        if (!ratingModal) return;
+        
+        // Populate user info
+        const userInfo = document.getElementById('ratingUserInfo');
+        if (userInfo) {
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="${userData.avatar || 'default-avatar.svg'}" alt="${userData.name}">
+                </div>
+                <div class="user-details">
+                    <h4>${userData.name}</h4>
+                    <p>${userData.career || 'Estudiante'}</p>
+                    <div class="trip-info">
+                        <span class="material-icons">route</span>
+                        <span>${userData.route || 'Ruta no especificada'}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Reset form
+        resetRatingForm();
+        
+        // Show modal
+        ratingModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Close advanced rating modal
+    function closeAdvancedRatingModal() {
+        if (!ratingModal) return;
+        
+        ratingModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        resetRatingForm();
+    }
+    
+    // Reset rating form
+    function resetRatingForm() {
+        // Reset criteria
+        Object.keys(ratingCriteria).forEach(key => {
+            ratingCriteria[key] = 0;
+        });
+        
+        // Reset star displays
+        document.querySelectorAll('.star-rating').forEach(container => {
+            updateStarDisplay(container, 0);
+        });
+        
+        // Reset text areas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.value = '';
+        });
+        
+        // Reset anonymous checkbox
+        const anonymousCheckbox = document.getElementById('anonymousRating');
+        if (anonymousCheckbox) {
+            anonymousCheckbox.checked = false;
+        }
+        
+        updateOverallRating();
+    }
+    
+    // Submit advanced rating
+    function submitAdvancedRating() {
+        // Validate rating
+        const criteriaValues = Object.values(ratingCriteria).filter(v => v > 0);
+        if (criteriaValues.length === 0) {
+            showMessage('Por favor, califica al menos un criterio', 'error');
+            return;
+        }
+        
+        // Get form data
+        const positiveComments = document.getElementById('positiveComments')?.value || '';
+        const improvementComments = document.getElementById('improvementComments')?.value || '';
+        const generalComments = document.getElementById('generalComments')?.value || '';
+        const isAnonymous = document.getElementById('anonymousRating')?.checked || false;
+        
+        // Calculate overall rating
+        const overallRating = criteriaValues.reduce((sum, val) => sum + val, 0) / criteriaValues.length;
+        
+        // Create rating object
+        const newRating = {
+            id: Date.now(),
+            criteria: { ...ratingCriteria },
+            overallRating: parseFloat(overallRating.toFixed(1)),
+            comments: {
+                positive: positiveComments,
+                improvement: improvementComments,
+                general: generalComments
+            },
+            anonymous: isAnonymous,
+            date: new Date().toISOString(),
+            submittedBy: 'current_user' // In real app, this would be the actual user ID
+        };
+        
+        // Save rating
+        saveAdvancedRating(newRating);
+        
+        // Update gamification
+        updateGamificationProgress(newRating);
+        
+        // Show success message
+        showMessage('Calificación enviada exitosamente', 'success');
+        
+        // Close modal
+        closeAdvancedRatingModal();
+        
+        // Refresh reviews
+        applyFiltersAndSort();
+        updateRatingSummary();
+    }
+    
+    // Save advanced rating
+    function saveAdvancedRating(rating) {
+        try {
+            const existingRatings = JSON.parse(localStorage.getItem('onepath_advanced_ratings') || '[]');
+            existingRatings.push(rating);
+            localStorage.setItem('onepath_advanced_ratings', JSON.stringify(existingRatings));
+        } catch (error) {
+            console.error('Error saving rating:', error);
+        }
+    }
+    
+    // Gamification Functions
+    
+    // Update gamification progress
+    function updateGamificationProgress(rating) {
+        const pointsEarned = calculatePointsFromRating(rating);
+        gamificationData.points += pointsEarned;
+        
+        // Check for level up
+        const newLevel = calculateLevel(gamificationData.points);
+        if (newLevel > gamificationData.level) {
+            gamificationData.level = newLevel;
+            showMessage(`¡Felicidades! Has alcanzado el nivel ${newLevel}`, 'success');
+            unlockNewBadges(newLevel);
+        }
+        
+        // Check for new badges
+        checkForNewBadges(rating);
+        
+        // Update improvement goals
+        updateImprovementGoals(rating);
+        
+        // Save gamification data
+        localStorage.setItem('onepath_gamification_data', JSON.stringify(gamificationData));
+        
+        // Refresh gamification display
+        renderGamificationElements();
+    }
+    
+    // Calculate points from rating
+    function calculatePointsFromRating(rating) {
+        let points = 0;
+        
+        // Base points for submitting a rating
+        points += 10;
+        
+        // Bonus points for high overall rating
+        if (rating.overallRating >= 4.5) {
+            points += 15;
+        } else if (rating.overallRating >= 4.0) {
+            points += 10;
+        } else if (rating.overallRating >= 3.5) {
+            points += 5;
+        }
+        
+        // Bonus for detailed comments
+        if (rating.comments.positive && rating.comments.positive.length > 20) {
+            points += 5;
+        }
+        if (rating.comments.improvement && rating.comments.improvement.length > 20) {
+            points += 5;
+        }
+        
+        // Bonus for rating all criteria
+        const ratedCriteria = Object.values(rating.criteria).filter(v => v > 0).length;
+        if (ratedCriteria === 5) {
+            points += 10;
+        }
+        
+        return points;
+    }
+    
+    // Calculate level from points
+    function calculateLevel(points) {
+        return Math.floor(points / 100) + 1;
+    }
+    
+    // Check for new badges
+    function checkForNewBadges(rating) {
+        const newBadges = [];
+        
+        // First rating badge
+        if (!gamificationData.badges.includes('first_rating')) {
+            newBadges.push({
+                id: 'first_rating',
+                name: 'Primera Calificación',
+                description: 'Has realizado tu primera calificación',
+                icon: 'star',
+                color: '#FFD700'
+            });
+        }
+        
+        // Detailed reviewer badge
+        if (rating.comments.positive && rating.comments.improvement && 
+            !gamificationData.badges.includes('detailed_reviewer')) {
+            newBadges.push({
+                id: 'detailed_reviewer',
+                name: 'Revisor Detallado',
+                description: 'Proporciona comentarios constructivos',
+                icon: 'rate_review',
+                color: '#4CAF50'
+            });
+        }
+        
+        // High standards badge
+        if (rating.overallRating >= 4.5 && !gamificationData.badges.includes('high_standards')) {
+            newBadges.push({
+                id: 'high_standards',
+                name: 'Estándares Altos',
+                description: 'Mantiene altos estándares de calificación',
+                icon: 'workspace_premium',
+                color: '#9C27B0'
+            });
+        }
+        
+        // Fair evaluator badge
+        if (!rating.anonymous && !gamificationData.badges.includes('fair_evaluator')) {
+            newBadges.push({
+                id: 'fair_evaluator',
+                name: 'Evaluador Justo',
+                description: 'Califica de manera transparente',
+                icon: 'balance',
+                color: '#2196F3'
+            });
+        }
+        
+        // Add new badges
+        newBadges.forEach(badge => {
+            if (!gamificationData.badges.find(b => b.id === badge.id)) {
+                gamificationData.badges.push(badge);
+                showMessage(`¡Nueva insignia desbloqueada: ${badge.name}!`, 'success');
+            }
+        });
+    }
+    
+    // Unlock new badges for level up
+    function unlockNewBadges(level) {
+        const levelBadges = {
+            2: {
+                id: 'level_2',
+                name: 'Evaluador Novato',
+                description: 'Has alcanzado el nivel 2',
+                icon: 'trending_up',
+                color: '#FF9800'
+            },
+            5: {
+                id: 'level_5',
+                name: 'Evaluador Experimentado',
+                description: 'Has alcanzado el nivel 5',
+                icon: 'emoji_events',
+                color: '#FF5722'
+            },
+            10: {
+                id: 'level_10',
+                name: 'Evaluador Experto',
+                description: 'Has alcanzado el nivel 10',
+                icon: 'military_tech',
+                color: '#E91E63'
+            }
+        };
+        
+        if (levelBadges[level] && !gamificationData.badges.find(b => b.id === levelBadges[level].id)) {
+            gamificationData.badges.push(levelBadges[level]);
+        }
+    }
+    
+    // Update improvement goals
+    function updateImprovementGoals(rating) {
+        const goals = [];
+        
+        // Analyze rating criteria for improvement suggestions
+        Object.entries(rating.criteria).forEach(([criteria, value]) => {
+            if (value > 0 && value < 4) {
+                const suggestions = {
+                    punctuality: 'Intenta llegar 5 minutos antes del horario acordado',
+                    cleanliness: 'Mantén tu vehículo limpio y ordenado',
+                    communication: 'Comunícate de manera clara y oportuna',
+                    driving: 'Conduce de manera segura y responsable',
+                    friendliness: 'Sé amable y respetuoso con los demás'
+                };
+                
+                goals.push({
+                    id: `improve_${criteria}`,
+                    criteria: criteria,
+                    currentRating: value,
+                    targetRating: Math.min(5, value + 1),
+                    suggestion: suggestions[criteria],
+                    progress: 0
+                });
+            }
+        });
+        
+        // Update existing goals or add new ones
+        goals.forEach(newGoal => {
+            const existingGoal = gamificationData.improvementGoals.find(g => g.id === newGoal.id);
+            if (existingGoal) {
+                existingGoal.currentRating = Math.max(existingGoal.currentRating, newGoal.currentRating);
+                existingGoal.progress = Math.min(100, (existingGoal.currentRating / existingGoal.targetRating) * 100);
+            } else {
+                gamificationData.improvementGoals.push(newGoal);
+            }
+        });
+        
+        // Remove completed goals
+        gamificationData.improvementGoals = gamificationData.improvementGoals.filter(goal => 
+            goal.currentRating < goal.targetRating
+        );
+    }
+    
+    // Render gamification elements
+    function renderGamificationElements() {
+        renderUserLevel();
+        renderBadges();
+        renderMonthlyRanking();
+        renderImprovementGoals();
+    }
+    
+    // Render user level
+    function renderUserLevel() {
+        const userLevel = document.getElementById('userLevel');
+        const levelNumber = document.getElementById('levelNumber');
+        const userPoints = document.getElementById('userPoints');
+        const levelProgress = document.getElementById('levelProgress');
+        const progressText = document.getElementById('progressText');
+        
+        if (userLevel) userLevel.textContent = gamificationData.level;
+        if (levelNumber) levelNumber.textContent = gamificationData.level;
+        if (userPoints) userPoints.textContent = gamificationData.points;
+        
+        // Calculate progress to next level
+        const currentLevelPoints = (gamificationData.level - 1) * 100;
+        const nextLevelPoints = gamificationData.level * 100;
+        const progressPoints = gamificationData.points - currentLevelPoints;
+        const progressPercentage = (progressPoints / 100) * 100;
+        
+        if (levelProgress) {
+            levelProgress.style.width = `${Math.min(100, progressPercentage)}%`;
+        }
+        
+        if (progressText) {
+            const pointsToNext = nextLevelPoints - gamificationData.points;
+            progressText.textContent = `${progressPoints}/100 para siguiente nivel`;
+        }
+    }
+    
+    // Render badges
+    function renderBadges() {
+        const badgesGrid = document.getElementById('badgesGrid');
+        if (!badgesGrid) return;
+        
+        if (gamificationData.badges.length === 0) {
+            badgesGrid.innerHTML = '<p class="no-badges">Aún no tienes insignias. ¡Comienza a calificar para obtener tu primera insignia!</p>';
+            return;
+        }
+        
+        badgesGrid.innerHTML = gamificationData.badges.map(badge => `
+            <div class="badge-item" style="border-color: ${badge.color}">
+                <div class="badge-icon" style="background-color: ${badge.color}">
+                    <span class="material-icons">${badge.icon}</span>
+                </div>
+                <div class="badge-info">
+                    <h4>${badge.name}</h4>
+                    <p>${badge.description}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Render monthly ranking
+    function renderMonthlyRanking() {
+        const rankingInfo = document.getElementById('rankingInfo');
+        if (!rankingInfo) return;
+        
+        // Simulate ranking data
+        const ranking = gamificationData.monthlyRanking || Math.floor(Math.random() * 50) + 1;
+        const totalUsers = 150;
+        const percentile = Math.round(((totalUsers - ranking) / totalUsers) * 100);
+        
+        rankingInfo.innerHTML = `
+            <div class="ranking-card">
+                <div class="ranking-position">
+                    <span class="position-number">#${ranking}</span>
+                    <span class="position-label">de ${totalUsers} usuarios</span>
+                </div>
+                <div class="ranking-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Percentil</span>
+                        <span class="stat-value">${percentile}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Puntos este mes</span>
+                        <span class="stat-value">${Math.floor(gamificationData.points * 0.3)}</span>
+                    </div>
+                </div>
+                <div class="ranking-trend">
+                    <span class="material-icons trend-up">trending_up</span>
+                    <span>Subiste 3 posiciones</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Render improvement goals
+    function renderImprovementGoals() {
+        const goalsList = document.getElementById('goalsList');
+        if (!goalsList) return;
+        
+        if (gamificationData.improvementGoals.length === 0) {
+            goalsList.innerHTML = '<p class="no-goals">¡Excelente! No tienes metas de mejora pendientes.</p>';
+            return;
+        }
+        
+        goalsList.innerHTML = gamificationData.improvementGoals.map(goal => {
+            const criteriaLabels = {
+                punctuality: 'Puntualidad',
+                cleanliness: 'Limpieza',
+                communication: 'Comunicación',
+                driving: 'Conducción',
+                friendliness: 'Amabilidad'
+            };
+            
+            return `
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <h4>Mejorar ${criteriaLabels[goal.criteria]}</h4>
+                        <div class="goal-rating">
+                            <span class="current">${goal.currentRating.toFixed(1)}</span>
+                            <span class="arrow">→</span>
+                            <span class="target">${goal.targetRating.toFixed(1)}</span>
+                        </div>
+                    </div>
+                    <p class="goal-suggestion">${goal.suggestion}</p>
+                    <div class="goal-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${goal.progress}%"></div>
+                        </div>
+                        <span class="progress-percentage">${Math.round(goal.progress)}%</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // Toggle gamification panel
+    function toggleGamificationPanel() {
+        const content = document.getElementById('gamificationContent');
+        const button = document.getElementById('toggleGamification');
+        
+        if (!content || !button) return;
+        
+        const isVisible = content.style.display !== 'none';
+        content.style.display = isVisible ? 'none' : 'block';
+        
+        const icon = button.querySelector('.material-icons');
+        if (icon) {
+            icon.textContent = isVisible ? 'emoji_events' : 'expand_less';
+        }
+        
+        // Save preference
+        localStorage.setItem('onepath_gamification_visible', !isVisible);
+    }
+    
+    // Generate mock gamification data
+    function generateMockGamificationData() {
+        return {
+            badges: [
+                {
+                    id: 'first_rating',
+                    name: 'Primera Calificación',
+                    description: 'Has realizado tu primera calificación',
+                    icon: 'star',
+                    color: '#FFD700'
+                },
+                {
+                    id: 'detailed_reviewer',
+                    name: 'Revisor Detallado',
+                    description: 'Proporciona comentarios constructivos',
+                    icon: 'rate_review',
+                    color: '#4CAF50'
+                }
+            ],
+            points: 145,
+            level: 2,
+            achievements: ['first_rating', 'detailed_reviewer'],
+            monthlyRanking: 23,
+            improvementGoals: [
+                {
+                    id: 'improve_punctuality',
+                    criteria: 'punctuality',
+                    currentRating: 3.8,
+                    targetRating: 4.5,
+                    suggestion: 'Intenta llegar 5 minutos antes del horario acordado',
+                    progress: 75
+                }
+            ]
+        };
+    }
+    
     // Mock data generation functions
     
     // Generate mock reputation history
