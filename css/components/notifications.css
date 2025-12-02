@@ -452,9 +452,3 @@
     font-size: 0.8125rem;
   }
 }
-
-  /* Refuerza el centrado cuando se muestra */
-  .trip-confirmation-popup.show {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
