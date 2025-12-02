@@ -19,19 +19,23 @@
       if (!hasUser) localStorage.setItem('currentUser', JSON.stringify(passenger));
 
       // Seed users with diverse driver ratings (only if missing)
-      if (!hasUsersList) {
-        const users = [
-          { id: 'driver-001', name: 'Carlos Mendoza', role: 'driver', university: 'UNMSM', major: 'Ing. Sistemas', rating: 4.9 },
-          { id: 'driver-002', name: 'Ana López', role: 'driver', university: 'PUCP', major: 'Medicina', rating: 4.7 },
-          { id: 'driver-003', name: 'Juan Pérez', role: 'driver', university: 'UNI', major: 'Ing. Industrial', rating: 3.8 },
-          { id: 'driver-004', name: 'Lucía Ramos', role: 'driver', university: 'UPC', major: 'Arquitectura', rating: 5.0 },
-          { id: 'driver-005', name: 'Miguel Rojas', role: 'driver', university: 'UDEP', major: 'Derecho', rating: 2.9 },
-          { id: 'driver-006', name: 'Sofía Castro', role: 'driver', university: 'USIL', major: 'Administración', rating: 4.2 },
-          { id: 'driver-007', name: 'Pedro Silva', role: 'driver', university: 'UTP', major: 'Telecomunicaciones', rating: 3.1 },
-          { id: 'driver-008', name: 'Valeria Díaz', role: 'driver', university: 'PUCP', major: 'Psicología', rating: 4.5 }
-        ];
-        localStorage.setItem('users', JSON.stringify(users));
-      }
+      const users = [
+        { id: 'driver-001', name: 'Carlos Mendoza', role: 'driver', university: 'UNMSM', major: 'Ing. Sistemas', rating: 4.9 },
+        { id: 'driver-002', name: 'Ana López', role: 'driver', university: 'PUCP', major: 'Medicina', rating: 4.7 },
+        { id: 'driver-003', name: 'Juan Pérez', role: 'driver', university: 'UNI', major: 'Ing. Industrial', rating: 3.8 },
+        { id: 'driver-004', name: 'Lucía Ramos', role: 'driver', university: 'UPC', major: 'Arquitectura', rating: 5.0 },
+        { id: 'driver-005', name: 'Miguel Rojas', role: 'driver', university: 'UDEP', major: 'Derecho', rating: 2.9 },
+        { id: 'driver-006', name: 'Sofía Castro', role: 'driver', university: 'USIL', major: 'Administración', rating: 4.2 },
+        { id: 'driver-007', name: 'Pedro Silva', role: 'driver', university: 'UTP', major: 'Telecomunicaciones', rating: 3.1 },
+        { id: 'driver-008', name: 'Valeria Díaz', role: 'driver', university: 'PUCP', major: 'Psicología', rating: 4.5 },
+        // Passengers
+        { id: 'passenger-001', name: 'María Gómez', role: 'passenger', university: 'UNMSM', major: 'Economía', rating: 4.8 },
+        { id: 'passenger-002', name: 'Luis Torres', role: 'passenger', university: 'UNI', major: 'Ing. Civil', rating: 4.5 },
+        { id: 'passenger-003', name: 'Andrea Ruiz', role: 'passenger', university: 'UPC', major: 'Marketing', rating: 4.9 },
+        { id: 'passenger-004', name: 'Jorge Lima', role: 'passenger', university: 'USIL', major: 'Negocios', rating: 4.2 },
+        { id: 'passenger-005', name: 'Elena Vega', role: 'passenger', university: 'PUCP', major: 'Derecho', rating: 4.7 }
+      ];
+      localStorage.setItem('users', JSON.stringify(users));
 
       // Seed trips; always refresh to ensure latest data structure and volume
       const baseTrips = [
@@ -50,7 +54,7 @@
           originLat: -12.0932, originLng: -76.9726,
           destination: 'Facultad de Medicina', destinationAddress: 'Ciudad Universitaria',
           date: formatDate(plusDays(3)), time: '08:00',
-          driverRating: 4.7, seats: 3, price: 10.00, passengers: [], vehicle: 'Toyota Corolla Blanco',
+          driverRating: 4.7, seats: 3, price: 10.00, passengers: ['passenger-004', 'passenger-005'], vehicle: 'Toyota Corolla Blanco',
           createdAt: now.toISOString()
         },
         {
@@ -68,7 +72,7 @@
           originLat: -12.1079, originLng: -77.0010,
           destination: 'UNMSM - Puerta Principal', destinationAddress: 'Av. Venezuela s/n, Lima',
           date: formatDate(plusDays(1)), time: '07:15',
-          driverRating: 5.0, seats: 4, price: 0.00, passengers: [], vehicle: 'Minivan Familiar Gris',
+          driverRating: 5.0, seats: 4, price: 0.00, passengers: ['passenger-002'], vehicle: 'Minivan Familiar Gris',
           createdAt: now.toISOString()
         },
         {
