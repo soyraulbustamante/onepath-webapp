@@ -50,6 +50,8 @@
         '    <a href="' + base + 'pages/reservations/my-reservations.html" class="menu-item" role="menuitem">Mis Reservas</a>\n' +
         '    <a href="' + base + 'pages/user/rate.html" class="menu-item" role="menuitem">Mis Reseñas</a>\n' +
         '    <a href="' + base + 'pages/chat/messages.html" class="menu-item" role="menuitem">Chat</a>\n' +
+        '    <a href="' + base + 'pages/user/gamification.html" class="menu-item" role="menuitem">Gamificación</a>\n' +
+        '    <a href="' + base + 'pages/user/Verification.html" class="menu-item" role="menuitem">Verificación</a>\n' +
         '    <div class="menu-divider" role="separator" aria-hidden="true"></div>\n' +
         '    <button type="button" class="menu-item logout" role="menuitem">Cerrar sesión</button>\n' +
         '  </div>\n' +
