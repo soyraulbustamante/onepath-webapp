@@ -142,6 +142,7 @@
 .warning-icon {
   font-size: 48px;
   margin-bottom: 16px;
+  color: var(--warning);
 }
 
 .delete-warning p {
@@ -383,4 +384,3 @@
     margin-top: 24px;
   }
 }
-
