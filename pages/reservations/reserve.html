@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@
     <link rel="stylesheet" href="../../css/pages/reservations.css">
     <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
+
 <body>
     <!-- Header (renderizado por componente) -->
     <div id="navbar"></div>
@@ -41,7 +43,9 @@
             <div class="left-column">
                 <article class="trip-card driver-summary">
                     <div class="driver-summary-header">
-                        <div class="driver-avatar"><img class="js-random-avatar" data-size="128" data-variant="avataaars" src="../../assets/images/avatars/carlos.svg" alt="Avatar de Carlos M."></div>
+                        <div class="driver-avatar"><img class="js-random-avatar" data-size="128"
+                                data-variant="avataaars" src="../../assets/images/avatars/carlos.svg"
+                                alt="Avatar de Carlos M."></div>
                         <div class="driver-main">
                             <h3 id="driverName">Carlos M. - Ing. Sistemas</h3>
                             <div class="driver-meta">
@@ -136,12 +140,21 @@
                         <div>
                             <h4 class="section-title">Información Adicional</h4>
                             <ul class="preferences-grid">
-                                <li><span class="material-icons">school</span> Estudiante de Ing. Sistemas - 8vo ciclo</li>
+                                <li><span class="material-icons">school</span> Estudiante de Ing. Sistemas - 8vo ciclo
+                                </li>
                                 <li><span class="material-icons">phone_android</span> Verificado por teléfono</li>
                                 <li><span class="material-icons">badge</span> Documento verificado</li>
                                 <li><span class="material-icons">map</span> Viaja regularmente esta ruta</li>
                             </ul>
                         </div>
+                    </div>
+                </section>
+
+                <!-- Pasajeros que ya reservaron -->
+                <section class="card passengers-section" id="passengersSection" style="display: none;">
+                    <h4 class="section-title">Pasajeros en este viaje</h4>
+                    <div class="passengers-list" id="passengersList">
+                        <!-- Se llena dinámicamente via JS -->
                     </div>
                 </section>
 
@@ -151,23 +164,27 @@
                     <div class="review-item">
                         <div class="review-header">
                             <div class="review-user">
-                                <img class="review-avatar js-random-avatar" data-size="32" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="Avatar de Laura S.">
+                                <img class="review-avatar js-random-avatar" data-size="32" data-variant="avataaars"
+                                    src="../../assets/images/avatars/default.svg" alt="Avatar de Laura S.">
                                 <strong>Laura S.</strong>
                             </div>
                             <span class="rating-stars">★★★★★</span>
                         </div>
-                        <p class="review-text">Excelente conductor, muy puntual y el viaje fue muy cómodo. Carlos es muy amable y hace que el trayecto sea agradable. Definitivamente volvería a viajar con él.</p>
+                        <p class="review-text">Excelente conductor, muy puntual y el viaje fue muy cómodo. Carlos es muy
+                            amable y hace que el trayecto sea agradable. Definitivamente volvería a viajar con él.</p>
                         <small class="text-muted">Hace 3 semanas</small>
                     </div>
                     <div class="review-item">
                         <div class="review-header">
                             <div class="review-user">
-                                <img class="review-avatar js-random-avatar" data-size="32" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="Avatar de Diego M.">
+                                <img class="review-avatar js-random-avatar" data-size="32" data-variant="avataaars"
+                                    src="../../assets/images/avatars/default.svg" alt="Avatar de Diego M.">
                                 <strong>Diego M.</strong>
                             </div>
                             <span class="rating-stars">★★★★★</span>
                         </div>
-                        <p class="review-text">Muy buen servicio, llegamos a tiempo y el auto estaba limpio. Carlos es confiable y profesional. Lo recomiendo totalmente para estudiantes.</p>
+                        <p class="review-text">Muy buen servicio, llegamos a tiempo y el auto estaba limpio. Carlos es
+                            confiable y profesional. Lo recomiendo totalmente para estudiantes.</p>
                         <small class="text-muted">Hace 1 semana</small>
                     </div>
                     <a class="link-muted" href="#">Ver todas las reseñas (23)</a>
@@ -219,16 +236,19 @@
 
                         <div class="form-group">
                             <label for="message">Mensaje al Conductor (Opcional)</label>
-                            <textarea id="message" name="message" rows="3" placeholder="Ej: Hola Carlos, soy estudiante de la UNMSM también. ¿Podrías confirmar el punto exacto de recojo?"></textarea>
+                            <textarea id="message" name="message" rows="3"
+                                placeholder="Ej: Hola Carlos, soy estudiante de la UNMSM también. ¿Podrías confirmar el punto exacto de recojo?"></textarea>
                         </div>
 
                         <div class="security-note">
                             <strong>Seguridad</strong>
-                            <p class="text-muted">Tu información de contacto será compartida con el conductor sólo después de confirmar la reserva.</p>
+                            <p class="text-muted">Tu información de contacto será compartida con el conductor sólo
+                                después de confirmar la reserva.</p>
                         </div>
 
                         <div class="actions">
-                            <button type="submit" class="btn-reserve" style="width:100%">Enviar Solicitud de Viaje</button>
+                            <button type="submit" class="btn-reserve" style="width:100%">Enviar Solicitud de
+                                Viaje</button>
                             <button type="button" class="btn-secondary" id="contactDriver">Contactar Conductor</button>
                             <button type="button" class="btn-secondary" id="saveFavorite">Guardar en Favoritos</button>
                         </div>
@@ -238,9 +258,15 @@
                 <section class="security-box">
                     <h4 class="section-title">Consejos de Seguridad</h4>
                     <ul class="preferences-grid">
-                        <li><span class="material-icons" style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span> Verifica la identidad del conductor</li>
-                        <li><span class="material-icons" style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span> Comparte tu ubicación con alguien de confianza</li>
-                        <li><span class="material-icons" style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span> Confirma los detalles del viaje antes de subir</li>
+                        <li><span class="material-icons"
+                                style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span>
+                            Verifica la identidad del conductor</li>
+                        <li><span class="material-icons"
+                                style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span>
+                            Comparte tu ubicación con alguien de confianza</li>
+                        <li><span class="material-icons"
+                                style="font-size: 18px; vertical-align: middle; color: var(--success);">check_circle</span>
+                            Confirma los detalles del viaje antes de subir</li>
                     </ul>
                 </section>
             </aside>
@@ -271,4 +297,5 @@
     <script src="../../js/utils/notification.js" defer></script>
     <script src="../../js/reservations/reserve.js" defer></script>
 </body>
+
 </html>
