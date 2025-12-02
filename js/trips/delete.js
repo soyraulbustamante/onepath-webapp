@@ -447,11 +447,13 @@
       // Notify passengers
       await notifyPassengers(currentDeleteTrip);
       
-      // Show success notification
-      showSuccessNotification('¡Viaje eliminado exitosamente! Los pasajeros han sido notificados.');
-
-      // Close modal
+      // Close modal first
       closeModal();
+
+      // Show bubble popup after a short delay
+      setTimeout(() => {
+        showDeleteSuccessPopup('Viaje eliminado exitosamente');
+      }, 300);
 
       // Reload trips
       setTimeout(() => {
@@ -688,6 +690,50 @@
         notification.remove();
       }, 300);
     }, 5000);
+  }
+
+  // Show delete success popup (bubble style)
+  function showDeleteSuccessPopup(message) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.trip-delete-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+
+    // Create popup element
+    const popup = document.createElement('div');
+    popup.className = 'trip-delete-popup';
+    popup.setAttribute('role', 'alert');
+    popup.setAttribute('aria-live', 'polite');
+    popup.innerHTML = `
+      <div class="trip-delete-popup__icon">
+        <span class="material-icons">check_circle</span>
+      </div>
+      <div class="trip-delete-popup__content">
+        <p class="trip-delete-popup__message">${message}</p>
+      </div>
+    `;
+
+    // Append to body
+    document.body.appendChild(popup);
+
+    // Trigger show animation
+    requestAnimationFrame(() => {
+      popup.classList.add('show');
+    });
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+      
+      // Remove from DOM after animation
+      setTimeout(() => {
+        if (popup.parentNode) {
+          popup.remove();
+        }
+      }, 350);
+    }, 3000);
   }
 
   // Initialize on DOM ready

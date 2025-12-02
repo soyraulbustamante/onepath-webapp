@@ -659,19 +659,13 @@
       await notifyPassengers(currentDeleteTrip);
       console.log('Paso 3 completado: Pasajeros notificados');
       
-      // Mostrar notificación de éxito
-      const passengerCount = currentDeleteTrip.passengers && currentDeleteTrip.passengers.length > 0 
-        ? currentDeleteTrip.passengers.length 
-        : 0;
-      
-      const successMessage = passengerCount > 0
-        ? `¡Viaje eliminado exitosamente! Se notificó a ${passengerCount} pasajero${passengerCount > 1 ? 's' : ''}.`
-        : '¡Viaje eliminado exitosamente!';
-      
-      showSuccessNotification(successMessage);
-
-      // Cerrar modal (forzar cierre aún si la bandera sigue activa)
+      // Cerrar modal primero (forzar cierre aún si la bandera sigue activa)
       closeDeleteModalFunc(true);
+
+      // Mostrar popup tipo burbuja después de un breve delay para asegurar que el modal se cierre
+      setTimeout(() => {
+        showDeleteSuccessPopup('Viaje eliminado exitosamente');
+      }, 500);
 
       // Recargar viajes después de un breve delay para permitir que la UI se actualice
       setTimeout(() => {
@@ -1071,6 +1065,85 @@
         }
       }, 300);
     }, 5000);
+  }
+
+  // Show delete success popup (bubble style)
+  function showDeleteSuccessPopup(message) {
+    console.log('[showDeleteSuccessPopup] Iniciando, mensaje:', message);
+    
+    // Validar que el mensaje sea válido
+    if (!message || typeof message !== 'string') {
+      console.warn('Mensaje de popup no válido');
+      return;
+    }
+
+    // Validar que el body existe
+    if (!document.body) {
+      console.error('El body del documento no está disponible');
+      return;
+    }
+
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.trip-delete-popup');
+    if (existingPopup) {
+      console.log('[showDeleteSuccessPopup] Eliminando popup existente');
+      existingPopup.remove();
+    }
+
+    // Create popup element
+    const popup = document.createElement('div');
+    popup.className = 'trip-delete-popup';
+    popup.setAttribute('role', 'alert');
+    popup.setAttribute('aria-live', 'polite');
+    popup.setAttribute('aria-atomic', 'true');
+    
+    console.log('[showDeleteSuccessPopup] Popup creado:', popup);
+
+    // Crear contenido de forma segura
+    const iconDiv = document.createElement('div');
+    iconDiv.className = 'trip-delete-popup__icon';
+    
+    const icon = document.createElement('span');
+    icon.className = 'material-icons';
+    icon.textContent = 'check_circle';
+    icon.setAttribute('aria-hidden', 'true');
+    iconDiv.appendChild(icon);
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'trip-delete-popup__content';
+    
+    const messageP = document.createElement('p');
+    messageP.className = 'trip-delete-popup__message';
+    messageP.textContent = message;
+    contentDiv.appendChild(messageP);
+
+    popup.appendChild(iconDiv);
+    popup.appendChild(contentDiv);
+
+    // Append to body
+    document.body.appendChild(popup);
+    console.log('[showDeleteSuccessPopup] Popup agregado al DOM');
+
+    // Trigger show animation
+    requestAnimationFrame(() => {
+      console.log('[showDeleteSuccessPopup] Agregando clase show');
+      popup.classList.add('show');
+      console.log('[showDeleteSuccessPopup] Clases del popup:', popup.className);
+      console.log('[showDeleteSuccessPopup] Estilos del popup:', window.getComputedStyle(popup).opacity);
+    });
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+      
+      // Remove from DOM after animation
+      setTimeout(() => {
+        if (popup.parentNode) {
+          popup.remove();
+        }
+      }, 350);
+    }, 3000);
   }
 
   function showErrorNotification(message) {
