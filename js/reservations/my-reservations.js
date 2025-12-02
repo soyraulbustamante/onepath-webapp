@@ -61,6 +61,20 @@
     if (cancelModal && cancelModal.querySelector('.modal-overlay')) {
       cancelModal.querySelector('.modal-overlay').addEventListener('click', closeCancelModalFunc);
     }
+
+    // Políticas de cancelación: mostrar/ocultar panel
+    const cancelPoliciesLink = document.getElementById('cancelPoliciesLink');
+    if (cancelPoliciesLink) {
+      cancelPoliciesLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const panel = document.getElementById('cancelPoliciesPanel');
+        if (!panel) return;
+        const isVisible = panel.style.display === 'block';
+        panel.style.display = isVisible ? 'none' : 'block';
+        cancelPoliciesLink.setAttribute('aria-expanded', (!isVisible).toString());
+        cancelPoliciesLink.textContent = isVisible ? 'políticas de cancelación' : 'ocultar políticas de cancelación';
+      });
+    }
   }
 
   // Get current user
@@ -482,6 +496,14 @@
     const message = `¿Estás seguro de que deseas cancelar esta reserva para el viaje del ${new Date(trip.date + 'T' + trip.time).toLocaleDateString('es-ES')}?`;
     
     if (cancelModalMessage) cancelModalMessage.textContent = message;
+    // Reset panel de políticas
+    const policiesPanel = document.getElementById('cancelPoliciesPanel');
+    const policiesLink = document.getElementById('cancelPoliciesLink');
+    if (policiesPanel) policiesPanel.style.display = 'none';
+    if (policiesLink) {
+      policiesLink.setAttribute('aria-expanded', 'false');
+      policiesLink.textContent = 'políticas de cancelación';
+    }
     // Reset motivo de cancelación
     const reasonInput = document.getElementById('cancelReasonInput');
     if (reasonInput) {
@@ -576,4 +598,3 @@
     init();
   }
 })();
-
