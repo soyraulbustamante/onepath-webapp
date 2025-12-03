@@ -11,12 +11,14 @@
 .notification {
   background-color: #fff;
   color: #333;
-  padding: 15px 20px;
-  border-radius: 5px;
+  padding: 8px 14px;
+  border-radius: 9999px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transform: translateX(100%);
   opacity: 0;
+  font-size: 0.875rem;
+  max-width: 320px;
 }
 
 .notification.show {
@@ -39,3 +41,414 @@
   color: white;
 }
 
+/* Popup tipo burbuja para confirmación de viaje */
+.trip-confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  z-index: 10000;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: var(--white);
+  padding: 2rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4),
+              0 8px 24px rgba(0, 0, 0, 0.15);
+  min-width: 320px;
+  max-width: 420px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: popupBubbleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.trip-confirmation-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.trip-confirmation-popup.hide {
+  animation: popupBubbleOut 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+.trip-confirmation-popup__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  animation: iconBounce 0.6s ease-out 0.2s both;
+}
+
+.trip-confirmation-popup__icon .material-icons {
+  font-size: 2.5rem;
+  color: var(--white);
+}
+
+.trip-confirmation-popup__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+
+.trip-confirmation-popup__message {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+.trip-confirmation-popup__checkmark {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Animaciones */
+@keyframes popupBubbleIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes popupBubbleOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Popup tipo burbuja para guardar cambios */
+.trip-save-popup {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  transform: translateX(100%) scale(0.8);
+  z-index: 10001;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: var(--white);
+  padding: 0.875rem 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.35),
+              0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 200px;
+  max-width: 280px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.trip-save-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0) scale(1);
+  animation: popupBubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.trip-save-popup.hide {
+  animation: popupBubbleOut 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+.trip-save-popup__icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: iconBounce 0.5s ease-out 0.1s both;
+  flex-shrink: 0;
+}
+
+.trip-save-popup__icon .material-icons {
+  font-size: 1.25rem;
+  color: var(--white);
+}
+
+.trip-save-popup__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.trip-save-popup__message {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  color: var(--white);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Animaciones para el popup de guardar */
+@keyframes popupBubbleIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.5);
+  }
+  50% {
+    transform: translateX(-8px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes popupBubbleOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Popup tipo burbuja para eliminación exitosa */
+.trip-delete-popup {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  transform: translateX(100%) scale(0.8);
+  z-index: 10002;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: var(--white);
+  padding: 1rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.4),
+              0 4px 16px rgba(0, 0, 0, 0.15);
+  min-width: 240px;
+  max-width: 320px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  backdrop-filter: blur(10px);
+}
+
+.trip-delete-popup.show {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transform: translateX(0) scale(1) !important;
+  animation: deletePopupBubbleIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.trip-delete-popup.hide {
+  animation: deletePopupBubbleOut 0.35s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+.trip-delete-popup__icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: deleteIconBounce 0.6s ease-out 0.15s both;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trip-delete-popup__icon .material-icons {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+.trip-delete-popup__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.trip-delete-popup__message {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  color: var(--white);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Animaciones para el popup de eliminación */
+@keyframes deletePopupBubbleIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.6);
+  }
+  50% {
+    transform: translateX(-10px) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Asegurar que el popup sea visible cuando tiene la clase show */
+.trip-delete-popup.show {
+  opacity: 1 !important;
+  transform: translateX(0) scale(1) !important;
+}
+
+@keyframes deletePopupBubbleOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+}
+
+@keyframes deleteIconBounce {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trip-confirmation-popup {
+    min-width: 280px;
+    max-width: 90%;
+    padding: 1.5rem 2rem;
+    /* Forzar centrado respecto al viewport en mobile */
+    left: 50vw !important;
+    top: 50vh !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  .trip-confirmation-popup__title {
+    font-size: 1.25rem;
+  }
+
+  .trip-confirmation-popup__message {
+    font-size: 0.9rem;
+  }
+
+  .trip-confirmation-popup__icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+
+  .trip-confirmation-popup__icon .material-icons {
+    font-size: 2rem;
+  }
+
+  .trip-save-popup {
+    top: 100px;
+    right: 16px;
+    min-width: 180px;
+    max-width: 85%;
+    padding: 0.75rem 1rem;
+  }
+
+  .trip-save-popup__icon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .trip-save-popup__icon .material-icons {
+    font-size: 1.125rem;
+  }
+
+  .trip-save-popup__message {
+    font-size: 0.8125rem;
+  }
+
+  .trip-delete-popup {
+    top: 100px;
+    right: 16px;
+    min-width: 200px;
+    max-width: 85%;
+    padding: 0.875rem 1.125rem;
+  }
+
+  .trip-delete-popup__icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .trip-delete-popup__icon .material-icons {
+    font-size: 1.25rem;
+  }
+
+  .trip-delete-popup__message {
+    font-size: 0.8125rem;
+  }
+}

@@ -1,5 +1,5 @@
 // Script para crear datos de prueba para la página de Mis Viajes
-(function() {
+(function () {
   'use strict';
 
   function setupTestData() {
@@ -12,7 +12,7 @@
     };
 
     localStorage.setItem('currentUser', JSON.stringify(testUser));
-    
+
     // Crear usuario conductor de prueba
     const driverUser = {
       id: 'driver-001',
@@ -21,9 +21,19 @@
       role: 'driver'
     };
 
+    // Crear lista de usuarios (conductores y pasajeros)
+    const users = [
+      { id: 'driver-001', name: 'Carlos Mendoza', role: 'driver', university: 'UNMSM', major: 'Ing. Sistemas', rating: 4.9 },
+      { id: 'driver-002', name: 'Ana López', role: 'driver', university: 'PUCP', major: 'Medicina', rating: 4.7 },
+      { id: 'passenger-001', name: 'María Gómez', role: 'passenger', university: 'UNMSM', major: 'Economía', rating: 4.8 },
+      { id: 'passenger-002', name: 'Luis Torres', role: 'passenger', university: 'UNI', major: 'Ing. Civil', rating: 4.5 },
+      { id: 'passenger-003', name: 'Andrea Ruiz', role: 'passenger', university: 'UPC', major: 'Marketing', rating: 4.9 }
+    ];
+    localStorage.setItem('users', JSON.stringify(users));
+
     // Crear viajes de prueba
     const now = new Date();
-    
+
     // Viaje próximo 1: Mañana a las 7:30
     const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 7); // 7 días para que sea próximo
@@ -98,7 +108,7 @@
     ];
 
     localStorage.setItem('trips', JSON.stringify(trips));
-    
+
     // Crear reservas de prueba
     const reservations = [
       {
@@ -118,17 +128,17 @@
         createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString() // Hace 2 horas
       }
     ];
-    
+
     localStorage.setItem('reservations', JSON.stringify(reservations));
 
     console.log('✅ Datos de prueba creados exitosamente!');
     console.log('- Usuario:', testUser.name);
     console.log('- Viajes creados:', trips.length);
     console.log('- Reservas creadas:', reservations.length);
-    
+
     alert('✅ Datos de prueba creados!\n\nSe han creado:\n- Usuario pasajero: ' + testUser.name + '\n- 3 viajes de ejemplo\n- 2 reservas de prueba\n\nRecarga la página para verlos.');
   }
-  
+
   function setupTestDataForReservations() {
     // Setup específico para página de reservas
     setupTestData();
@@ -160,7 +170,7 @@
         setupTestData();
         location.reload();
       });
-      
+
       // Agregar después de que el body esté listo
       if (document.body) {
         document.body.appendChild(setupBtn);
@@ -174,7 +184,7 @@
     // También disponible globalmente
     window.setupTestData = setupTestData;
     window.setupTestDataForReservations = setupTestDataForReservations;
-    
+
     // Auto-setup para página de reservas
     if (window.location.pathname.includes('my-reservations.html')) {
       // Verificar si ya hay datos, si no, crear datos de prueba

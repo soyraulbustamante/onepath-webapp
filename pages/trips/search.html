@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +23,7 @@
     <script src="../../js/utils/demo-seed.js" defer></script>
     <script id="navbar-script" src="../../js/components/navbar.js" data-base-prefix="../../" defer></script>
 </head>
+
 <body>
     <!-- Header (renderizado por componente) -->
     <div id="navbar"></div>
@@ -35,12 +37,14 @@
                         <label for="from">Desde</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-icons" aria-hidden="true">location_on</span>
-                            <input type="text" id="from" name="from" placeholder="San Isidro, Lima" value="San Isidro, Lima">
+                            <input type="text" id="from" name="from" placeholder="San Isidro, Lima"
+                                value="San Isidro, Lima">
                         </div>
                         <span class="error-message" id="from-error" role="alert" aria-live="polite"></span>
                     </div>
 
-                    <button type="button" class="swap-button" id="swapButton" aria-label="Intercambiar origen y destino">
+                    <button type="button" class="swap-button" id="swapButton"
+                        aria-label="Intercambiar origen y destino">
                         <span class="swap-icon material-icons" aria-hidden="true">swap_horiz</span>
                     </button>
 
@@ -48,7 +52,8 @@
                         <label for="to">Hacia</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-icons" aria-hidden="true">school</span>
-                            <input type="text" id="to" name="to" placeholder="Universidad San Marcos" value="Universidad San Marcos">
+                            <input type="text" id="to" name="to" placeholder="Universidad San Marcos"
+                                value="Universidad San Marcos">
                         </div>
                         <span class="error-message" id="to-error" role="alert" aria-live="polite"></span>
                     </div>
@@ -104,78 +109,20 @@
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="rating" value="5">
                                 <span class="checkmark"></span>
-                                <span class="rating-stars">★★★★★</span>
+                                <span class="rating-stars">★★★★★ <span class="filter-count" data-count-for="rating-5"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="rating" value="4">
                                 <span class="checkmark"></span>
-                                <span class="rating-stars">★★★★☆ (4+ estrellas)</span>
+                                <span class="rating-stars">★★★★☆ (4+ estrellas) <span class="filter-count" data-count-for="rating-4"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="rating" value="3">
                                 <span class="checkmark"></span>
-                                <span class="rating-stars">★★★☆☆ (3+ estrellas)</span>
+                                <span class="rating-stars">★★★☆☆ (3+ estrellas) <span class="filter-count" data-count-for="rating-3"></span></span>
                             </label>
                         </div>
                     </div>
-
-                    <!-- <div class="filter-section">
-                        <button class="filter-toggle" data-filter="pickup">
-                            <span>Punto de Recojo</span>
-                            <span class="toggle-icon">▼</span>
-                        </button>
-                        <div class="filter-content" id="filter-pickup">
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="pickup" value="metro">
-                                <span class="checkmark"></span>
-                                <span>Cerca de estaciones de metro</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="pickup" value="mall">
-                                <span class="checkmark"></span>
-                                <span>Centros comerciales</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="pickup" value="main-stops">
-                                <span class="checkmark"></span>
-                                <span>Paraderos principales</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="pickup" value="residential">
-                                <span class="checkmark"></span>
-                                <span>Zona residencial</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-section">
-                        <button class="filter-toggle" data-filter="destination">
-                            <span>Destino Universitario</span>
-                            <span class="toggle-icon">▼</span>
-                        </button>
-                        <div class="filter-content" id="filter-destination">
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="destination" value="main-gate">
-                                <span class="checkmark"></span>
-                                <span>Puerta principal</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="destination" value="library">
-                                <span class="checkmark"></span>
-                                <span>Biblioteca central</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="destination" value="faculties">
-                                <span class="checkmark"></span>
-                                <span>Facultades específicas</span>
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" name="destination" value="parking">
-                                <span class="checkmark"></span>
-                                <span>Estacionamiento universitario</span>
-                            </label>
-                        </div>
-                    </div> -->
 
                     <div class="filter-section">
                         <button class="filter-toggle" data-filter="price">
@@ -186,27 +133,27 @@
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="price" value="free">
                                 <span class="checkmark"></span>
-                                <span>Gratis</span>
+                                <span>Gratis <span class="filter-count" data-count-for="price-free"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="price" value="1-5">
                                 <span class="checkmark"></span>
-                                <span>S/1 - S/5</span>
+                                <span>S/1 - S/5 <span class="filter-count" data-count-for="price-1-5"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="price" value="6-10">
                                 <span class="checkmark"></span>
-                                <span>S/6 - S/10</span>
+                                <span>S/6 - S/10 <span class="filter-count" data-count-for="price-6-10"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="price" value="11-20">
                                 <span class="checkmark"></span>
-                                <span>S/11 - S/20</span>
+                                <span>S/11 - S/20 <span class="filter-count" data-count-for="price-11-20"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="price" value="20+">
                                 <span class="checkmark"></span>
-                                <span>Más de S/20</span>
+                                <span>Más de S/20 <span class="filter-count" data-count-for="price-20+"></span></span>
                             </label>
                         </div>
                     </div>
@@ -220,22 +167,22 @@
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="vehicle" value="compact">
                                 <span class="checkmark"></span>
-                                <span>Compacto</span>
+                                <span>Compacto <span class="filter-count" data-count-for="compact"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="vehicle" value="sedan">
                                 <span class="checkmark"></span>
-                                <span>Sedán</span>
+                                <span>Sedán <span class="filter-count" data-count-for="sedan"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="vehicle" value="suv">
                                 <span class="checkmark"></span>
-                                <span>SUV</span>
+                                <span>SUV <span class="filter-count" data-count-for="suv"></span></span>
                             </label>
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="vehicle" value="family">
                                 <span class="checkmark"></span>
-                                <span>Familiar</span>
+                                <span>Familiar <span class="filter-count" data-count-for="family"></span></span>
                             </label>
                         </div>
                     </div>
@@ -264,11 +211,13 @@
 
                     <!-- Tabs Lista/Mapa -->
                     <div class="trips-tabs" role="tablist" aria-label="Vista de resultados">
-                        <button id="tabList" class="tab-button active" role="tab" aria-selected="true" aria-controls="listTabPane">
+                        <button id="tabList" class="tab-button active" role="tab" aria-selected="true"
+                            aria-controls="listTabPane">
                             <span class="tab-icon material-icons" aria-hidden="true">view_list</span>
                             Lista
                         </button>
-                        <button id="tabMap" class="tab-button" role="tab" aria-selected="false" aria-controls="mapTabPane">
+                        <button id="tabMap" class="tab-button" role="tab" aria-selected="false"
+                            aria-controls="mapTabPane">
                             <span class="tab-icon material-icons" aria-hidden="true">map</span>
                             Mapa
                         </button>
@@ -280,184 +229,211 @@
 
                     <!-- Pestaña Lista -->
                     <section id="listTabPane" class="tab-pane active" role="tabpanel" aria-labelledby="tabList">
-                    <div class="trips-list" id="tripsList">
-                        <!-- Trip Card 1 -->
-                        <article class="trip-card">
-                            <div class="trip-card-header driver-header">
-                                <div class="driver-avatar"><img class="js-random-avatar" data-size="64" data-variant="avataaars" src="../../assets/images/avatars/carlos.svg" alt="Avatar de Carlos M."></div>
-                                <div class="driver-info">
-                                    <h3>Carlos M. <span class="text-muted">- Ing. Sistemas</span></h3>
-                                    <div class="driver-meta">
-                                        <span class="rating-stars">★★★★★</span>
-                                        <span class="rating-value">4.9</span>
-                                        <span class="rating-count">(23 reseñas)</span>
+                        <div class="trips-list" id="tripsList">
+                            <!-- Trip Card 1 -->
+                            <article class="trip-card">
+                                <div class="trip-card-header driver-header">
+                                    <div class="driver-avatar"><img class="js-random-avatar" data-size="64"
+                                            data-variant="avataaars" src="../../assets/images/avatars/carlos.svg"
+                                            alt="Avatar de Carlos M."></div>
+                                    <div class="driver-info">
+                                        <h3>Carlos M. <span class="text-muted">- Ing. Sistemas</span></h3>
+                                        <div class="driver-meta">
+                                            <span class="rating-stars">★★★★★</span>
+                                            <span class="rating-value">4.9</span>
+                                            <span class="rating-count">(23 reseñas)</span>
+                                        </div>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="price-amount">S/ 8</span>
+                                        <span class="price-unit">por persona</span>
                                     </div>
                                 </div>
-                                <div class="price-box">
-                                    <span class="price-amount">S/ 8</span>
-                                    <span class="price-unit">por persona</span>
-                                </div>
-                            </div>
-                            <div class="trip-route">
-                                <div class="route-point departure">
-                                    <span class="route-dot green"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">07:30</span>
-                                        <span class="route-location">Metro San Isidro</span>
-                                        <small class="text-muted">Av. Javier Prado 4200</small>
+                                <div class="trip-route">
+                                    <div class="route-point departure">
+                                        <span class="route-dot green"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">07:30</span>
+                                            <span class="route-location">Metro San Isidro</span>
+                                            <small class="text-muted">Av. Javier Prado 4200</small>
+                                        </div>
+                                    </div>
+                                    <div class="route-middle">
+                                        <span class="duration">45 min</span>
+                                        <div class="route-line"></div>
+                                        <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
+                                    </div>
+                                    <div class="route-point arrival">
+                                        <span class="route-dot red"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">08:15</span>
+                                            <span class="route-location">Puerta Principal UNMSM</span>
+                                            <small class="text-muted">Av. Venezuela s/n, Lima</small>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="route-middle">
-                                    <span class="duration">45 min</span>
-                                    <div class="route-line"></div>
-                                    <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
-                                </div>
-                                <div class="route-point arrival">
-                                    <span class="route-dot red"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">08:15</span>
-                                        <span class="route-location">Puerta Principal UNMSM</span>
-                                        <small class="text-muted">Av. Venezuela s/n, Lima</small>
+                                <div class="trip-details">
+                                    <div class="trip-info">
+                                        <div class="trip-meta-row">
+                                            <span class="trip-duration"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">access_time</span>
+                                                45 min</span>
+                                            <span class="trip-seats"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">event_seat</span> 2
+                                                asientos disponibles</span>
+                                        </div>
+                                        <span class="trip-vehicle"><span class="material-icons"
+                                                style="font-size: 14px; vertical-align: middle;">directions_car</span>
+                                            Volkswagen Golf - Gris</span>
+                                    </div>
+                                    <div class="trip-actions">
+                                        <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="trip-details">
-                                <div class="trip-info">
-                                    <div class="trip-meta-row">
-                                        <span class="trip-duration"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">access_time</span> 45 min</span>
-                                        <span class="trip-seats"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">event_seat</span> 2 asientos disponibles</span>
-                                    </div>
-                                    <span class="trip-vehicle"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> Volkswagen Golf - Gris</span>
-                                </div>
-                                <div class="trip-actions">
-                                    <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
-                                </div>
-                            </div>
-                            
-                        </article>
 
-                        <!-- Trip Card 2 -->
-                        <article class="trip-card">
-                            <div class="trip-card-header driver-header">
-                                <div class="driver-avatar"><img class="js-random-avatar" data-size="64" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="Avatar de Ana L."></div>
-                                <div class="driver-info">
-                                    <h3>Ana L. <span class="text-muted">- Medicina</span></h3>
-                                    <div class="driver-meta">
-                                        <span class="rating-stars">★★★★☆</span>
-                                        <span class="rating-value">4.7</span>
-                                        <span class="rating-count">(15 reseñas)</span>
-                                    </div>
-                                </div>
-                                <div class="price-box">
-                                    <span class="price-amount">S/ 10</span>
-                                    <span class="price-unit">por persona</span>
-                                </div>
-                            </div>
-                            <div class="trip-route">
-                                <div class="route-point departure">
-                                    <span class="route-dot green"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">08:00</span>
-                                        <span class="route-location">Jockey Plaza</span>
-                                        <small class="text-muted">Av. Javier Prado Este, La Molina</small>
-                                    </div>
-                                </div>
-                                <div class="route-middle">
-                                    <span class="duration">50 min</span>
-                                    <div class="route-line"></div>
-                                    <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
-                                </div>
-                                <div class="route-point arrival">
-                                    <span class="route-dot red"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">08:50</span>
-                                        <span class="route-location">Facultad de Medicina</span>
-                                        <small class="text-muted">Universidad San Marcos</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="trip-details">
-                                <div class="trip-info">
-                                    <div class="trip-meta-row">
-                                        <span class="trip-duration"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">access_time</span> 45 min</span>
-                                        <span class="trip-seats"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">event_seat</span> 2 asientos disponibles</span>
-                                    </div>
-                                    <span class="trip-vehicle"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> Volkswagen Golf - Gris</span>
-                                </div>
-                                <div class="trip-actions">
-                                    <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
 
-                        <!-- Trip Card 3 -->
-                        <article class="trip-card">
-                            <div class="trip-card-header driver-header">
-                                <div class="driver-avatar"><img class="js-random-avatar" data-size="64" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="Avatar de Miguel R."></div>
-                                <div class="driver-info">
-                                    <h3>Miguel R. <span class="text-muted">- Derecho</span></h3>
-                                    <div class="driver-meta">
-                                        <span class="rating-stars">★★★★★</span>
-                                        <span class="rating-value">5.0</span>
-                                        <span class="rating-count">(8 reseñas)</span>
+                            <!-- Trip Card 2 -->
+                            <article class="trip-card">
+                                <div class="trip-card-header driver-header">
+                                    <div class="driver-avatar"><img class="js-random-avatar" data-size="64"
+                                            data-variant="avataaars" src="../../assets/images/avatars/default.svg"
+                                            alt="Avatar de Ana L."></div>
+                                    <div class="driver-info">
+                                        <h3>Ana L. <span class="text-muted">- Medicina</span></h3>
+                                        <div class="driver-meta">
+                                            <span class="rating-stars">★★★★☆</span>
+                                            <span class="rating-value">4.7</span>
+                                            <span class="rating-count">(15 reseñas)</span>
+                                        </div>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="price-amount">S/ 10</span>
+                                        <span class="price-unit">por persona</span>
                                     </div>
                                 </div>
-                                <div class="price-box">
-                                    <span class="price-amount">S/ 6</span>
-                                    <span class="price-unit">por persona</span>
-                                </div>
-                            </div>
-                            <div class="trip-route">
-                                <div class="route-point departure">
-                                    <span class="route-dot green"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">06:45</span>
-                                        <span class="route-location">Miraflores Centro</span>
-                                        <small class="text-muted">Av. Larco, Miraflores</small>
+                                <div class="trip-route">
+                                    <div class="route-point departure">
+                                        <span class="route-dot green"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">08:00</span>
+                                            <span class="route-location">Jockey Plaza</span>
+                                            <small class="text-muted">Av. Javier Prado Este, La Molina</small>
+                                        </div>
+                                    </div>
+                                    <div class="route-middle">
+                                        <span class="duration">50 min</span>
+                                        <div class="route-line"></div>
+                                        <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
+                                    </div>
+                                    <div class="route-point arrival">
+                                        <span class="route-dot red"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">08:50</span>
+                                            <span class="route-location">Facultad de Medicina</span>
+                                            <small class="text-muted">Universidad San Marcos</small>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="route-middle">
-                                    <span class="duration">45 min</span>
-                                    <div class="route-line"></div>
-                                    <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
-                                </div>
-                                <div class="route-point arrival">
-                                    <span class="route-dot red"></span>
-                                    <div class="route-details">
-                                        <span class="route-time">07:30</span>
-                                        <span class="route-location">Biblioteca Central</span>
-                                        <small class="text-muted">Universidad San Marcos</small>
+                                <div class="trip-details">
+                                    <div class="trip-info">
+                                        <div class="trip-meta-row">
+                                            <span class="trip-duration"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">access_time</span>
+                                                45 min</span>
+                                            <span class="trip-seats"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">event_seat</span> 2
+                                                asientos disponibles</span>
+                                        </div>
+                                        <span class="trip-vehicle"><span class="material-icons"
+                                                style="font-size: 14px; vertical-align: middle;">directions_car</span>
+                                            Volkswagen Golf - Gris</span>
+                                    </div>
+                                    <div class="trip-actions">
+                                        <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="trip-details">
-                                <div class="trip-info">
-                                    <div class="trip-meta-row">
-                                        <span class="trip-duration"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">access_time</span> 45 min</span>
-                                        <span class="trip-seats"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">event_seat</span> 2 asientos disponibles</span>
-                                    </div>
-                                    <span class="trip-vehicle"><span class="material-icons" style="font-size: 14px; vertical-align: middle;">directions_car</span> Volkswagen Golf - Gris</span>
-                                </div>
-                                <div class="trip-actions">
-                                    <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="empty-results" id="emptyResults" hidden>
-                        <span class="material-icons empty-results__icon" aria-hidden="true">travel_explore</span>
-                        <p class="empty-results__title">No encontramos viajes para tu búsqueda</p>
-                        <p class="empty-results__description">Verifica los datos ingresados o intenta con otros filtros.</p>
-                        <button type="button" class="btn-clear-filters empty-results__action" id="resetSearch">Limpiar búsqueda</button>
-                    </div>
+                            </article>
 
-                    <div class="load-more-section">
-                        <button type="button" class="btn-load-more" id="loadMoreBtn">Cargar más viajes</button>
-                    </div>
+                            <!-- Trip Card 3 -->
+                            <article class="trip-card">
+                                <div class="trip-card-header driver-header">
+                                    <div class="driver-avatar"><img class="js-random-avatar" data-size="64"
+                                            data-variant="avataaars" src="../../assets/images/avatars/default.svg"
+                                            alt="Avatar de Miguel R."></div>
+                                    <div class="driver-info">
+                                        <h3>Miguel R. <span class="text-muted">- Derecho</span></h3>
+                                        <div class="driver-meta">
+                                            <span class="rating-stars">★★★★★</span>
+                                            <span class="rating-value">5.0</span>
+                                            <span class="rating-count">(8 reseñas)</span>
+                                        </div>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="price-amount">S/ 6</span>
+                                        <span class="price-unit">por persona</span>
+                                    </div>
+                                </div>
+                                <div class="trip-route">
+                                    <div class="route-point departure">
+                                        <span class="route-dot green"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">06:45</span>
+                                            <span class="route-location">Miraflores Centro</span>
+                                            <small class="text-muted">Av. Larco, Miraflores</small>
+                                        </div>
+                                    </div>
+                                    <div class="route-middle">
+                                        <span class="duration">45 min</span>
+                                        <div class="route-line"></div>
+                                        <span class="car-icon material-icons" aria-hidden="true">directions_car</span>
+                                    </div>
+                                    <div class="route-point arrival">
+                                        <span class="route-dot red"></span>
+                                        <div class="route-details">
+                                            <span class="route-time">07:30</span>
+                                            <span class="route-location">Biblioteca Central</span>
+                                            <small class="text-muted">Universidad San Marcos</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="trip-details">
+                                    <div class="trip-info">
+                                        <div class="trip-meta-row">
+                                            <span class="trip-duration"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">access_time</span>
+                                                45 min</span>
+                                            <span class="trip-seats"><span class="material-icons"
+                                                    style="font-size: 14px; vertical-align: middle;">event_seat</span> 2
+                                                asientos disponibles</span>
+                                        </div>
+                                        <span class="trip-vehicle"><span class="material-icons"
+                                                style="font-size: 14px; vertical-align: middle;">directions_car</span>
+                                            Volkswagen Golf - Gris</span>
+                                    </div>
+                                    <div class="trip-actions">
+                                        <a href="../../pages/reservations/reserve.html" class="btn-reserve">Reservar</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="empty-results" id="emptyResults" hidden>
+                            <span class="material-icons empty-results__icon" aria-hidden="true">travel_explore</span>
+                            <p class="empty-results__title">No encontramos viajes para tu búsqueda</p>
+                            <p class="empty-results__description">Verifica los datos ingresados o intenta con otros
+                                filtros.</p>
+                            <button type="button" class="btn-clear-filters empty-results__action"
+                                id="resetSearch">Limpiar búsqueda</button>
+                        </div>
+
+                        <div class="load-more-section">
+                            <button type="button" class="btn-load-more" id="loadMoreBtn">Cargar más viajes</button>
+                        </div>
                     </section>
 
                     <!-- Pestaña Mapa -->
-                    <section id="mapTabPane" class="tab-pane" role="tabpanel" aria-labelledby="tabMap" style="display:none;">
+                    <section id="mapTabPane" class="tab-pane" role="tabpanel" aria-labelledby="tabMap"
+                        style="display:none;">
                         <div class="search-map-container">
                             <div id="map" aria-label="Mapa de salidas"></div>
                         </div>
@@ -495,5 +471,5 @@
     <script src="../../js/trips/search.js" defer></script>
     <script src="../../js/trips/filter.js" defer></script>
 </body>
-</html>
 
+</html>

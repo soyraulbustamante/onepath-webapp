@@ -526,6 +526,13 @@
     if (hasTrips) {
       setRandomAvatars();
     }
+
+    // Actualiza conteos de tipos de vehículo en filtros
+    try {
+      updateVehicleFilterCounts(trips || []);
+      updateRatingFilterCounts(trips || []);
+      updatePriceFilterCounts(trips || []);
+    } catch (_) { /* noop */ }
   }
 
   function attachFieldValidationHandlers() {
@@ -538,6 +545,69 @@
 
     dateInput?.addEventListener('change', () => validateField('date'));
     seatsSelect?.addEventListener('change', () => validateField('seats'));
+  }
+
+  // Conteo de viajes por tipo de vehículo para el filtro
+  function updateVehicleFilterCounts(trips) {
+    const counts = { compact: 0, sedan: 0, suv: 0, family: 0 };
+    (trips || []).forEach(t => {
+      try {
+        const vType = classifyVehicleType(String(t.vehicle || ''));
+        if (counts[vType] !== undefined) counts[vType]++;
+      } catch (_) { /* noop */ }
+    });
+
+    Object.keys(counts).forEach(key => {
+      const el = document.querySelector(`.filter-count[data-count-for="${key}"]`);
+      if (el) {
+        const n = counts[key];
+        el.textContent = n ? `(${n})` : '';
+        el.setAttribute('aria-label', `Cantidad de viajes ${key}: ${n}`);
+      }
+    });
+  }
+
+  // Conteo de viajes por umbral de estrellas del conductor (5, 4+, 3+)
+  function updateRatingFilterCounts(trips) {
+    const counts = { 'rating-5': 0, 'rating-4': 0, 'rating-3': 0 };
+    (trips || []).forEach(t => {
+      const rating = getDriverRating(t.driverId) || Number(t.driverRating || 0) || 0;
+      if (rating >= 5) counts['rating-5']++;
+      if (rating >= 4) counts['rating-4']++;
+      if (rating >= 3) counts['rating-3']++;
+    });
+
+    Object.keys(counts).forEach(key => {
+      const el = document.querySelector(`.filter-count[data-count-for="${key}"]`);
+      if (el) {
+        const n = counts[key];
+        el.textContent = n ? `(${n})` : '';
+        el.setAttribute('aria-label', `Cantidad de viajes ${key.replace('rating-', '')}+ estrellas: ${n}`);
+      }
+    });
+  }
+
+  // Conteo de viajes por rango de precio
+  function updatePriceFilterCounts(trips) {
+    const ranges = ['free', '1-5', '6-10', '11-20', '20+'];
+    const counts = ranges.reduce((acc, r) => { acc[`price-${r}`] = 0; return acc; }, {});
+
+    (trips || []).forEach(t => {
+      const price = Number(t.price || 0);
+      ranges.forEach(r => {
+        if (priceInRanges(price, [r])) counts[`price-${r}`]++;
+      });
+    });
+
+    Object.keys(counts).forEach(key => {
+      const el = document.querySelector(`.filter-count[data-count-for="${key}"]`);
+      if (el) {
+        const n = counts[key];
+        el.textContent = n ? `(${n})` : '';
+        const label = key.replace('price-', '');
+        el.setAttribute('aria-label', `Cantidad de viajes precio ${label}: ${n}`);
+      }
+    });
   }
 
   function handleFieldInput(fieldName) {
@@ -823,4 +893,3 @@
   }
 
 })();
-

@@ -1,5 +1,5 @@
 // Reserva: cálculo de total y acciones básicas
-(function() {
+(function () {
   'use strict';
 
   function getQueryParam(name) {
@@ -40,6 +40,15 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  function maskName(fullName) {
+    if (!fullName) return 'Usuario';
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0];
+    const first = parts[0];
+    const last = parts[parts.length - 1];
+    return `${first} ${last.charAt(0)}**`;
   }
 
   function populateTripDetails(trip) {
@@ -111,6 +120,72 @@
     if (summaryTimeEl) summaryTimeEl.textContent = String(trip.time || '');
     if (summaryOriginEl) summaryOriginEl.textContent = escapeHtml(trip.origin || '');
     if (summaryDestinationEl) summaryDestinationEl.textContent = escapeHtml(trip.destination || '');
+
+    // Render passengers
+    renderPassengers(trip);
+  }
+
+  function renderPassengers(trip) {
+    const section = document.getElementById('passengersSection');
+    const list = document.getElementById('passengersList');
+    if (!section || !list) return;
+
+    const passengersIds = trip.passengers || [];
+    if (passengersIds.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    const users = getUsers();
+    list.innerHTML = '';
+
+    // Estilos del contenedor para scroll horizontal
+    list.style.display = 'flex';
+    list.style.flexDirection = 'row';
+    list.style.overflowX = 'auto';
+    list.style.gap = '16px';
+    list.style.padding = '10px 0';
+    list.style.scrollbarWidth = 'thin'; // Firefox
+
+    passengersIds.forEach(pid => {
+      const user = users.find(u => String(u.id) === String(pid));
+      if (!user) return;
+
+      const item = document.createElement('div');
+      item.className = 'passenger-item';
+      // Estilos inline para layout horizontal
+      item.style.display = 'flex';
+      item.style.flexDirection = 'column';
+      item.style.alignItems = 'center';
+      item.style.minWidth = '100px';
+      item.style.textAlign = 'center';
+      item.style.padding = '8px';
+      item.style.backgroundColor = 'var(--bg-secondary)';
+      item.style.borderRadius = '8px';
+      item.style.flexShrink = '0'; // Evitar que se encojan
+
+      const name = maskName(user.name);
+      const rating = user.rating || 0;
+
+      item.innerHTML = `
+        <img class="js-random-avatar" data-size="48" data-variant="avataaars" src="../../assets/images/avatars/default.svg" alt="${escapeHtml(name)}" style="width: 48px; height: 48px; border-radius: 50%; margin-bottom: 8px;">
+        <div class="passenger-info">
+          <div class="passenger-name" style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 4px;">${escapeHtml(name)}</div>
+          <div class="passenger-rating" style="font-size: 0.8rem; color: var(--text-secondary);">
+            <span style="color: var(--warning);">★</span> ${Number(rating).toFixed(1)}
+          </div>
+        </div>
+      `;
+      list.appendChild(item);
+    });
+
+    if (list.children.length > 0) {
+      section.style.display = 'block';
+      // Reinicializar avatares para los nuevos elementos
+      setRandomAvatars();
+    } else {
+      section.style.display = 'none';
+    }
   }
 
   function init() {
@@ -177,7 +252,7 @@
     passengersSelect.addEventListener('change', updateTotal);
     updateTotal();
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       const qty = parseInt(passengersSelect.value || '1', 10);
       if (qty <= 0) {
@@ -189,24 +264,23 @@
         return;
       }
       const total = pricePer * qty;
-      if (typeof showNotification === 'function') {
-        showNotification(`Solicitud enviada. Total: S/ ${total.toFixed(2)}`, 'success');
-      } else {
-        alert('Solicitud enviada. Total: S/ ' + total.toFixed(2));
-      }
+
+      // Mostrar popup de confirmación tipo burbuja
+      showReservationConfirmationPopup(total);
+
       setTimeout(() => {
         window.location.href = '../reservations/my-reservations.html';
-      }, 1500);
+      }, 3000);
     });
 
     if (contactBtn) {
-      contactBtn.addEventListener('click', function() {
+      contactBtn.addEventListener('click', function () {
         window.location.href = '../chat/messages.html';
       });
     }
 
     if (favBtn) {
-      favBtn.addEventListener('click', function() {
+      favBtn.addEventListener('click', function () {
         if (typeof showNotification === 'function') {
           showNotification('Guardado en favoritos.', 'info');
         } else {
@@ -236,9 +310,56 @@
       const variant = img.dataset.variant || 'avataaars';
       const url = randomAvatarUrl(size, variant);
       // Si falla la carga, se mantiene el fallback local
-      img.onerror = function() { img.src = fallback; };
+      img.onerror = function () { img.src = fallback; };
       img.src = url;
     });
+  }
+
+  /**
+   * Muestra un popup de confirmación cuando se envía la solicitud de reserva
+   * @param {number} total - Total a pagar
+   */
+  function showReservationConfirmationPopup(total) {
+    // Eliminar popup existente si hay uno
+    const existingPopup = document.querySelector('.trip-confirmation-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+
+    // Crear el popup
+    const popup = document.createElement('div');
+    popup.className = 'trip-confirmation-popup';
+    popup.innerHTML = `
+      <div class="trip-confirmation-popup__icon">
+        <span class="material-icons">check_circle</span>
+      </div>
+      <h3 class="trip-confirmation-popup__title">¡Reserva Creada!</h3>
+      <p class="trip-confirmation-popup__message">
+        Tu solicitud de reserva ha sido enviada correctamente.<br>
+        Total: S/ ${total.toFixed(2)}
+      </p>
+    `;
+
+    // Añadir al body
+    document.body.appendChild(popup);
+
+    // Mostrar con animación
+    requestAnimationFrame(() => {
+      popup.classList.add('show');
+    });
+
+    // Ocultar después de 2.5 segundos
+    setTimeout(() => {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+
+      // Eliminar del DOM después de la animación
+      setTimeout(() => {
+        if (popup.parentNode) {
+          popup.parentNode.removeChild(popup);
+        }
+      }, 400);
+    }, 2500);
   }
 
   if (document.readyState === 'loading') {

@@ -8,9 +8,29 @@
         tripChanges: true,
         tripReminders: true,
         emailNotifications: false,
-        pushNotifications: true
+        pushNotifications: true,
+        // New intelligent settings
+        intelligentNotifications: true,
+        geolocationAlerts: true,
+        trafficPredictions: true,
+        smsNotifications: false,
+        emailDigest: false,
+        calendarSync: false,
+        customSchedule: {
+            enabled: false,
+            quietHours: { start: '22:00', end: '07:00' },
+            weekendMode: false
+        }
     };
     let notificationFilter = 'all';
+    
+    // User behavior patterns for intelligent notifications
+    let userPatterns = {
+        frequentRoutes: [],
+        preferredTimes: [],
+        responsePatterns: {},
+        lastActivity: null
+    };
 
     // DOM elements
     let notificationsList, loadMoreBtn, markAllReadBtn, clearAllBtn, settingsSummary, filterAllBtn, filterUnreadBtn;
@@ -47,6 +67,10 @@
         updateNotificationCount();
 
         applyNotificationFilter(notificationFilter);
+        
+        // Schedule weekly email digest check
+        setInterval(scheduleWeeklyDigest, 60 * 60 * 1000); // Check every hour
+        setInterval(generateEmailDigest, 7 * 24 * 60 * 60 * 1000); // Check every week
     }
 
     // Bind event listeners
@@ -283,66 +307,265 @@
         applyNotificationFilter(notificationFilter);
     }
 
-    // Create notification element
-    function createNotificationElement(notification) {
-        const div = document.createElement('div');
-        div.className = `notification-item notification-${notification.type} ${notification.read ? 'read' : ''}`;
-        div.dataset.id = notification.id;
+    // Enhanced notification actions
+    function handleNotificationQuickAction(action, notificationData) {
+        switch (action) {
+            case 'view_location':
+                showToast('Abriendo mapa con ubicación del conductor...');
+                // In real app: open map with driver location
+                break;
+            case 'call_driver':
+                showToast('Iniciando llamada al conductor...');
+                // In real app: initiate phone call
+                break;
+            case 'alternative_routes':
+                showToast('Buscando rutas alternativas...');
+                // In real app: show alternative routes
+                break;
+            case 'notify_passengers':
+                showToast('Notificando a los pasajeros sobre el retraso...');
+                sendSMSNotification('Retraso por tráfico. Llegada estimada: +15 min.');
+                break;
+            case 'view_trip':
+                showToast('Redirigiendo a detalles del viaje...');
+                // In real app: navigate to trip details
+                break;
+            case 'contact_driver':
+                showToast('Abriendo chat con el conductor...');
+                // In real app: open chat
+                break;
+            case 'search_trips':
+                showToast('Buscando viajes disponibles...');
+                // In real app: navigate to search
+                break;
+            case 'set_reminder':
+                scheduleCalendarReminder(notificationData);
+                break;
+            default:
+                console.log('Unknown action:', action);
+        }
+    }
+    
+    // SMS notification system
+    function sendSMSNotification(message, phoneNumber = null) {
+        if (!notificationSettings.smsNotifications) return;
         
-        div.innerHTML = `
+        // Simulate SMS sending (in real app, integrate with SMS service like Twilio)
+        console.log('SMS sent:', message);
+        showToast('SMS enviado: ' + message);
+        
+        // Log SMS for email digest
+        logNotificationForDigest({
+            type: 'sms',
+            message: message,
+            timestamp: new Date().toISOString()
+        });
+    }
+    
+    // Email digest system
+    function generateEmailDigest() {
+        if (!notificationSettings.emailDigest) return;
+        
+        const digestData = getDigestData();
+        const emailContent = {
+            subject: 'Resumen semanal de OnePath',
+            body: `
+                <h2>Tu actividad esta semana</h2>
+                <p>Viajes completados: ${digestData.completedTrips}</p>
+                <p>Nuevas conexiones: ${digestData.newConnections}</p>
+                <p>Notificaciones importantes: ${digestData.importantNotifications}</p>
+                <p>Próximos viajes: ${digestData.upcomingTrips}</p>
+            `,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Simulate email sending (in real app, integrate with email service)
+        console.log('Email digest generated:', emailContent);
+        showToast('Resumen semanal enviado por email');
+    }
+    
+    // Calendar integration
+    function scheduleCalendarReminder(notificationData) {
+        if (!notificationSettings.calendarSync) {
+            showToast('Sincronización de calendario deshabilitada');
+            return;
+        }
+        
+        const event = {
+            title: 'Recordatorio OnePath: ' + notificationData.title,
+            description: notificationData.message,
+            start: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes from now
+            end: new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
+        };
+        
+        // Simulate calendar integration (in real app, use Google Calendar API or similar)
+        console.log('Calendar event created:', event);
+        showToast('Recordatorio añadido al calendario');
+    }
+    
+    // Enhanced browser notifications with actions
+    function showEnhancedBrowserNotification(notification) {
+        if (!notificationSettings.pushNotifications) return;
+        
+        if ('Notification' in window && Notification.permission === 'granted') {
+            const options = {
+                body: notification.message,
+                icon: '/assets/images/logo-small.png',
+                badge: '/assets/images/badge.png',
+                tag: notification.id || 'onepath-notification',
+                requireInteraction: notification.type === 'error',
+                silent: notification.type === 'info'
+            };
+            
+            // Add action buttons for supported browsers
+            if ('actions' in Notification.prototype && notification.actions) {
+                options.actions = notification.actions.map(action => ({
+                    action: action.action,
+                    title: action.text,
+                    icon: '/assets/images/action-icon.png'
+                }));
+            }
+            
+            const browserNotification = new Notification(notification.title, options);
+            
+            browserNotification.onclick = () => {
+                window.focus();
+                browserNotification.close();
+            };
+            
+            // Handle action clicks
+            if (browserNotification.addEventListener) {
+                browserNotification.addEventListener('notificationclick', (event) => {
+                    if (event.action) {
+                        handleNotificationQuickAction(event.action, notification);
+                    }
+                });
+            }
+        }
+    }
+    
+    // Helper functions for digest system
+    function logNotificationForDigest(data) {
+        try {
+            const digestLog = JSON.parse(localStorage.getItem('onepath_digest_log') || '[]');
+            digestLog.push(data);
+            
+            // Keep only last 100 entries
+            if (digestLog.length > 100) {
+                digestLog.splice(0, digestLog.length - 100);
+            }
+            
+            localStorage.setItem('onepath_digest_log', JSON.stringify(digestLog));
+        } catch (e) {
+            console.error('Error logging notification for digest:', e);
+        }
+    }
+    
+    function getDigestData() {
+        // Simulate digest data (in real app, fetch from server)
+        return {
+            completedTrips: Math.floor(Math.random() * 10) + 1,
+            newConnections: Math.floor(Math.random() * 5),
+            importantNotifications: Math.floor(Math.random() * 8) + 2,
+            upcomingTrips: Math.floor(Math.random() * 3) + 1
+        };
+    }
+    
+    // Schedule weekly email digest
+    function scheduleWeeklyDigest() {
+        if (!notificationSettings.emailDigest) return;
+        
+        // Check if it's Sunday and generate digest
+        const now = new Date();
+        if (now.getDay() === 0 && now.getHours() === 9) { // Sunday at 9 AM
+            generateEmailDigest();
+        }
+    }
+    
+    // Create enhanced notification element
+    function createNotificationElement(notification) {
+        const notificationEl = document.createElement('div');
+        notificationEl.className = `notification-item ${notification.read ? 'read' : 'unread'} ${notification.type || 'info'}`;
+        notificationEl.dataset.id = notification.id || Date.now();
+
+        const typeIcon = getNotificationTypeIcon(notification.type);
+        const metaHtml = notification.meta ? notification.meta.map(item => 
+            `<span class="notification-meta-item"><span class="material-icons">${getNotificationTypeIcon(item.icon)}</span>${item.text}</span>`
+        ).join('') : '';
+        
+        // Enhanced action buttons
+        const quickActionsHtml = notification.actions ? notification.actions.map(action => 
+            `<button class="notification-quick-action" data-action="${action.action}">${action.text}</button>`
+        ).join('') : '';
+
+        notificationEl.innerHTML = `
             <div class="notification-content">
                 <div class="notification-header">
-                    <div class="notification-icon-wrapper notification-icon-${notification.type}">
-                        <span class="notification-type-icon">${notification.icon}</span>
+                    <div class="notification-icon">
+                        <span class="material-icons">${typeIcon}</span>
                     </div>
-                    <div class="notification-details">
-                        <h3 class="notification-title">${notification.title}</h3>
-                        <p class="notification-message">${notification.message}</p>
-                        <div class="notification-meta">
-                            ${notification.meta.map(meta => `
-                                <span class="meta-item">
-                                    <span class="meta-icon">${meta.icon}</span>
-                                    ${meta.text}
-                                </span>
-                            `).join('')}
-                        </div>
+                    <div class="notification-info">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-time">${notification.time}</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="notification-action-btn" data-action="mark-read" title="Marcar como leída">
+                            <span class="material-icons">${notification.read ? 'mark_email_unread' : 'mark_email_read'}</span>
+                        </button>
+                        <button class="notification-action-btn" data-action="delete" title="Eliminar">
+                            <span class="material-icons">delete</span>
+                        </button>
                     </div>
                 </div>
-                <div class="notification-actions">
-                    <span class="notification-time">${notification.time}</span>
-                    <button class="notification-action-btn ${notification.read ? 'read' : ''}" 
-                            data-action="${notification.read ? 'mark-unread' : 'mark-read'}">
-                        ${notification.read ? '↻' : '✓'}
-                    </button>
-                </div>
+                <div class="notification-message">${notification.message}</div>
+                ${metaHtml ? `<div class="notification-meta">${metaHtml}</div>` : ''}
+                ${quickActionsHtml ? `<div class="notification-quick-actions">${quickActionsHtml}</div>` : ''}
             </div>
         `;
         
-        return div;
+        return notificationEl;
     }
 
-    // Add new notification
+    
+
+    // Add new notification with enhanced features
     function addNotification(notification) {
-        notification.id = Date.now();
-        notification.timestamp = new Date();
-        notification.read = false;
-        
-        notifications.unshift(notification);
-        saveNotifications();
-        
-        // Add to UI at the beginning
-        const element = createNotificationElement(notification);
-        element.classList.add('new');
-        notificationsList.insertBefore(element, notificationsList.firstChild);
-        
-        updateNotificationCount();
-        
-        // Show browser notification if enabled
-        if (notificationSettings.pushNotifications && 'Notification' in window) {
-            showBrowserNotification(notification);
+        // Generate unique ID if not provided
+        if (!notification.id) {
+            notification.id = 'notif_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        applyNotificationFilter(notificationFilter);
+        // Set default properties
+        notification.read = false;
+        notification.time = notification.time || 'Ahora';
+        notification.timestamp = new Date().toISOString();
+
+        // Add to notifications array
+        notifications.unshift(notification);
+
+        // Keep only last 50 notifications to prevent memory issues
+        if (notifications.length > 50) {
+            notifications = notifications.slice(0, 50);
+        }
+
+        // Save to storage
+        saveNotifications();
+        
+
+        // Update UI
+        renderNotifications();
+        updateNotificationCount();
+
+        // Show enhanced browser notification
+        showEnhancedBrowserNotification(notification);
+        
+        // Log for email digest
+        logNotificationForDigest({
+            type: 'notification',
+            title: notification.title,
+            message: notification.message,
+            timestamp: notification.timestamp
+        });
     }
 
     // Show browser notification
@@ -405,6 +628,28 @@
         }
     }
 
+    // Helper function to get notification type icon
+    function getNotificationTypeIcon(type) {
+        const iconMap = {
+            'info': 'info',
+            'warning': 'warning',
+            'error': 'error',
+            'success': 'check_circle',
+            '📍': 'location_on',
+            '🚗': 'directions_car',
+            '🚦': 'traffic',
+            '🕐': 'schedule',
+            '🌅': 'wb_sunny',
+            '🌆': 'wb_twilight',
+            '📊': 'analytics',
+            '🛣️': 'alt_route',
+            '💬': 'chat',
+            '✅': 'check_circle',
+            '✏️': 'edit'
+        };
+        return iconMap[type] || 'notifications';
+    }
+    
     function updateSettingsSummary() {
         if (!settingsSummary) return;
         const enabled = [];
@@ -421,6 +666,24 @@
         if (notificationSettings.pushNotifications) {
             enabled.push('notificaciones push');
         }
+        if (notificationSettings.intelligentNotifications) {
+            enabled.push('notificaciones inteligentes');
+        }
+        if (notificationSettings.geolocationAlerts) {
+            enabled.push('alertas de ubicación');
+        }
+        if (notificationSettings.trafficPredictions) {
+            enabled.push('predicciones de tráfico');
+        }
+        if (notificationSettings.smsNotifications) {
+            enabled.push('SMS');
+        }
+        if (notificationSettings.emailDigest) {
+            enabled.push('resumen por email');
+        }
+        if (notificationSettings.calendarSync) {
+            enabled.push('sincronización de calendario');
+        }
 
         if (!enabled.length) {
             settingsSummary.textContent = 'Has desactivado todas las notificaciones. Es posible que no recibas alertas importantes sobre tus viajes.';
@@ -431,15 +694,198 @@
         }
     }
 
-    // Start notification simulation
-    function startNotificationSimulation() {
-        // Simulate new notifications every 2-5 minutes
-        setInterval(() => {
-            if (Math.random() < 0.3) { // 30% chance
-                const randomNotification = generateRandomNotifications(1)[0];
-                addNotification(randomNotification);
+    // Intelligent notification system
+    function analyzeUserPatterns() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentDay = now.getDay();
+        
+        // Update user activity patterns
+        if (!userPatterns.preferredTimes.includes(currentHour)) {
+            userPatterns.preferredTimes.push(currentHour);
+        }
+        
+        userPatterns.lastActivity = now.toISOString();
+        saveUserPatterns();
+    }
+    
+    function saveUserPatterns() {
+        try {
+            localStorage.setItem('onepath_user_patterns', JSON.stringify(userPatterns));
+        } catch (e) {
+            console.error('Error saving user patterns:', e);
+        }
+    }
+    
+    function loadUserPatterns() {
+        try {
+            const stored = localStorage.getItem('onepath_user_patterns');
+            if (stored) {
+                userPatterns = { ...userPatterns, ...JSON.parse(stored) };
             }
-        }, 120000 + Math.random() * 180000); // 2-5 minutes
+        } catch (e) {
+            console.error('Error loading user patterns:', e);
+        }
+    }
+    
+    // Geolocation-based notifications
+    function checkGeolocationAlerts() {
+        if (!notificationSettings.geolocationAlerts) return;
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const { latitude, longitude } = position.coords;
+                
+                // Simulate checking if driver is nearby (in real app, this would be server-side)
+                if (Math.random() < 0.1) { // 10% chance for demo
+                    const proximityNotification = {
+                        type: 'info',
+                        icon: '📍',
+                        title: 'Conductor cerca',
+                        message: 'Tu conductor está a 5 minutos del punto de recogida.',
+                        time: 'Ahora',
+                        meta: [
+                            { icon: '🚗', text: 'Carlos M.' },
+                            { icon: '📍', text: 'Llegada estimada: 5 min' }
+                        ],
+                        actions: [
+                            { text: 'Ver ubicación', action: 'view_location' },
+                            { text: 'Llamar', action: 'call_driver' }
+                        ]
+                    };
+                    addNotification(proximityNotification);
+                }
+            });
+        }
+    }
+    
+    // Traffic prediction notifications
+    function checkTrafficPredictions() {
+        if (!notificationSettings.trafficPredictions) return;
+        
+        // Simulate traffic analysis (in real app, integrate with Google Maps API or similar)
+        const trafficConditions = ['normal', 'light', 'heavy', 'severe'];
+        const currentTraffic = trafficConditions[Math.floor(Math.random() * trafficConditions.length)];
+        
+        if (currentTraffic === 'heavy' || currentTraffic === 'severe') {
+            const delayMinutes = currentTraffic === 'heavy' ? 15 : 30;
+            const trafficNotification = {
+                type: 'warning',
+                icon: '🚦',
+                title: 'Alerta de tráfico',
+                message: `Tráfico ${currentTraffic === 'heavy' ? 'pesado' : 'severo'} en tu ruta. Retraso estimado: ${delayMinutes} min.`,
+                time: 'Ahora',
+                meta: [
+                    { icon: '🕐', text: `+${delayMinutes} min` },
+                    { icon: '🛣️', text: 'Ruta principal' }
+                ],
+                actions: [
+                    { text: 'Ver rutas alternativas', action: 'alternative_routes' },
+                    { text: 'Notificar pasajeros', action: 'notify_passengers' }
+                ]
+            };
+            addNotification(trafficNotification);
+        }
+    }
+    
+    // Check if notification should be sent based on user schedule
+    function shouldSendNotification(notification) {
+        if (!notificationSettings.customSchedule.enabled) return true;
+        
+        const now = new Date();
+        const currentTime = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const currentDay = now.getDay();
+        const isWeekend = currentDay === 0 || currentDay === 6;
+        
+        // Check quiet hours
+        const { start, end } = notificationSettings.customSchedule.quietHours;
+        if (currentTime >= start || currentTime <= end) {
+            // Only send critical notifications during quiet hours
+            return notification.type === 'error' || notification.priority === 'high';
+        }
+        
+        // Check weekend mode
+        if (isWeekend && notificationSettings.customSchedule.weekendMode) {
+            return notification.type === 'error' || notification.priority === 'high';
+        }
+        
+        return true;
+    }
+    
+    // Enhanced notification generation with intelligence
+    function generateIntelligentNotification() {
+        if (!notificationSettings.intelligentNotifications) {
+            return generateRandomNotifications(1)[0];
+        }
+        
+        analyzeUserPatterns();
+        
+        // Generate notifications based on user patterns and context
+        const now = new Date();
+        const currentHour = now.getHours();
+        
+        // Morning commute notifications (7-9 AM)
+        if (currentHour >= 7 && currentHour <= 9) {
+            return {
+                type: 'info',
+                icon: '🌅',
+                title: 'Recordatorio matutino',
+                message: 'No olvides revisar tu viaje de hoy. El tráfico suele ser pesado a esta hora.',
+                time: 'Ahora',
+                meta: [
+                    { icon: '🕐', text: 'Salida recomendada: ' + (currentHour + 1) + ':00' },
+                    { icon: '🚦', text: 'Tráfico moderado' }
+                ],
+                actions: [
+                    { text: 'Ver viaje', action: 'view_trip' },
+                    { text: 'Contactar conductor', action: 'contact_driver' }
+                ]
+            };
+        }
+        
+        // Evening notifications (5-7 PM)
+        if (currentHour >= 17 && currentHour <= 19) {
+            return {
+                type: 'info',
+                icon: '🌆',
+                title: 'Planifica tu regreso',
+                message: 'Hora pico de regreso. Considera salir un poco más tarde para evitar tráfico.',
+                time: 'Ahora',
+                meta: [
+                    { icon: '🕐', text: 'Mejor hora: ' + (currentHour + 1) + ':30' },
+                    { icon: '📊', text: 'Basado en tus patrones' }
+                ],
+                actions: [
+                    { text: 'Buscar viajes', action: 'search_trips' },
+                    { text: 'Programar recordatorio', action: 'set_reminder' }
+                ]
+            };
+        }
+        
+        // Default to random notification
+        return generateRandomNotifications(1)[0];
+    }
+    
+    // Start enhanced notification simulation
+    function startNotificationSimulation() {
+        // Load user patterns
+        loadUserPatterns();
+        
+        // Check geolocation alerts every 2 minutes
+        setInterval(checkGeolocationAlerts, 120000);
+        
+        // Check traffic predictions every 5 minutes
+        setInterval(checkTrafficPredictions, 300000);
+        
+        // Generate intelligent notifications every 3-8 minutes
+        setInterval(() => {
+            if (Math.random() < 0.4) { // 40% chance
+                const notification = generateIntelligentNotification();
+                if (shouldSendNotification(notification)) {
+                    addNotification(notification);
+                }
+            }
+        }, 180000 + Math.random() * 300000); // 3-8 minutes
     }
 
     // Generate random notifications
@@ -572,6 +1018,9 @@
 
 
     document.addEventListener("DOMContentLoaded", () => {
+
+    const el = createNotificationElement(verif);
+    notificationsList.prepend(el);
 
     const btnAbrir = document.getElementById("abrir-identificacion");
     const modal = document.getElementById("modal-identificacion");

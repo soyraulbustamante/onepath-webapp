@@ -102,6 +102,140 @@
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
+
+                        <!-- New Intelligent Features -->
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">psychology</span>
+                                <div class="setting-details">
+                                    <h3>Notificaciones inteligentes</h3>
+                                    <p>Basadas en tus patrones de uso</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input" data-setting="intelligentNotifications">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">location_on</span>
+                                <div class="setting-details">
+                                    <h3>Alertas de ubicación</h3>
+                                    <p>Cuando el conductor esté cerca</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input" data-setting="geolocationAlerts">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">traffic</span>
+                                <div class="setting-details">
+                                    <h3>Predicciones de tráfico</h3>
+                                    <p>Alertas sobre retrasos por tráfico</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked class="toggle-input" data-setting="trafficPredictions">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">sms</span>
+                                <div class="setting-details">
+                                    <h3>Notificaciones SMS</h3>
+                                    <p>Para situaciones críticas</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input" data-setting="smsNotifications">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">summarize</span>
+                                <div class="setting-details">
+                                    <h3>Resumen semanal por email</h3>
+                                    <p>Estadísticas de tu actividad</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input" data-setting="emailDigest">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">event</span>
+                                <div class="setting-details">
+                                    <h3>Sincronización de calendario</h3>
+                                    <p>Recordatorios en tu calendario</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input" data-setting="calendarSync">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Custom Schedule Settings -->
+                    <div class="advanced-settings">
+                        <h3 class="advanced-title">
+                            <span class="material-icons">schedule</span>
+                            Horarios Personalizados
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">bedtime</span>
+                                <div class="setting-details">
+                                    <h3>Horas silenciosas</h3>
+                                    <p>Solo notificaciones críticas</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input" data-setting="customScheduleEnabled">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="time-range-setting" id="quietHoursRange" style="display: none;">
+                            <div class="time-inputs">
+                                <div class="time-input-group">
+                                    <label>Desde:</label>
+                                    <input type="time" value="22:00" id="quietHoursStart">
+                                </div>
+                                <div class="time-input-group">
+                                    <label>Hasta:</label>
+                                    <input type="time" value="07:00" id="quietHoursEnd">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-icon material-icons">weekend</span>
+                                <div class="setting-details">
+                                    <h3>Modo fin de semana</h3>
+                                    <p>Menos notificaciones los fines de semana</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input" data-setting="weekendMode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="settings-summary" id="notificationSettingsSummary"></div>
@@ -115,6 +249,27 @@
                         <span class="notifications-icon material-icons">list</span>
                         Notificaciones Recientes
                     </h2>
+
+                    <div class="notifications-actions">
+                        <div class="filter-group">
+                            <button class="filter-btn active" id="filterAllBtn">Todas</button>
+                            <button class="filter-btn" id="filterUnreadBtn">No leídas</button>
+                        </div>
+                        <div class="action-group">
+                            <button class="action-btn secondary" id="markAllReadBtn">
+                                <span class="material-icons">mark_email_read</span>
+                                Marcar todas como leídas
+                            </button>
+                            <button class="action-btn danger" id="clearAllBtn">
+                                <span class="material-icons">clear_all</span>
+                                Limpiar todas
+                            </button>
+                            <button class="action-btn primary" id="generateDigestBtn">
+                                <span class="material-icons">summarize</span>
+                                Generar resumen
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="notifications-filters">
                         <button class="filter-btn active" data-filter="all" id="filterAllBtn">Todas</button>
@@ -274,6 +429,41 @@
                         </div>
                     </div>
 
+                        <!-- Notification 6 -->
+                        <a href="../../pages/user/verification.html" class="notification-link-wrapper">
+                            <div class="notification-item notification-warning" data-id="6">
+                                <div class="notification-content">
+                                    <div class="notification-header">
+                                        <div class="notification-icon-wrapper notification-icon-warning">
+                                            <span class="notification-type-icon material-icons">schedule</span>
+                                        </div>
+                                        <div class="notification-details">
+                                            <h3 class="notification-title">Recordatorio para verificacion con Foto</h3>
+                                            <p class="notification-message">Falta subir una foto para verificacion de identidad</p>
+                                            <div class="notification-meta">
+                                                <span class="meta-item">
+                                                    <span class="meta-icon material-icons">calendar_today</span>
+                                                    Hoy, 4 Nov 2024
+                                                </span>
+                                                <span class="meta-item">
+                                                    <span class="meta-icon material-icons">schedule</span>
+                                                    Salida: 8:00 AM
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="notification-actions">
+                                        <span class="notification-time">Hace 15 min</span>
+                                        <button class="notification-action-btn" data-action="mark-read">
+                                            <span class="material-icons">check</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+
+                    
                     <!-- Load More Button -->
                     <div class="load-more-section">
                         <button class="load-more-btn" id="loadMoreBtn">

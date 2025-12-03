@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convenios Universitarios - OnePath</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/pages/universities.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="../../js/components/navbar.js" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+    <script src="../../js/partnerships/universities.js" defer></script>
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <section class="container universities-section">
+        <h1>Convenios Universitarios</h1>
+        <p class="subtitle">Registra y visualiza los convenios activos con universidades</p>
+
+        <form id="formConvenio" class="convenio-form">
+            <h2>Registrar nuevo convenio</h2>
+            <div class="form-group">
+                <label>Universidad</label>
+                <select id="universidadSelect" required></select>
+            </div>
+            <div class="form-group">
+                <label>Beneficio</label>
+                <input type="text" id="beneficioInput" placeholder="Ej: 20% de descuento" required>
+            </div>
+            <div class="form-group">
+                <label>Fecha de expiración</label>
+                <input type="date" id="fechaExpInput" required>
+            </div>
+            <button type="submit" class="btn-primary">Registrar Convenio</button>
+        </form>
+
+        <h2>Convenios Registrados</h2>
+        <div id="conveniosContainer" class="convenios-grid"></div>
+    </section>
+
+    <footer class="footer"></footer>
+</body>
+</html>

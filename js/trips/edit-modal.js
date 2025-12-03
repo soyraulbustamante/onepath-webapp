@@ -401,14 +401,15 @@
       // Notify passengers
       await notifyPassengers(tripId, formData);
       
-      // Show success notification
-      showNotification('¡Viaje actualizado exitosamente! Los pasajeros han sido notificados de los cambios.', 'success');
+      // Show success popup bubble
+      showSuccessPopup('¡Cambios guardados exitosamente!');
       
-      // Close modal
-      closeModal();
-
-      // Reload trips list (trigger custom event for my-trips.js to listen)
-      window.dispatchEvent(new CustomEvent('tripUpdated'));
+      // Close modal after popup disappears
+      setTimeout(() => {
+        closeModal();
+        // Reload trips list (trigger custom event for my-trips.js to listen)
+        window.dispatchEvent(new CustomEvent('tripUpdated'));
+      }, 3000);
 
     } catch (error) {
       console.error('Error updating trip:', error);
@@ -776,6 +777,57 @@
         resolve({ success: true });
       }, 500);
     });
+  }
+
+  // Show success popup bubble
+  function showSuccessPopup(message) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.trip-save-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+
+    // Create popup element
+    const popup = document.createElement('div');
+    popup.className = 'trip-save-popup';
+    popup.setAttribute('role', 'alert');
+    popup.setAttribute('aria-live', 'assertive');
+
+    // Create icon container
+    const iconContainer = document.createElement('div');
+    iconContainer.className = 'trip-save-popup__icon';
+    const icon = document.createElement('span');
+    icon.className = 'material-icons';
+    icon.textContent = 'check_circle';
+    iconContainer.appendChild(icon);
+
+    // Create content container
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'trip-save-popup__content';
+    const messageElement = document.createElement('p');
+    messageElement.className = 'trip-save-popup__message';
+    messageElement.textContent = sanitizeInput(message);
+    contentContainer.appendChild(messageElement);
+
+    // Assemble popup
+    popup.appendChild(iconContainer);
+    popup.appendChild(contentContainer);
+
+    // Add to body
+    document.body.appendChild(popup);
+
+    // Animate in
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+
+    // Remove after delay
+    setTimeout(() => {
+      popup.classList.add('hide');
+      setTimeout(() => {
+        popup.remove();
+      }, 400);
+    }, 3000);
   }
 
   // Show notification

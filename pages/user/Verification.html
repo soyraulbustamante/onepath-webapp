@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Identidad - OnePath</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/buttons.css">
+    <link rel="stylesheet" href="../../css/components/cards.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+
+    <!-- CSS específico -->
+    <link rel="stylesheet" href="Verification.css">
+
+    <!-- JS global -->
+    <script src="../../js/components/navbar.js" defer></script>
+    <script src="../../js/utils/storage.js" defer></script>
+
+    <!-- JS específico -->
+    <script src="Verification.js" defer></script>
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <section class="container verification-section">
+        <h1>Verificación de Identidad</h1>
+        <p class="subtitle">Sube una foto válida para confirmar tu identidad</p>
+
+        <!-- Tarjeta principal -->
+        <div class="verification-card">
+            <h2>Subir foto de verificación</h2>
+
+            <form id="verificationForm" class="verification-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="fotoInput">Seleccionar foto</label>
+                    <input type="file" id="fotoInput" accept="image/png, image/jpeg" required>
+                </div>
+
+                <div class="preview-area hidden" id="previewArea">
+                    <p>Vista previa:</p>
+                    <img id="previewImg" alt="Foto seleccionada" />
+                </div>
+
+                <button type="submit" class="btn-primary">Guardar foto</button>
+            </form>
+
+            <p id="verificationMessage" class="verification-message"></p>
+        </div>
+
+        <!-- Vista del perfil (solo para demo del US) -->
+        <div class="profile-view">
+            <h2>Vista del perfil</h2>
+            <div class="profile-card">
+                <img id="profilePhoto" class="profile-photo" src="../../assets/images/avatars/default.png" alt="Foto de perfil">
+                <div class="profile-info">
+                    <span id="profileName">Usuario de Ejemplo</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="footer"></footer>
+
+        <!-- Footer (estándar igual a páginas internas) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                    <div class="footer-logo-section">
+                        <div class="footer-logo">
+                            <div class="logo-icon"><span class="material-icons">directions_car</span></div>
+                            <span>OnePath</span>
+                        </div>
+                    <p>Conectando estudiantes universitarios con viajes seguros y acomodaciones económicas</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Soporte</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
+
